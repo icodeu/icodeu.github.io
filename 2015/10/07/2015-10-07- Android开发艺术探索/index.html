@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="把编程当做一种爱">
 <meta property="og:description" content="和《Android 群英传》一样，《Android 开发艺术探索》是一本进阶的书，比群英传还要进阶一些，特来拜读。">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-10-14T13:57:05.000Z">
+<meta property="og:updated_time" content="2015-10-14T14:02:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 开发艺术探索读书笔记">
 <meta name="twitter:description" content="和《Android 群英传》一样，《Android 开发艺术探索》是一本进阶的书，比群英传还要进阶一些，特来拜读。">
@@ -116,7 +116,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mac/" style="font-size: 14px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 12px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 16px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 12px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 18px;">极客学院</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 18.33px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a> <a href="/tags/Mac/" style="font-size: 13.33px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.67px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.67px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.67px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 11.67px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 16.67px;">极客学院</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
 					</div>
 				</section>
 				
@@ -349,21 +349,7 @@
 <li><p>View 滑动三种方式对比<br>（1）scrollTo/scrollBy：适合对 View 内容的滑动<br>（2）动画：主要适用于没有交互的 View 和实现复杂的动画效果<br>（3）改变布局参数：适用于有交互的 View</p>
 </li>
 <li><p>Scroller 的使用</p>
-<p>  Scroller mScroller = new Scroller(mContext);</p>
-<p>  // 缓慢滚动到指定位置<br>  private void smoothScrollTo(int destX, int destY) {</p>
-<pre><code><span class="keyword">int</span> scrollX = getScrollX();
-<span class="keyword">int</span> deltaX = destX - scrollX;
-<span class="comment">// 1000ms 横坐标从 scrollX 滑动到 scrollX + deltaX，效果就是慢慢移动</span>
-mScroller.startScroll(scrollX, <span class="number">0</span>, deltaX, <span class="number">0</span>, <span class="number">1000</span>);
-invalidate(); <span class="comment">// 触发 View 的第一次重绘</span>
-</code></pre><p>  }</p>
-<p>  // View 的每次重绘都会调用这个方法<br>  @Override<br>  public void computeScroll() {</p>
-<pre><code><span class="comment">// true 代表动画还没结束</span>
-if (mScroller<span class="class">.computeScrollOffset</span>()) { <span class="comment">// 此方法会根据时间的流逝来计算当前的 scrollX 和 scrollY 的值</span>
-    <span class="function">scrollTo</span>(mScroller<span class="class">.getCurrX</span>(), mScroller<span class="class">.getCurrY</span>());
-    <span class="function">postInvalidate</span>();
-}
-</code></pre><p>  }</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Scroller mScroller = <span class="keyword">new</span> Scroller(mContext);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 缓慢滚动到指定位置</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">smoothScrollTo</span><span class="params">(<span class="keyword">int</span> destX, <span class="keyword">int</span> destY)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> scrollX = getScrollX();</span><br><span class="line">    <span class="keyword">int</span> deltaX = destX - scrollX;</span><br><span class="line">    <span class="comment">// 1000ms 横坐标从 scrollX 滑动到 scrollX + deltaX，效果就是慢慢移动</span></span><br><span class="line">    mScroller.startScroll(scrollX, <span class="number">0</span>, deltaX, <span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line">    invalidate(); <span class="comment">// 触发 View 的第一次重绘</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// View 的每次重绘都会调用这个方法</span></span><br><span class="line">@<span class="function">Override</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// true 代表动画还没结束</span></span><br><span class="line">    <span class="keyword">if</span> (mScroller.computeScrollOffset()) &#123; <span class="comment">// 此方法会根据时间的流逝来计算当前的 scrollX 和 scrollY 的值</span></span><br><span class="line">        scrollTo(mScroller.getCurrX(), mScroller.getCurrY());</span><br><span class="line">        postInvalidate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>Scroll 的滑动是指 View 内容的滑动而非 View 本身位置的改变。整个过程中它对 View 没有丝毫的引用，甚至在它内部连计时器都没有。</p>
@@ -458,14 +444,10 @@ if (mScroller<span class="class">.computeScrollOffset</span>()) { <span class="c
 <li><p>另外，由于每执行一个后台任务就必须启动一次 IntentService，而 IntentService 内部则通过消息的方式向 HandlerThread 请求执行任务，Handler 中的 Looper 是顺序处理消息的，这就意味着 IntentService 也是顺序执行后台任务的，当有多个后台任务同时存在时，这些后台任务会按照外界发起的顺序排队执行。</p>
 </li>
 <li><p>ThreadPoolExecutor 是线程池的真正实现，下面是其一个比较常用的构造方法：</p>
-<p>  public ThreadPoolExecutor ( </p>
-<pre><code>int corePollSize, // 核心线程，默认会一直存活即使闲置。非默认是指将 allowCoreThreadTimeOut = true，则超过 keepAliveTime 后核心线程就会被终止<span class="instruction">
-int </span>maximumPoolSize, // 所能容纳的最大线程数，当活动线程数达到这个数值后，后续的新任务将会被阻塞<span class="instruction">
-long </span>keepAliveTime, // 非核心线程闲置的超时时长
-TimeUnit unit, // 枚举常量
-BlockingQueue&lt;Runnable&gt; workQueue, // 任务队列，通过<span class="instruction"> execute </span>方法提交的 Runnable 对象会存储在这个参数中
-ThreadFactory threadFactory <span class="function">)</span> // 为线程池提供创建新线程的机会，ThreadFactory 是一个接口，只有一个方法：Thread<span class="function"> newThread(</span>Runnable r<span class="function">)</span>
-</code></pre></li>
+</li>
+</ul>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public ThreadPoolExecutor<span class="function"> (</span> </span><br><span class="line"><span class="instruction">	int </span>corePollSize, // 核心线程，默认会一直存活即使闲置。非默认是指将 allowCoreThreadTimeOut = true，则超过 keepAliveTime 后核心线程就会被终止</span><br><span class="line"><span class="instruction">	int </span>maximumPoolSize, // 所能容纳的最大线程数，当活动线程数达到这个数值后，后续的新任务将会被阻塞</span><br><span class="line"><span class="instruction">	long </span>keepAliveTime, // 非核心线程闲置的超时时长</span><br><span class="line">	TimeUnit unit, // 枚举常量</span><br><span class="line">	BlockingQueue&lt;Runnable&gt; workQueue, // 任务队列，通过<span class="instruction"> execute </span>方法提交的 Runnable 对象会存储在这个参数中</span><br><span class="line">	ThreadFactory threadFactory <span class="function">)</span> // 为线程池提供创建新线程的机会，ThreadFactory 是一个接口，只有一个方法：Thread<span class="function"> newThread(</span>Runnable r<span class="function">)</span></span><br></pre></td></tr></table></figure>
+<ul>
 <li><p>ThreadPoolExecutor 执行任务时的规则：<br>（1）如果线程池中的线程数量未达到核心线程数量，那么会直接启动一个核心线程来执行任务<br>（2）如果线程池中的线程数量已经达到或者超过核心线程的数量，那么任务会被插入到 workQueue 中排队等待执行<br>（3）如果在步骤2中无法将任务插入到任务队列中，这往往是由于任务队列已满，这个时候如果线程数量未达到线程池规定的最大值，那么会立刻启动一个非核心线程来执行任务<br>（4）如果步骤3中线程数量已经达到线程池规定的最大值，那么就拒绝执行此任务，ThreadPoolExecutor 会调用 RejectedExecutionHandler 的 rejectExecution 方法来通知调用者</p>
 </li>
 <li><p>四种线程池：<br>（1）newFixedThreadPool 只有核心线程并且这些核心线程没有超时限制，另外任务队列也是没有大小限制的。<br>（2）newCachedThreadPool 只有非核心线程，并且其最大值为 Integer.MAX_VALUE，60秒超时限制，它的 SynchronousQueue 无法插入任务<br>（3）newScheduledThreadPool 核心线程数由参数指定，非核心线程数无限制，非核心闲置时立即被回收<br>（4）newSingleThreadExecutor 只有一个核心线程，确保所有的任务都在同一个线程中按顺序执行，不需要处理线程同步的问题，无超时限制</p>

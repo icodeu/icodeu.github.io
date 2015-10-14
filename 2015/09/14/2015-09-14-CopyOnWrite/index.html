@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>今天第一次给女生撑伞是不是应该在我的技术博客里记录一下 | 把编程当做一种爱</title>
+  <title>CopyOnWrite 浅层次总结 | 把编程当做一种爱</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="给女生撑伞还真是个技术活">
+  <meta name="description" content="同 ConcurrentHashMap 一样，CopyOnWrite 也是一种多线程并发中使用的容器，实现起来要比 ConcurrentHashMap 简单不少。从 JDK1.5 开始 Java 并发包里提供了两个使用 CopyOnWrite 机制实现的并发容器,它们是 CopyOnWriteArrayList 和 CopyOnWriteArraySet。CopyOnWrite 容器非常有用，可以">
 <meta property="og:type" content="article">
-<meta property="og:title" content="今天第一次给女生撑伞是不是应该在我的技术博客里记录一下">
-<meta property="og:url" content="http://icodeyou.com/2015/06/05/2015-06-05- helen/index.html">
+<meta property="og:title" content="CopyOnWrite 浅层次总结">
+<meta property="og:url" content="http://icodeyou.com/2015/09/14/2015-09-14-CopyOnWrite/index.html">
 <meta property="og:site_name" content="把编程当做一种爱">
-<meta property="og:description" content="给女生撑伞还真是个技术活">
-<meta property="og:updated_time" content="2015-08-24T10:23:33.000Z">
+<meta property="og:description" content="同 ConcurrentHashMap 一样，CopyOnWrite 也是一种多线程并发中使用的容器，实现起来要比 ConcurrentHashMap 简单不少。从 JDK1.5 开始 Java 并发包里提供了两个使用 CopyOnWrite 机制实现的并发容器,它们是 CopyOnWriteArrayList 和 CopyOnWriteArraySet。CopyOnWrite 容器非常有用，可以">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-10-14T14:21:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="今天第一次给女生撑伞是不是应该在我的技术博客里记录一下">
-<meta name="twitter:description" content="给女生撑伞还真是个技术活">
+<meta name="twitter:title" content="CopyOnWrite 浅层次总结">
+<meta name="twitter:description" content="同 ConcurrentHashMap 一样，CopyOnWrite 也是一种多线程并发中使用的容器，实现起来要比 ConcurrentHashMap 简单不少。从 JDK1.5 开始 Java 并发包里提供了两个使用 CopyOnWrite 机制实现的并发容器,它们是 CopyOnWriteArrayList 和 CopyOnWriteArraySet。CopyOnWrite 容器非常有用，可以">
   
     <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
   
@@ -187,11 +188,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-2015-06-05- helen" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-2015-09-14-CopyOnWrite" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/05/2015-06-05- helen/" class="article-date">
-  	<time datetime="2015-06-05T07:25:33.000Z" itemprop="datePublished">2015-06-05</time>
+      <a href="/2015/09/14/2015-09-14-CopyOnWrite/" class="article-date">
+  	<time datetime="2015-09-14T14:18:44.000Z" itemprop="datePublished">2015-09-14</time>
 </a>
     </div>
   
@@ -204,7 +205,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      今天第一次给女生撑伞是不是应该在我的技术博客里记录一下
+      CopyOnWrite 浅层次总结
     </h1>
   
 
@@ -213,7 +214,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/icodeyou/">icodeyou</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 	</div>
 
         
@@ -224,10 +225,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>给女生撑伞还真是个技术活</p>
+        <p>同 ConcurrentHashMap 一样，CopyOnWrite 也是一种多线程并发中使用的容器，实现起来要比 ConcurrentHashMap 简单不少。从 JDK1.5 开始 Java 并发包里提供了两个使用 CopyOnWrite 机制实现的并发容器,它们是 CopyOnWriteArrayList 和 CopyOnWriteArraySet。CopyOnWrite 容器非常有用，可以在非常多的并发场景中使用到，下面就来浅层次总结一下。</p>
 <a id="more"></a>
-<p>第一次给女生撑伞比编程还难，关键还不能 Debug，一有错误直接抛异常，还 catch 不住。</p>
-<p>所以，给女生撑伞还真是个技术活，正应该写在技术博客里让自己不断反省进步不是吗？</p>
+<h1 id="源码解析">源码解析</h1><p>CopyOnWrite 根据名字，即写时复制的容器。通俗的理解是当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行 Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对 CopyOnWrite 容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以 CopyOnWrite 容器也是一种读写分离的思想，读和写不同的容器。</p>
+<p>看一下它的 add 方法就比较清晰了，如下：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="built_in">boolean</span> <span class="built_in">add</span>(E e) &#123;</span><br><span class="line">	<span class="comment">// 新开辟一个长度为原 length + 1 的对象数组</span></span><br><span class="line">       <span class="keyword">Object</span>[] newElements = <span class="keyword">new</span> <span class="keyword">Object</span>[elements.length + <span class="number">1</span>];</span><br><span class="line">       <span class="comment">// 将原 elements 数组中的内容全部复制到 newElements 数组中</span></span><br><span class="line">       System.arraycopy(elements, <span class="number">0</span>, newElements, <span class="number">0</span>, elements.length);</span><br><span class="line">       <span class="comment">// 在 newElements 末尾添加新的元素 e</span></span><br><span class="line">       newElements[elements.length] = e;</span><br><span class="line">       <span class="comment">// 将修改后的数组赋值给原 elements 数组</span></span><br><span class="line">       elements = newElements;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>另外也需要注意这个方法是同步的，否则多线程写的时候会 Copy 出 N 个副本出来。</p>
+<p>下面，至于读方法，真是再简单不过了，如下：</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> E get(<span class="keyword">int</span> <span class="keyword">index</span>) &#123;</span><br><span class="line">       <span class="keyword">return</span> (E) elements[<span class="keyword">index</span>];</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>读的时候不需要加锁，如果读的时候有多个线程正在向 newElements[] 添加数据，读还是会读到旧的数据，因为写的时候不会锁住旧的 elements[]。</p>
+<h1 id="应用场景">应用场景</h1><p>CopyOnWrite并发容器用于读多写少的并发场景。比如白名单，黑名单。</p>
+<h1 id="注意问题">注意问题</h1><ul>
+<li><p>内存占用问题：因为 CopyOnWrite 的写时复制机制，所以在进行写操作的时候，内存里会同时驻扎两个对象的内存，旧的对象和新写入的对象（注意:在复制的时候只是复制容器里的引用，只是在写的时候会创建新对象添加到新容器里，而旧容器的对象还在使用，所以有两份对象内存）。如果这些对象占用的内存比较大，那么这个时候很有可能造成频繁的 Young GC 和 Full GC。</p>
+</li>
+<li><p>数据一致性问题：CopyOnWrite 容器只能保证数据的最终一致性，不能保证数据的实时一致性。所以如果希望写入的的数据马上能读到，就不要使用 CopyOnWrite 容器。</p>
+</li>
+</ul>
+<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
       
     </div>
@@ -237,18 +251,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/06/10/2015-06-10- 典型tcp攻击实验/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/09/14/2015-09-14- Android 进阶-导图/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          【视频教程】典型 TCP 攻击实验
+          Android 进阶 - 知识导图
         
       </div>
     </a>
   
   
-    <a href="/2015/06/05/2015-06-05- 获取微信聊天记录/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android 窃取手机中微信聊天记录</div>
+    <a href="/2015/09/13/2015-09-13- Java字符集与编码/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java 字符集与编码</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -277,7 +291,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2015-06-05- helen" data-title="今天第一次给女生撑伞是不是应该在我的技术博客里记录一下" data-url="http://icodeyou.com/2015/06/05/2015-06-05- helen/"></div>
+	<div class="ds-thread" data-thread-key="2015-09-14-CopyOnWrite" data-title="CopyOnWrite 浅层次总结" data-url="http://icodeyou.com/2015/09/14/2015-09-14-CopyOnWrite/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
