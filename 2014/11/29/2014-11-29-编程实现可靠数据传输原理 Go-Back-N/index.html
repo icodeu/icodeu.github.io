@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>编程实现可靠数据传输原理Go-Back-N | 把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="有一个计算机网络的实验，需要模拟GBN的过程，即在本地条件下模拟丢包重传机制。刚看到这个实验时有些不知所措，因为不知道怎样能实现丢包，在本地编程，即使是使用不可靠数据传输UDP的DatagramSocket，由于localhost到localhost走的是回环链路，也就是从客户机的应用层–传输层–网络层 到 服务器的网络层–传输层–应用层，这个肯定无法丢包，也用实验进行验证了（比如连续发送1万个D">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程实现可靠数据传输原理Go-Back-N">
+<meta property="og:url" content="http://icodeyou.com/2014/11/29/2014-11-29-编程实现可靠数据传输原理 Go-Back-N/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="有一个计算机网络的实验，需要模拟GBN的过程，即在本地条件下模拟丢包重传机制。刚看到这个实验时有些不知所措，因为不知道怎样能实现丢包，在本地编程，即使是使用不可靠数据传输UDP的DatagramSocket，由于localhost到localhost走的是回环链路，也就是从客户机的应用层–传输层–网络层 到 服务器的网络层–传输层–应用层，这个肯定无法丢包，也用实验进行验证了（比如连续发送1万个D">
+<meta property="og:image" content="http://img.blog.csdn.net/20141129165114704?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20141129165207500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20141129165146918?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-08-24T10:26:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编程实现可靠数据传输原理Go-Back-N">
+<meta name="twitter:description" content="有一个计算机网络的实验，需要模拟GBN的过程，即在本地条件下模拟丢包重传机制。刚看到这个实验时有些不知所措，因为不知道怎样能实现丢包，在本地编程，即使是使用不可靠数据传输UDP的DatagramSocket，由于localhost到localhost走的是回环链路，也就是从客户机的应用层–传输层–网络层 到 服务器的网络层–传输层–应用层，这个肯定无法丢包，也用实验进行验证了（比如连续发送1万个D">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mac/" style="font-size: 14px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 12px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 16px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 18px;">极客学院</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛逼的学弟</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">程序员而已</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2014-11-29-编程实现可靠数据传输原理 Go-Back-N" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/29/2014-11-29-编程实现可靠数据传输原理 Go-Back-N/" class="article-date">
+  	<time datetime="2014-11-29T07:20:33.000Z" itemprop="datePublished">2014-11-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      编程实现可靠数据传输原理Go-Back-N
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GBN/">GBN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有一个计算机网络的实验，需要模拟GBN的过程，即在本地条件下模拟丢包重传机制。刚看到这个实验时有些不知所措，因为不知道怎样能实现丢包，在本地编程，即使是使用不可靠数据传输UDP的DatagramSocket，由于localhost到localhost走的是回环链路，也就是从客户机的应用层–传输层–网络层 到 服务器的网络层–传输层–应用层，这个肯定无法丢包，也用实验进行验证了（比如连续发送1万个DatagramPacket，发现每一个都被收到了）。</p>
+<p>那么问题来了，怎样才能丢包？</p>
+<a id="more"></a>
+<p>通过前面的叙述，可知在链路上丢包是不可能的了，那我们可以从服务器端下手，也就是说，即使服务器收到了某个数据包，也不给客户机发ACK，那么到了客户机设置的定时器后，客户机自然就认为是丢包了。所以可以给服务器设置一个丢包概率，用Math.random()函数来实现，该函数返回一个从0到1之间的随机数，可用来设置“丢包”概率。如设置丢包概率为0.3：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Math.random()&lt;=<span class="number">0.7</span>)&#123; </span><br><span class="line">    <span class="comment">//接收成功，发ack; </span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">//呵呵，什么都不做</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>“丢包”问题解决了，下面就是怎么发送数据包，用之前学过的TCP的Socket也行，用UDP的DatagramSocket也行，这个实验就采用UDP编程吧，所以，下一个问题就是，如何用UDP编程。</p>
+<p>同样也需要Socket（不理解Socket是什么的可以看前几篇文章），不过这次的是DatagramSocket，代表是UDP的数据报套接字。DatagramSocket要往外发送数据包，也就是DatagramPacket。举一个客户机可以向服务器发送数据并在服务器显示的例子。</p>
+<p>客户端代码如下：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class UDPClient &#123; </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) <span class="keyword">throws</span> Exception &#123; </span><br><span class="line">        <span class="comment">//创建UDP的socket </span></span><br><span class="line">        DatagramSocket socket = <span class="keyword">new</span> DatagramSocket(); </span><br><span class="line">        <span class="comment">//通过域名来获得服务器的IP地址 </span></span><br><span class="line">        InetAddress serverAddress = InetAddress.getByName(<span class="string">"localhost"</span>); </span><br><span class="line">        <span class="keyword">String</span> <span class="built_in">str</span> = <span class="string">"Hello Server, I am client"</span>; </span><br><span class="line">        <span class="comment">//需要将发送的字符串转换成字节数组，才能在互联网中传输 </span></span><br><span class="line">        <span class="built_in">byte</span>[] data = <span class="built_in">str</span>.getBytes(); </span><br><span class="line">        <span class="comment">//新建数据包，指明发送数据内容，发送的长度，服务器地址，服务器端口号 </span></span><br><span class="line">        DatagramPacket packet = <span class="keyword">new</span> DatagramPacket(data, data.length, </span><br><span class="line">                serverAddress, <span class="number">8899</span>); </span><br><span class="line">        <span class="comment">//使用socket发送数据包 </span></span><br><span class="line">        socket.send(packet); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应服务器端代码如下：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class <span class="type">UDPServer</span> &#123; </span><br><span class="line">    public <span class="keyword">static</span> <span class="type">void</span> main(<span class="type">String</span>[] args) throws <span class="type">Exception</span> &#123; </span><br><span class="line">        //新建服务器端socket，并同时设置监听端口 </span><br><span class="line">        <span class="type">DatagramSocket</span> socket = new <span class="type">DatagramSocket</span>(<span class="number">8899</span>); </span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)&#123; </span><br><span class="line">            byte[] data = new byte[<span class="number">1024</span>]; </span><br><span class="line">            //新建数据包，会把后面收到的内容放到data字节数组里，最大长度为data.length </span><br><span class="line">            <span class="type">DatagramPacket</span> packet = new <span class="type">DatagramPacket</span>(data, data.length); </span><br><span class="line">            //此方法为阻塞方法（<span class="keyword">block</span> <span class="keyword">method</span>）,直到监听到数据包后才会往下执行，不然就一直等待，就像<span class="type">ServerSocket</span>.accept()方法一样 </span><br><span class="line">            socket.receive(packet); </span><br><span class="line">            //执行到这里说明监听到了数据包，并把其中内容转换为字符串 </span><br><span class="line">            <span class="type">String</span> <span class="literal">result</span> = new <span class="type">String</span>(packet.getData()); </span><br><span class="line">            //打印 </span><br><span class="line">            <span class="type">System</span>.<span class="keyword">out</span>.println(<span class="string">"receive result : "</span> + <span class="literal">result</span>); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>务必先运行服务器端，再运行客户端。运行结果如下：</p>
+<p><img src="http://img.blog.csdn.net/20141129165114704?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="image"></p>
+<p>若想服务器端给客户端发送数据，可同样操作。</p>
+<p>利用DatagramSocket发送DatagramPacket的问题解决了，那么下一个问题，在GBN协议里面，客户端发送一个数据之后要设置定时器的，这个定时器怎么设置？</p>
+<p>在java里有两种方式来设置定时器，首先是第一种方法，使用Timer结合ActionListener即可。</p>
+<p>代码如下，其中值得注意的一点是Timer要导入java.swing这个包中的，而不是java.util这个包中的，否则不能正确运行。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"><span class="keyword">import</span> java.awt.event.ActionEvent;</span> </span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> java.awt.event.ActionListener;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> javax.swing.Timer;</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimerMain</span> </span>&#123; </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123; </span><br><span class="line">        <span class="comment">//设置定时器，第一个参数为延迟执行时间，单位是毫秒；第二个参数为到时间后执行的动作，类型为ActionListener </span></span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer(<span class="number">3000</span>, <span class="keyword">new</span> DelayActionListener()); </span><br><span class="line">        <span class="comment">//这个必须写，才可以使得timer生效 </span></span><br><span class="line">        timer.start(); </span><br><span class="line">        <span class="comment">//为了不让程序结束，加个死循环，不然timer定时器还没到，主程序就结束了 </span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)&#123; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//自定义动作类实现ActionListener接口 </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DelayActionListener</span> <span class="keyword">implements</span> <span class="title">ActionListener</span></span>&#123; </span><br><span class="line">    <span class="comment">//此为回调方法，当时间到后自动执行actionPerformed方法 </span></span><br><span class="line">    @Override </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> actionPerformed(ActionEvent e) &#123; </span><br><span class="line">        System.out.println(<span class="string">"定时器时间到"</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：每隔3秒执行一次。如果需要取消定时器，使用timer.stop()方法即可。</p>
+<p><img src="http://img.blog.csdn.net/20141129165207500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="image"></p>
+<p>设置定时器的第二种方法是使用Timer结合TimerTask，在android里很常用，其实本来就是java的东西，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Timer; </span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimerTaskMain</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </span><br><span class="line">        <span class="comment">//使用TimerTask </span></span><br><span class="line">        TimerTask timerTask = <span class="keyword">new</span> TimerTask() &#123; </span><br><span class="line">            <span class="annotation">@Override</span> </span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123; </span><br><span class="line">                System.out.println(<span class="string">"timerTask定时器时间到"</span>); </span><br><span class="line">            &#125; </span><br><span class="line">        &#125;; </span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer(); </span><br><span class="line">        <span class="comment">//第一个参数为要执行的目标，第二个参数为第一次执行延迟的时间，第三个参数为循环执行的时间间隔，单位都是毫秒 </span></span><br><span class="line">        timer.schedule(timerTask, <span class="number">3000</span>, <span class="number">3000</span>); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：每隔3秒执行一次。如果需要取消定时器，使用timerTask.cancel()方法即可。</p>
+<p><img src="http://img.blog.csdn.net/20141129165146918?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="image"></p>
+<p>有了如上这些东西，再结合GBN的原理和自己控制的逻辑操作，写GBN就应该可以实现了，就不贴完整代码了，自己实现印象更深刻些。</p>
+<p>###个人github:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></p>
+<p>###CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></p>
+<p>###个人微信号：<code>qqwanghuan</code>  只为技术交流</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/12/19/2014-12-19-【视频教程】Android 扫描二维码实现网页登录/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          【视频教程】Android 扫描二维码实现网页登录
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/27/2014-11-27-编程实现路由算法--迪杰斯特拉算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">编程实现路由算法--迪杰斯特拉算法</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014-11-29-编程实现可靠数据传输原理 Go-Back-N" data-title="编程实现可靠数据传输原理Go-Back-N" data-url="http://icodeyou.com/2014/11/29/2014-11-29-编程实现可靠数据传输原理 Go-Back-N/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>

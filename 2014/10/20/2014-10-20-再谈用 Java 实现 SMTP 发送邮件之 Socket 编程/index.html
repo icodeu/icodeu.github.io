@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>再谈用 Java 实现 SMTP 发送邮件之 Socket 编程 | 把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;前几天利用Socket实现了用java语言搭建web服务器，全程下来应该会对Socket这个东西已经使用的非常熟悉了，虽然抽象，但是使用过一次之后就会感受到它在网络通信上的作用是多么的强大！正好，今天就继续用Socket来练习使用以下Smtp协议发送一封简单的电子邮件。今天的故事呢，是我要约我女神出去吃饭啦啦啦~~~所以，面对Smtp，只许成功，不许">
+<meta property="og:type" content="article">
+<meta property="og:title" content="再谈用 Java 实现 SMTP 发送邮件之 Socket 编程">
+<meta property="og:url" content="http://icodeyou.com/2014/10/20/2014-10-20-再谈用 Java 实现 SMTP 发送邮件之 Socket 编程/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;前几天利用Socket实现了用java语言搭建web服务器，全程下来应该会对Socket这个东西已经使用的非常熟悉了，虽然抽象，但是使用过一次之后就会感受到它在网络通信上的作用是多么的强大！正好，今天就继续用Socket来练习使用以下Smtp协议发送一封简单的电子邮件。今天的故事呢，是我要约我女神出去吃饭啦啦啦~~~所以，面对Smtp，只许成功，不许">
+<meta property="og:image" content="http://img.blog.csdn.net/20141020210951406">
+<meta property="og:image" content="http://img.blog.csdn.net/20141020211334751">
+<meta property="og:image" content="http://img.blog.csdn.net/20141020211335234">
+<meta property="og:image" content="http://img.blog.csdn.net/20141020211335827">
+<meta property="og:image" content="http://img.blog.csdn.net/20141020211336498">
+<meta property="og:image" content="http://img.blog.csdn.net/20141020231432656">
+<meta property="og:image" content="http://img.blog.csdn.net/20141020231433437">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-08-24T10:21:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="再谈用 Java 实现 SMTP 发送邮件之 Socket 编程">
+<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;前几天利用Socket实现了用java语言搭建web服务器，全程下来应该会对Socket这个东西已经使用的非常熟悉了，虽然抽象，但是使用过一次之后就会感受到它在网络通信上的作用是多么的强大！正好，今天就继续用Socket来练习使用以下Smtp协议发送一封简单的电子邮件。今天的故事呢，是我要约我女神出去吃饭啦啦啦~~~所以，面对Smtp，只许成功，不许">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mac/" style="font-size: 14px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 12px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 16px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 18px;">极客学院</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛逼的学弟</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">程序员而已</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2014-10-20-再谈用 Java 实现 SMTP 发送邮件之 Socket 编程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/10/20/2014-10-20-再谈用 Java 实现 SMTP 发送邮件之 Socket 编程/" class="article-date">
+  	<time datetime="2014-10-20T07:20:33.000Z" itemprop="datePublished">2014-10-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      再谈用 Java 实现 SMTP 发送邮件之 Socket 编程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SMTP/">SMTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Socket/">Socket</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;前几天利用Socket实现了用java语言搭建web服务器，全程下来应该会对Socket这个东西已经使用的非常熟悉了，虽然抽象，但是使用过一次之后就会感受到它在网络通信上的作用是多么的强大！正好，今天就继续用Socket来练习使用以下Smtp协议发送一封简单的电子邮件。今天的故事呢，是我要约我女神出去吃饭啦啦啦~~~所以，面对Smtp，只许成功，不许失败！</p>
+<a id="more"></a>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;全局假定我的邮箱为<code>cnsmtp01@163.com</code>   女神的邮箱为<code>cnsmtp02@163.com</code>  密码都是 <code>computer</code> （呦，还是个情侣邮箱~）</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;为了更加体现程序员的高大上，所以我选择使用命令行的方式（SB程序员。。。）。打开cmd，在命令行里输入telnet，“嗯，居然给我显示telnet不是内部或外部命令”！完蛋，怎么办，这才第一步，就出师不利啊，看来今天要跪，赶快想解决办法。进入 控制面板—程序和功能—启动或关闭windows功能—telnet客户端，勾选上然后确定即可（有些人的电脑还会看到“telnet服务端”，注意别选错了，服务端是指你的电脑作为服务器让别人登陆的，而咱们现在要做的是自己的电脑作为客户端登陆邮箱服务器）</p>
+<p><img src="http://img.blog.csdn.net/20141020210951406" alt="image"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;再在cmd中试一下，直接输入 <code>telnet smtp.163.com 25</code> ,第一行会显示邮件服务器返回的欢迎信息，我这里返回的就是 “220 163.com Anti-spam GT for Coremail System (163com[20121016])” 其中220说明邮件服务器跟我已经建立了连接，它已经开始想要帮帮我了，哈哈。友好一点，跟服务器大哥打个招呼吧，输入<code>HELO huan</code> ，（huan是随便输入的，输入什么都行，服务器是不会鸟你到底输入的是什么），这时服务器返回的是“250 OK”，说明现在服务器等着我继续发送命令了。输入 <code>MAIL FROM:&lt;cnsmtp01@163.com&gt;</code> 这时服务器居然给我返回了553，并告诉我需要认证。也是，既然登陆人家的服务器，总得有个人家的账号吧。所以接下来输入<code>AUTH LOGIN</code>，服务器返回了334和我看不懂的东西，这是要求咱们要输入用户名和密码信息了。但是都知道，像用户名密码这种信息是不能在互联网里进行明文传输的，而smtp服务器用户名和密码采用的是base64编码加密方式，所以在百度搜一个在线base64加密网站就好了，（比如<a href="http://base64.xpcha.com/），如图" target="_blank" rel="external">http://base64.xpcha.com/），如图</a></p>
+<p><img src="http://img.blog.csdn.net/20141020211334751" alt="image"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;把得到的密文往控制台中粘贴后回车，这时服务器会再要求我输入密码，跟刚才的方式一样即可，如果正确的话，会返回235，并告诉我认证成功了。Perfect！已经进展到一半了，继续！我下面就要告诉服务器从哪个邮箱发，发给谁，所以依次输入<code>MAIL FROM:&lt;cnsmtp01@163.com&gt;</code>  回车 <code>RCPT TO:&lt;cnsmtp02@163.com&gt;</code> 回车   发件人和收件人设置好后，自然该告诉服务器我要发的内容是什么了，所以输入<code>DATA</code>后回车，服务器返回给我354，并让我输入，以<code>&lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;</code>结尾，好，那就直接输入正文： Can I date with you?   然后<code>“回车” “.” “回车”</code>来告诉服务器我的内容输入完毕了，它可以发送了。这个时候触目惊心的一幕出现了，服务器并没有给我返回2XX的正确码，而是给我返回了554，这是为什么，服务器大哥不肯帮我了？<br><img src="http://img.blog.csdn.net/20141020211335234" alt="image"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;看着它给我的链接，像是163自己的错误说明文档，我就复制下来了，打开浏览器查看了一下，原来是163服务器认为我发的是垃圾邮件，所以它拒绝给我发信。可是大哥，我这是真心的啊，哪是什么垃圾邮件啊，求求你就让我发送吧（想想也是，如果好多人都这样给女神发了一堆的垃圾邮件，我会不高兴的%&gt;_&lt;%）。分析一下为什么会被认为是垃圾邮件吧：邮件得有主题（subject），发件人（from），收件人（to），邮件正文等，可是我只写了个邮件正文，也许服务器就把这个当成是垃圾邮件了。嗯，越臆想就觉得越有道理，来试一下吧。这次我输入了<code>DATA</code>后，服务器让我输入内容，我先输入了<code>subject:Would you go on a date with me ?</code>  然后回车 <code>from:cnsmtp01@163.com</code>  回车  <code>to:cnsmtp02@163.com</code> 回车 <code>Can you eat a meal together?</code>    <code>回车 . 回车</code>    哈哈，这个时候服务器给我返回的是Mail OK，我发送成功了！接下来就是要等待女神的答复了。。。全部过程见下图：（留个问题，女神的邮箱里肯定会收到这封邮件，但是会收到我原本想发的正文“Can you eat a meal together?  ”吗？如果不知道，查一下报文格式，或见下面的java程序，对比一下正文部分后面的数据格式区别）<br><img src="http://img.blog.csdn.net/20141020211335827" alt="image"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;全部过程：</p>
+<pre><code>telnet smtp<span class="number">.163</span>.com <span class="number">25</span>
+<span class="string">S:</span> <span class="number">220</span> <span class="number">163.</span>com Anti-spam GT <span class="keyword">for</span> Coremail System &lt;<span class="number">163</span>com[<span class="number">20121016</span>]&gt;
+<span class="string">C:</span> HELO huan
+<span class="string">S:</span> <span class="number">250</span> OK
+<span class="string">C:</span> AUTH LOGIN
+<span class="string">S:</span> <span class="number">334</span> dXNlcm5hbWU6
+<span class="string">C:</span> Y25zbXRwMDE=
+<span class="string">S:</span> <span class="number">334</span> UGFzc3dvcmQ6
+<span class="string">C:</span> Y29tcHV0ZXI=
+<span class="string">S:</span> <span class="number">235</span> Authentication successful
+<span class="string">C:</span> MAIL <span class="string">FROM:</span>&lt;cnsmtp01@<span class="number">163.</span>com&gt;
+<span class="string">S:</span> <span class="number">250</span> Mail OK
+<span class="string">C:</span> RCPT <span class="string">TO:</span>&lt;cnsmtp02@<span class="number">163.</span>com&gt;
+<span class="string">S:</span> <span class="number">250</span> Mail OK
+<span class="string">C:</span> DATA
+<span class="string">S:</span> <span class="number">354</span> End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+<span class="string">C:</span> <span class="string">subject:</span>Would you go on a date with me ?
+C: <span class="string">from:</span>cnsmtp01@<span class="number">163.</span>com
+<span class="string">C:</span> <span class="string">to:</span>cnsmtp02@<span class="number">163.</span>com
+<span class="string">C:</span> Can you eat a meal together?
+C: .
+<span class="string">S:</span> <span class="number">250</span> Mail OK queued <span class="keyword">as</span> smtp7,C8CowEDpwFYP_ERUQxX8AA--<span class="number">.14</span>S2 <span class="number">1413807190</span>
+<span class="string">C:</span> RSET
+<span class="string">S:</span> <span class="number">250</span> OK
+<span class="string">C:</span> QUIT
+<span class="string">S:</span> <span class="number">221</span> Bye
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;时候差不多了，我觉得女神应该会给我回复邮件了，怎么看，打开浏览器进入163邮箱吗？太out、太low了，直接命令行吧！ <code>telnet pop.163.com 110</code> ，刚才已经演示了全部的smtp命令，所以操作起来pop的应该很简单了，直接上图：<br><img src="http://img.blog.csdn.net/20141020211336498" alt="image"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;看到女神回复我什么了吗。。。简直狗血。。。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;好了，一次的收发邮件过程全都解决了，而且结果是，，，被拒了。其实呢，刚才没说，我的女神是编号的，从女神0号，女神1号…女神n号，难道刚刚第0个女神拒绝我后我就颓了吗？那怎么行，我得越挫越勇啊，继续给剩下的女神发邮件。可是，我这么多女神，我不能给每个女神发邮件都用这种命令行方式吧，那不虚死我，那么问题来了——发邮件技术哪家强？ 既然咱们是学计算机的，那就编软件呗，让软件替咱们批量发，简直Perfect！</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;所以又回到这次的议题上来了，怎么用java实现smtp发送邮件？对，还是要请出大神<code>Socket</code>来帮忙。经历了上次Socket的折磨和刚才命令行的磨练，接下来就是把他们巧妙融合的时候了，所以，别走开。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;1、定义一些咱们一会会用到的邮箱名，用户名密码等信息（正常编程没人会把用户名和密码写的这么明白。。。）：</p>
+<pre><code><span class="built_in">String</span> sender = <span class="string">"cnsmtp01@163.com"</span>; 
+<span class="built_in">String</span> receiver = <span class="string">"cnsmtp02@163.com"</span>; 
+<span class="built_in">String</span> password = <span class="string">"computer"</span>;
+<span class="comment">//上文说过，这个用户名和密码是要使用base64进行加密的，加密方法见下文附录1详解 </span>
+<span class="built_in">String</span> user = <span class="keyword">new</span> BASE64Encoder().encode(sender.substring(<span class="number">0</span>, sender.indexOf(<span class="string">"@"</span>)).getBytes());  <span class="comment">//截取出“cnsmtp01”并加密 </span>
+<span class="built_in">String</span> pass = <span class="keyword">new</span> BASE64Encoder().encode(password.getBytes());   <span class="comment">//加密 “computer”</span>
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;2、建立Socket连接:</p>
+<pre><code>Socket socket = <span class="keyword">new</span> Socket(<span class="string">"smtp.163.com"</span>, <span class="number">25</span>);  <span class="comment">//smtp服务使用25号端口监听</span>
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;3、获取该socket的输入输出流</p>
+<pre><code>InputStream inputStream = <span class="built_in">socket</span>.getInputStream(); 
+OutputStream outputStream = <span class="built_in">socket</span>.getOutputStream(); 
+BufferedReader reader = <span class="built_in">new</span> BufferedReader(<span class="built_in">new</span> InputStreamReader(inputStream)); 
+PrintWriter writter = <span class="built_in">new</span> PrintWriter(outputStream, <span class="constant">true</span>); <span class="comment"> //我TM去 这个true太关键了，我刚才没写这个别坑了!你可以不加这个试下效果，下文附录2会写到为什么加true</span>
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;4、发送HELO信息</p>
+<pre><code><span class="comment">//HELO </span>
+writter.<span class="built_in">println</span>(<span class="string">"HELO huan"</span>); 
+System.out.<span class="built_in">println</span>(reader.readLine());
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;5、发送AUTH LOGIN信息</p>
+<pre><code><span class="comment">//AUTH LOGIN </span>
+writter.<span class="built_in">println</span>(<span class="string">"auth login"</span>); 
+System.out.<span class="built_in">println</span>(reader.readLine()); 
+writter.<span class="built_in">println</span>(user); 
+System.out.<span class="built_in">println</span>(reader.readLine()); 
+writter.<span class="built_in">println</span>(pass); 
+System.out.<span class="built_in">println</span>(reader.readLine()); 
+<span class="comment">//Above   Authentication successful</span>
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;6、发送发件人和收件人信息</p>
+<pre><code><span class="comment">//Set mail from   and   rcpt to </span>
+writter.<span class="built_in">println</span>(<span class="string">"mail from:&lt;"</span> + sender +<span class="string">"&gt;"</span>); 
+System.out.<span class="built_in">println</span>(reader.readLine()); 
+writter.<span class="built_in">println</span>(<span class="string">"rcpt to:&lt;"</span> + receiver +<span class="string">"&gt;"</span>); 
+System.out.<span class="built_in">println</span>(reader.readLine());
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;7、告诉服务器我要传数据</p>
+<pre><code><span class="comment">//Set data </span>
+writter.<span class="built_in">println</span>(<span class="string">"data"</span>); 
+System.out.<span class="built_in">println</span>(reader.readLine());
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;8、发邮件主题，收件人，发件人，正文</p>
+<pre><code>writter.<span class="built_in">println</span>(<span class="string">"subject:女神，是我"</span>);   
+writter.<span class="built_in">println</span>(<span class="string">"from:"</span> + sender);   
+writter.<span class="built_in">println</span>(<span class="string">"to:"</span> + receiver);   
+writter.<span class="built_in">println</span>(<span class="string">"Content-Type: text/plain;charset=\"gb2312\""</span>);<span class="comment">//如果发送正文必须加这个，而且下面要有一个空行   </span>
+writter.<span class="built_in">println</span>();   
+writter.<span class="built_in">println</span>(<span class="string">"女神，晚上可以共进晚餐吗？"</span>);   
+writter.<span class="built_in">println</span>(<span class="string">"."</span>);<span class="comment">//告诉服务器我发送的内容完毕了   </span>
+writter.<span class="built_in">println</span>(<span class="string">""</span>);   
+System.out.<span class="built_in">println</span>(reader.readLine());  
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;9、帮你发了邮件，感谢服务器，和它Say Goodbye吧，都不用请它吃饭，多好</p>
+<pre><code><span class="tag">writter</span><span class="class">.println</span>("<span class="tag">rset</span>"); 
+<span class="tag">System</span><span class="class">.out</span><span class="class">.println</span>(<span class="tag">reader</span><span class="class">.readLine</span>()); 
+<span class="tag">writter</span><span class="class">.println</span>("<span class="tag">quit</span>"); 
+<span class="tag">System</span><span class="class">.out</span><span class="class">.println</span>(<span class="tag">reader</span><span class="class">.readLine</span>());
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;所以，加上异常等操作，所有的代码如下：</p>
+<pre><code><span class="keyword">public</span> class SMTPMain {
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) { 
+    <span class="keyword">String</span> sender = <span class="string">"cnsmtp01@163.com"</span>; 
+    <span class="keyword">String</span> receiver = <span class="string">"cnsmtp02@163.com"</span>; 
+    <span class="keyword">String</span> password = <span class="string">"computer"</span>; 
+    <span class="keyword">String</span> user = <span class="keyword">new</span> BASE64Encoder().encode(sender.substring(<span class="number">0</span>, sender.indexOf(<span class="string">"@"</span>)).getBytes()); 
+    <span class="keyword">String</span> pass = <span class="keyword">new</span> BASE64Encoder().encode(password.getBytes());
+    <span class="keyword">try</span> { 
+        Socket socket = <span class="keyword">new</span> Socket(<span class="string">"smtp.163.com"</span>, <span class="number">25</span>); 
+        InputStream inputStream = socket.getInputStream(); 
+        OutputStream outputStream = socket.getOutputStream(); 
+        <span class="keyword">BufferedReader</span> reader = <span class="keyword">new</span> <span class="keyword">BufferedReader</span>(<span class="keyword">new</span> InputStreamReader(inputStream)); 
+        PrintWriter writter = <span class="keyword">new</span> PrintWriter(outputStream, <span class="keyword">true</span>);  <span class="comment">//我TM去 这个true太关键了! </span>
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        <span class="comment">//HELO </span>
+        writter.<span class="built_in">println</span>(<span class="string">"HELO huan"</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        <span class="comment">//AUTH LOGIN </span>
+        writter.<span class="built_in">println</span>(<span class="string">"auth login"</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        writter.<span class="built_in">println</span>(user); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        writter.<span class="built_in">println</span>(pass); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        <span class="comment">//Above   Authentication successful             </span>
+
+        <span class="comment">//Set mail from   and   rcpt to </span>
+        writter.<span class="built_in">println</span>(<span class="string">"mail from:&lt;"</span> + sender +<span class="string">"&gt;"</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        writter.<span class="built_in">println</span>(<span class="string">"rcpt to:&lt;"</span> + receiver +<span class="string">"&gt;"</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+
+        <span class="comment">//Set data </span>
+        writter.<span class="built_in">println</span>(<span class="string">"data"</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        writter.<span class="built_in">println</span>(<span class="string">"subject:女神，是我"</span>); 
+        writter.<span class="built_in">println</span>(<span class="string">"from:"</span> + sender); 
+        writter.<span class="built_in">println</span>(<span class="string">"to:"</span> + receiver); 
+        writter.<span class="built_in">println</span>(<span class="string">"Content-Type: text/plain;charset=\"gb2312\""</span>); 
+        writter.<span class="built_in">println</span>(); 
+        writter.<span class="built_in">println</span>(<span class="string">"女神，晚上可以共进晚餐吗？"</span>); 
+        writter.<span class="built_in">println</span>(<span class="string">"."</span>); 
+        writter.<span class="built_in">println</span>(<span class="string">""</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+
+        <span class="comment">//Say GoodBye</span>
+        writter.<span class="built_in">println</span>(<span class="string">"rset"</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        writter.<span class="built_in">println</span>(<span class="string">"quit"</span>); 
+        System.out.<span class="built_in">println</span>(reader.readLine()); 
+        } <span class="keyword">catch</span> (Exception e) {
+             e.printStackTrace(); 
+        } 
+    } 
+}
+</code></pre><p>&nbsp;&nbsp;&nbsp;&nbsp;这下，我完全不怵蓝翔的挖掘机了，这简直就是我的约会神器，只要把女神x号的邮箱一改，程序一运行，我这邮件就瞬间发出去了，哈哈，简直机智如狗。<br>现在运行程序，看控制台输出<br><img src="http://img.blog.csdn.net/20141020231432656" alt="image"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;多次运行程序，女神1号，2号…的邮箱里都收到了如下图的邮件（可以把多个女神的邮箱加到集合[list map vector…]里，然后再一循环，分分钟搞定）<br><img src="http://img.blog.csdn.net/20141020231433437" alt="image"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;至于什么界面什么的，就仁者见仁智者见智吧，习惯java的就swing，习惯android也可以xml，其实我是觉得android更方便一些，控件更容易用一些。若是用java写界面忘了的话，推荐使用 <code>windows builder</code> ， 可以帮你很快绘制出界面来，然后你要做的就是获取控件，写监听器等等。</p>
+<ul>
+<li><p>附录1：<br>关于base64加密：<br>具体什么是base64加密，这种概念性的东西能在百度百科找到的我就不说了，说一下在java里怎么去用它。<br>1、首先下载一个工具jar文件，叫做“sun.misc.BASE64Decoder.jar” （百度搜就能找到，如果找不到可以到我最后提供的本人github上去下载下来使用）<br>2、有了jar文件后，需要把jar包导入工程，方法为：右键工程名—Build Path—Configure Build Path—Add External JARS，选择你刚下载的jar包后确定就可以了<br>3、之后在java文件里写到 new BASE64Encoder().encode(password.getBytes());  时，会提示没有导入对应的包，可以按Ctrl + Shift + O(欧)来让IDE自动为我们导入（前提是你的jar包导入没问题）</p>
+</li>
+<li><p>附录2：<br>说说PrintWriter.println()方法(或write()方法，其实就差了一个换行，剩下参数什么的都一样)。PrintWriter writter = new PrintWriter(outputStream, true);  在PrintWritter的构造函数中，可以不加true，也可以加true，区别在于：加了true的话，在下面进行writter.println(“helloworld”);后，“helloworld”就会立即发送出去；相反，不加true的话，必须在writter.println(“helloworld”);后 再调用writter.flush();来清空缓冲区，强制发送出去。我开始就没有加true，而且没调用flush()方法，我以为是服务器SB了，结果。。。。</p>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>附录3：<br>为什么telnet pop协议时登录服务器输入用户名和密码时会明文，这让我很奇怪，希望有人帮我解答。</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>附录4：<br>有没有注意到在使用smtp协议时，认证的时候需要你输入发送人信息，输入data后又要写一遍发件人的信息？难道服务器傻吗，非要让你输入两遍？可以想一想为什么，然后自己亲自尝试一下，由于咱们平时用的邮件代理都把这两个认为是同一个了，所以掩盖了一个发送邮件时候的小技巧，即可以伪装欺骗，具体的自己试一下，印象才会更深刻。</p>
+</li>
+<li><p>附录5：<br>大小写问题。有没有注意到我在cmd里输入的命令部分都是大写，而在java程序里输出的命令部分都是小写？我是想说，命令部分是不区分大小写的，但是命令后面的参数是严格区分大小写的，自己可以试一下。（例如邮箱用户名和密码本来就是区分大小写的吧）</p>
+</li>
+<li><p>附录6：<br>关于telnet本身的问题。在telnet里的一行输入了错误的数据，我想删除，然后再继续输入正确的，回车。这个时候你会发现明明输入的没有问题，可是服务器返回的却是错误代码，比如 500 Error：bad syntax    原因就在于命令你要一次性输入正确，如果中途输错了，不用退格，已经晚了，直接打个回车，肯定会报错，再出入正确的就好了。如果总是打错，像163服务器就直接给你断开连接，它以为你恶意要攻击它呢。像新浪的邮箱服务器，就很忠诚，在有效连接时间内一直等着你输入正确的命令，这点可以自己试一下。</p>
+</li>
+<li><p>附录7：<br>记得之前在linux中用shell发送邮件时，并没有强制要求我必须用合法的身份登录邮箱服务器才能进行发邮件操作，为什么？因为那个时候我自己的本机相当于是SMTP服务器，我自己当然就不用验证身份了。而现在是想用SMTP协议登录别人的服务器（如163），此时163就必须要合法的用户身份才能使其登录并发邮件了。</p>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;针对此篇文章还要说明的：这只是为了理解SMTP的一篇很基础性的讲解，对于代码部分，为了体现主体，明显缺少通过服务器返回代码判断语句，因而以上程序缺少健壮性，自己在理解好实际编程时应该考虑到真正的网络请求情况，考虑丢包情况，根据服务器返回代码进行相应判断。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;好了，就写到这了，我要去和女神吃饭饭了~哪里有问题可以在下面留言~</p>
+<p>###个人github: <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></p>
+<p>###代码托管地址:<a href="http://github.com/icodeu/JavaForSMTP" target="_blank" rel="external">http://github.com/icodeu/JavaForSMTP</a></p>
+<p>###CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></p>
+<p>###个人微信号：<code>qqwanghuan</code>  只为技术交流</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/25/2014-10-25-使用 Wireshark 抓包分析的思考/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          使用 Wireshark 抓包分析的思考
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/18/2014-10-18-浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014-10-20-再谈用 Java 实现 SMTP 发送邮件之 Socket 编程" data-title="再谈用 Java 实现 SMTP 发送邮件之 Socket 编程" data-url="http://icodeyou.com/2014/10/20/2014-10-20-再谈用 Java 实现 SMTP 发送邮件之 Socket 编程/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>

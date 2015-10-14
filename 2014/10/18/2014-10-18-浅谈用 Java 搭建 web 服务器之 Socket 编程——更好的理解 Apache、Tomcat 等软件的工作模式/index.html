@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式 | 把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="之前做web应用一直是在本地装个Apache、Tomcat之类的软件，然后把做好的网页文件放在他们的工作目录下（如Apache的htdocs），然后打开浏览器输入127.0.0.1或localhost就可以直接访问了，好神奇，可是为什么，怎么实现的呢，早就知道有Socket（套接字）这个东西，可之前就是没有把这两方面结合起来，今天我们就一起来看一看这究竟是为什么。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式">
+<meta property="og:url" content="http://icodeyou.com/2014/10/18/2014-10-18-浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="之前做web应用一直是在本地装个Apache、Tomcat之类的软件，然后把做好的网页文件放在他们的工作目录下（如Apache的htdocs），然后打开浏览器输入127.0.0.1或localhost就可以直接访问了，好神奇，可是为什么，怎么实现的呢，早就知道有Socket（套接字）这个东西，可之前就是没有把这两方面结合起来，今天我们就一起来看一看这究竟是为什么。">
+<meta property="og:image" content="http://img.blog.csdn.net/20141018222024890">
+<meta property="og:image" content="http://img.blog.csdn.net/20141018222026250">
+<meta property="og:image" content="http://img.blog.csdn.net/20141018222413101">
+<meta property="og:image" content="http://img.blog.csdn.net/20141018222413725">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-08-24T10:21:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式">
+<meta name="twitter:description" content="之前做web应用一直是在本地装个Apache、Tomcat之类的软件，然后把做好的网页文件放在他们的工作目录下（如Apache的htdocs），然后打开浏览器输入127.0.0.1或localhost就可以直接访问了，好神奇，可是为什么，怎么实现的呢，早就知道有Socket（套接字）这个东西，可之前就是没有把这两方面结合起来，今天我们就一起来看一看这究竟是为什么。">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mac/" style="font-size: 14px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 12px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 16px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 18px;">极客学院</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛逼的学弟</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">程序员而已</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2014-10-18-浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/10/18/2014-10-18-浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式/" class="article-date">
+  	<time datetime="2014-10-18T07:20:33.000Z" itemprop="datePublished">2014-10-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Socket/">Socket</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前做web应用一直是在本地装个Apache、Tomcat之类的软件，然后把做好的网页文件放在他们的工作目录下（如Apache的htdocs），然后打开浏览器输入127.0.0.1或localhost就可以直接访问了，好神奇，可是为什么，怎么实现的呢，早就知道有Socket（套接字）这个东西，可之前就是没有把这两方面结合起来，今天我们就一起来看一看这究竟是为什么。</p>
+<a id="more"></a>
+<p>有同学说还不懂Socket是什么，这东西很抽象，在计算机网络原理里讲协议时才会看到，今天咱们完全忽略太严谨、学术的定义，就来看看Socket到底是什么。想象一下，你把电脑的电源插在插座上，你的电脑就可以使用了，为什么？“这不是废话吗！”确实，咱们来想一下这个过程，你拿着插头插在了插座上，然后你的电脑和千里之外的供电厂就能“通信”了，把你的电脑想成是客户端，把千里之外的供电厂想成是服务器，通过插座和很长很长的线缆你们就可以勾搭上了，那么Socket在这其中相当于什么呢？“插座！”没错，就是插座！对于我的电脑来说，我想让它通电工作，我只需要个插座就行了啊，什么插座是什么材质的，线缆是什么型号的，供电厂到底在什么经纬度，电力到底怎么传输，我管它干嘛呢，都跟我没关系！我只要知道我需要的不是整个世界，而是。。。一个插座！读到这里，想必同学已经对“插座”有了很森的理解了；再举一个例子，你和基友的电脑通过有线的方式连上了同一个路由器，这个时候你们就可以直接通过内网IP地址进行访问了，在这个过程中，那个方方的接口（RJ45接口）就是“Socket”，反正插上“Socket”就能用，我不用管到底通过Socket怎么能够实现通信。在计算机编程的网络世界里，作为应用程序，我只需要一个“插座”就可以和任何服务器通信了，想想都有点小激动呢~~~</p>
+<p>接下来要讲的就是，电脑电源需要一个socket去插上，那么发电厂呢，也同样需要一个插座插上去来给你供电——也就是说，发电厂需要一个“插座”！。。。废话，，，，没错，确实是这样，服务器端也需要一个“插座”，只不过它叫做ServerSocket（这看起来像是继承自Socket，我也不知道，待查）。</p>
+<p>有了“插座”（Socket）的概念之后，我们就可以愉快地让电脑（客户端）与发电厂（服务器）通信了。无论是客户端还是服务器，都需要Socket，鉴于咱们今天的题目是“搭建web服务器”，所以咱们接下来就来看一下怎么创建服务器的ServerSocket。说道这里，有同学就会问到了，“难道客户端不需要Socket吗？”，确实需要，因为我们是用浏览器访问本机IP“127.0.0.1”，所以客户端的Socket就由浏览器自己维护了，不需要咱们动手写的。“可是我还是不明白为什么在浏览器里输入127.0.0.1之后就可以看到我的网页了？求解释” 好，那咱们慢慢来，先动手编写一个服务器端的ServerSocket吧啦啦啦~</p>
+<p>创建服务器端Socket的步骤如下：</p>
+<p>1、创建ServerSocket对象</p>
+<pre><code>ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(“<span class="number">80</span>”);  
+<span class="comment">//这里只需要指明当前程序监听80号端口就可以了，至于为什么是80，因为我喜欢！“好霸道。。。”因为我们要监听web请求，默认就是80号端口。其实，1-1024端口被操作系统占用了，1025-65535的端口你随便用，只要不会和其他应用程序冲突就可以（别用什么类似3389这么常用的端口就好了。。。）  </span>
+</code></pre><p>2、作为服务器，我要知道，我的使命就是要等待客户端发来请求，也就是客户端发来Socket，我首先要把它Hold住！</p>
+<pre><code><span class="type">Socket</span> socket = serverSocket.accept(); 
+//这里需要特别说明一下，accept方法比较特殊，它是一个阻塞方法(<span class="keyword">block</span> <span class="keyword">method</span>)，因为只要它等不来客户端发来的请求（<span class="type">Socket</span>），它就一直等下去而不会继续执行它下面的代码。唉，此等痴情人怎么跟我一样O(∩_∩)O  
+</code></pre><p>3、客户端要向我表白，给我发来情书，那我作为服务器只要得到它的输入就好了</p>
+<pre><code>InputStream inputStream = <span class="built_in">socket</span>.getInputStream(); <span class="comment">
+//注意，客户端发来的表白信息都在socket里面，而不是serverSocket里面，这点要是弄错了，读不到情书内容，活该你单身。（我只有冷笑。。。）  </span>
+</code></pre><p>4、收到了情书，我好想知道里面究竟写了什么啊！迫！不！及！待！ 好，开始解析情书内容</p>
+<pre><code><span class="keyword">BufferedReader</span> reader = <span class="keyword">new</span> <span class="keyword">BufferedReader</span>(<span class="keyword">new</span> InputStreamReader(inputStream));  
+<span class="comment">//java包装类，只为读到写给我的情书，耶~  </span>
+<span class="keyword">String</span> <span class="built_in">line</span> = “”;  
+<span class="keyword">while</span> ( (<span class="built_in">line</span> = reader.readLine()) != <span class="keyword">null</span> ){   
+   System.out.<span class="built_in">println</span>(<span class="built_in">line</span>);   
+}  
+</code></pre><p>5、组装前4步的代码，会要求try catch一下异常，正常捕获就好 下面贴代码</p>
+<pre><code><span class="keyword">public</span> class MultiWebServer {   
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) {   
+    <span class="keyword">try</span> {   
+        ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">80</span>);  
+        System.out.<span class="built_in">println</span>(<span class="string">"正在等待情书中..."</span>);   
+        Socket socket = serverSocket.accept();  
+        System.out.<span class="built_in">println</span>(<span class="string">"收到情书，我要开始解析！"</span>);   
+        InputStream inputStream = socket.getInputStream();   
+        <span class="keyword">BufferedReader</span> reader = <span class="keyword">new</span> <span class="keyword">BufferedReader</span>(<span class="keyword">new</span> InputStreamReader(inputStream));  
+        <span class="keyword">String</span> <span class="built_in">line</span> = <span class="string">""</span>;   
+        <span class="keyword">while</span> ( (<span class="built_in">line</span> = reader.readLine()) != <span class="keyword">null</span> ){   
+            System.out.<span class="built_in">println</span>(<span class="built_in">line</span>);   
+        }   
+    } <span class="keyword">catch</span> (Exception e) {   
+        e.printStackTrace();   
+      }   
+    }   
+}  
+</code></pre><p>好了，服务器端的代码咱们写完了，那接下来干啥？不知道。。。不过还记得刚才提出的问题吗——“可是我还是不明白为什么在浏览器里输入127.0.0.1之后就可以看到我的网页了？”那就试试呗，看看咱们如果在浏览器里输入127.0.0.1或者localhost会怎么样</p>
+<p>首先必须把刚才咱们编写的服务器端程序运行起来，然后再打开浏览器，记住，必须先运行服务器端程序，不然情书就发丢了。。。运行服务器端程序，如图：</p>
+<p><img src="http://img.blog.csdn.net/20141018222024890" alt=""></p>
+<p>注意红圈中的两点：由于此时没有客户端发来情书，还记得刚才的accept()阻塞方法吗，它就一直等啊等，等不来我还等，所以红圈中会显示“正在等待情书中…”；那么右面那个箭头指向的是什么意思呢，一个红色停止的图标，也就是说，这个程序现在一直在执行着，没有结束，就好像死循环一样（当然这里绝对不是死循环，其实是阻塞，只是死的样子好像死循环，一会咱们会谈到死循环的，别着急，迟早会死的）</p>
+<p>接下来打开浏览器，在地址栏输入127.0.0.1/index.html后回车，看看浏览器什么反应。。。。。一段时间过去了，浏览器居然一点反应都没有，然后告诉我该页无法显示。我去。。。难道讲了这么多咱们就这么失败了吗，我哭。那就打开eclipse看一眼吧，看看服务器端有没有什么动静啊。打开服务器端一看，卧槽，瞬间世界向我问好了！</p>
+<p><img src="http://img.blog.csdn.net/20141018222026250" alt=""></p>
+<p>注意看红笔标注，我收到了情书！我要开始解析了！那到底情书里是什么内容，别问我，继续向下看。“好熟悉的一段报文，我们好像在哪见过，还记得吗，那是一个春天，你刚发芽儿。。。”没错，这就是计算机网络原理讲的http请求报文。没有学过计网怎么办，没关系，看前两行（其实我们一会用到的也只有第一行而已），“我看到了index.html” 是的，这是刚才我们在浏览器里面输入的地址；第二行，“我也看到了127.0.0.1”，是的，也是我们刚刚在浏览器里面输入的。这说明了什么？激动的我无法说出这到底说明了什么，但想必读者你已经揣测出了什么。</p>
+<p>写到这里，作为服务器的我已经收到了从客户端发来的情书，那客户端（浏览器）为什么一点反应都没有呢，甚至过了一会就“该页无法显示”了。因为啊，人家给你写了情书，你没回复人家，人家等了一会觉得没戏了就伤心欲绝了！是啊，喜不喜欢人家都要和他说一声的，给他个答复，哪怕只说：“对不起，你是个好人。。。”<br>走神了吧？好像说到自己了吧？回来吧，咱们现在的任务呢，就是怎么给人家个答复。</p>
+<p>怎么给，怎么给，怎么给。。。快想快想，既然人家都指明了想和127.0.0.1里的“index.html”表白，那当然就得由index.html来给他答复喽。怎么答，怎么答，怎么答。。。快想快想，既然index.html是个文件，那我读出文件内容后直接发给客户端不就行了吗？可是用什么发？没错，是socket！我们用socket把文件的内容返回给客户端就好了。</p>
+<p>那么问题来了。。。“说的非常好，关键是怎么做！”——首先怎么读出文件来？</p>
+<p>假定咱们的index.html在我电脑的E://课件/计算机网络原理/实验/实验1/ 文件夹下，并且假定不会跨域访问，则：</p>
+<p>1、定义一个字符串，用来存咱们的工作目录</p>
+<pre><code><span class="keyword">String </span><span class="keyword">base_url </span>= <span class="string">"E://课件/计算机网络原理/实验/实验1/"</span><span class="comment">;   </span>
+//这只是我本机的目录，至于到了你的电脑上，你可以自己更改&lt;/span&gt;  
+</code></pre><p>2、我怎么通过报文知道客户端要和index.html表白？看情书第一行  GET /index.html HTTP/1.1，所以只需要获取情书的第一行字符串并解析出index.html就好办啦，easy，开始吧</p>
+<pre><code><span class="comment">//由于目前只需要第一行，所以咱们就不像上面那样循环读取了，读一行就够了         </span>
+<span class="keyword">String</span> <span class="built_in">line</span> = reader.readLine();  
+<span class="comment">//用字符串截取函数，把“index.html”这个字符串给揪出来</span>
+<span class="keyword">String</span> url = <span class="built_in">line</span>.substring(<span class="number">5</span>, <span class="built_in">line</span>.indexOf(<span class="string">"HTTP"</span>) - <span class="number">1</span>);    
+</code></pre><p>3、所以咱们index.html的绝对路径就是 base_url + url 了，终于把我爱的人从人山人海中找到了，看看她怎么答复我吧——获取文件内容</p>
+<pre><code>inputStream = <span class="built_in">new</span> FileInputStream(base_url + url);   
+OutputStream outputStream = <span class="built_in">socket</span>.getOutputStream();  <span class="comment"> //我要从服务器给客户端答复了，对于服务器来说，这是发出去的内容，所以是Out！  </span>
+<span class="keyword">byte</span>[] buffer = <span class="built_in">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * <span class="number">1024</span>]; <span class="comment"> //定义字节缓冲区   </span>
+int <span class="built_in">len</span> = <span class="number">0</span>;   
+<span class="keyword">while</span> ((<span class="built_in">len</span> = inputStream.<span class="built_in">read</span>(buffer)) != -<span class="number">1</span>) {   
+    outputStream.<span class="built_in">write</span>(buffer, <span class="number">0</span>, <span class="built_in">len</span>); <span class="comment"> //很重要！通过socket的outputStream把咱们解析出来的文件内容一字不落的发出去 如果没写这个，导致你爱的跟你表白的抑郁而死，活该你单身  </span>
+}   
+outputStream.flush();<span class="comment"> //如果最后一次write时没有把buffer写满，是不会自动发出去的，需要调用flush方法强制把内容从缓冲区发出去  </span>
+</code></pre><p>好了，文件读取出来了，也返回给客户端了，亲爱哒他能收到吗？还是一样，务必先运行服务器端程序，然后打开浏览器输入127.0.0.1/index.html 后回车。我紧张，我激动，能不能收到回复，会给我什么样的回复？如图。。。</p>
+<p><img src="http://img.blog.csdn.net/20141018222413101" alt=""></p>
+<p>为什么会这样？？？！！！ 好吧，看看女神的index.html文件里都写了些什么。。。</p>
+<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>   
+    <span class="tag">&lt;<span class="title">head</span>&gt;</span>   
+        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span> /&gt;</span>   
+        <span class="tag">&lt;<span class="title">title</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="title">title</span>&gt;</span>   
+    <span class="tag">&lt;/<span class="title">head</span>&gt;</span>   
+    <span class="tag">&lt;<span class="title">body</span>&gt;</span>      
+        <span class="tag">&lt;<span class="title">h1</span>&gt;</span>王欢，你是个好人... <span class="tag">&lt;/<span class="title">h1</span>&gt;</span>   
+    <span class="tag">&lt;/<span class="title">body</span>&gt;</span>  
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>  
+</code></pre><p>看到这里，我到底应该高兴还是欲绝。。。高兴的是，我女神给我答复了；欲绝的是。。。那么问题来了，，，学表白技术哪家强？</p>
+<p>玩笑归玩笑，那我们的针对这次的浅谈题目是不是就完成了？可以说是的，但是我表白一次失败就算了？我还要表白第二次！（其实我倒不是这样的，这里只能牺牲我的人品来为了大家更好的理解了，呵呵）。好吧，我刚才的工作目录下还有个another.html，这次我来跟她表白吧！好！继续在浏览器中输入127.0.0.1/another.html后回车，期待这次会表白成功。可是我等啊等，浏览器在那里打圈圈，难道浏览器都知道我太花心了，拒绝帮我传递情书？好吧，我再打开浏览器试一下，输入127.0.0.1/index.html ，嗯？连第一个女神都不理我了？！我靠！为毛！</p>
+<p>冲动是魔鬼！冷静！我打开eclipse控制台，发现服务器根本就没有“正在等待情书中…”，所以我拜托浏览器发过去的情书当然就发丢了，因为根本没人在接收啊。（窃喜，还好不是因为我太花心了所以浏览器没有帮我投递情书）可是为什么呢？</p>
+<p>冷静吧，分析代码。其实我们可以想到，这段代码执行完一次后不就结束了吗，那我第二次给她发请求她当然会收不到了。对啊，那为了解决这个问题，怎么办呢？跪求红娘支招！</p>
+<p>红娘说：“给服务器程序个死循环吧，让她反复在等客户端的请求就好了。”（其实红娘就一直在死循环中）</p>
+<p>红娘果然是红娘（不然是谁。。。），那就按照她的说法试一试呗！改代码，加入 while (true) 死循环：</p>
+<pre><code><span class="keyword">public</span> class MultiWebServer {   
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) {   
+
+        <span class="keyword">String</span> base_url = <span class="string">"E://课件/计算机网络原理/实验/实验1/"</span>;   
+
+        <span class="keyword">while</span> (<span class="keyword">true</span>) {   
+            <span class="keyword">try</span> {   
+                ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">80</span>);   
+                System.out.<span class="built_in">println</span>(<span class="string">"正在等待情书中..."</span>);   
+                Socket socket = serverSocket.accept();   
+                System.out.<span class="built_in">println</span>(<span class="string">"收到情书，我要开始解析！"</span>);   
+                InputStream inputStream = socket.getInputStream();   
+                <span class="keyword">BufferedReader</span> reader = <span class="keyword">new</span> <span class="keyword">BufferedReader</span>(   
+                        <span class="keyword">new</span> InputStreamReader(inputStream));   
+                <span class="keyword">String</span> <span class="built_in">line</span> = reader.readLine();   
+                System.out.<span class="built_in">println</span>(<span class="built_in">line</span>);   
+                <span class="keyword">String</span> url = <span class="built_in">line</span>.substring(<span class="number">5</span>, <span class="built_in">line</span>.indexOf(<span class="string">"HTTP"</span>) - <span class="number">1</span>);  
+
+                System.out.<span class="built_in">println</span>(<span class="string">"情书解析完毕，我要想想怎么回复了..."</span>);   
+
+
+                <span class="comment">// 获取文件内容   </span>
+                inputStream = <span class="keyword">new</span> FileInputStream(base_url + url);   
+                OutputStream outputStream = socket.getOutputStream();   
+                <span class="built_in">byte</span>[] buffer = <span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">4</span> * <span class="number">1024</span>];   
+                <span class="built_in">int</span> len = <span class="number">0</span>;   
+                <span class="keyword">while</span> ((len = inputStream.read(buffer)) != -<span class="number">1</span>) {   
+                    outputStream.write(buffer, <span class="number">0</span>, len);   
+                }   
+                outputStream.flush();   
+
+                System.out.<span class="built_in">println</span>(<span class="string">"情书请求已发送给客户端"</span>);  
+
+                <span class="comment">//关闭对应的资源   </span>
+                serverSocket.close();   
+                socket.shutdownInput();   
+                socket.close();   
+                inputStream.close();   
+                reader.close();   
+                outputStream.close();   
+            } <span class="keyword">catch</span> (Exception e) {   
+            }   
+        }   
+    }   
+}
+</code></pre><p>这样，这位红娘就在这里一直等啊等，来了一个客户端我就处理他的情书请求，处理完这个继续循环以相同的方式等，处理，等，处理。。。。</p>
+<p>好吧，咱们接下来试一下，还是务必先运行服务器端程序，然后先和第一个女神表白，即 127.0.0.1/index.html 还是好朋友的话，就别问我返回结果。。。这个时候打开eclipse的控制台，有没有发现右上角的红色暂停标志可以点击，那就说明咱们的红娘还在兢兢业业的工作着！好了，抓紧时间赶紧向第二个女神表白，看她怎么说， 浏览器输入 127.0.0.1/another.html ，回车！好快啊，女神给我答复了。。。</p>
+<p><img src="http://img.blog.csdn.net/20141018222413725" alt=""></p>
+<p>这。。。（她怎么知道不到十分钟？你是不是突然想到了cookie可以记录客户端的信息，不过咱们这里没用到cookie）还是看看another.html文件里写了什么吧</p>
+<pre><code><span class="tag">&lt;<span class="title">html</span>&gt;</span>   
+    <span class="tag">&lt;<span class="title">head</span>&gt;</span>   
+        <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span> /&gt;</span>   
+        <span class="tag">&lt;<span class="title">title</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="title">title</span>&gt;</span>   
+    <span class="tag">&lt;/<span class="title">head</span>&gt;</span>   
+    <span class="tag">&lt;<span class="title">body</span>&gt;</span>      
+        <span class="tag">&lt;<span class="title">h1</span>&gt;</span>我记得你刚和别人表白吧，还不过十分钟，你怎么会是个好人！<span class="tag">&lt;/<span class="title">h1</span>&gt;</span>   
+    <span class="tag">&lt;/<span class="title">body</span>&gt;</span>  
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>  
+</code></pre><p>好吧，我啥也不说了，亲们，我还要向第三个女神表白吗。。。？浏览器主动跟我说：“你表白吧，这次你发多少封表白信我都能给你送到服务器那里，因为她一直在等待着我给她发送呢！”想想，还是算了，人生如此，何须多言。。。</p>
+<p>代码都贴出来了，其实看起来挺简单的，但是实际操作中会碰到各种各样的问题。</p>
+<p>还有一些要再继续唠叨的边角料：</p>
+<ul>
+<li>1、Q：什么是端口？</li>
+<li><p>A：这是一个比较抽象的概念，是为了进程间通信，每一个进程只能占用一个端口，也就是说多个进程绝不能同时占用一个端口</p>
+</li>
+<li><p>2、Q：既然多个进程不能同时占用一个端口，那么咱们常说的web服务默认使用的是80端口，我电脑有三个浏览器，谷歌，360，IE他们却可以同时上网，这不是端口冲突了吗？</p>
+</li>
+<li><p>A：常说的web服务使用80端口指的是服务器监听web请求的端口，是服务器，不是你自己的客户机。一般来说，一个应用程序打开后访问网络本地操作系统为其分配的端口号是随机的，所以三个浏览器虽然同时接收web服务器的回复报文，由于他们三个各自占用的端口不一样，所以不会产生冲突。</p>
+</li>
+<li><p>3、Q：既然我的应用程序使用的端口都是随机的，服务器接收到请求后怎么知道它要把应答报文发给谁？</p>
+</li>
+<li><p>A：靠Socket！通过刚才的编程实战，在我理解，Socket肯定会至少包括四部分内容：IP地址，端口号，输入流和输出流。也就是说，从客户机发给服务器的Socket里一定会有客户机的IP地址和相应应用程序的端口号，这样服务器自然就知道应该把应答报文发给谁了。</p>
+</li>
+<li><p>4、Q：非要使用80端口吗？</p>
+</li>
+<li><p>A：不一定。我们刚才在编程的时候确实使用的是80端口，所以我们在浏览器中输入127.0.0.1/index.html，浏览器会默认认为我们会向127.0.0.1主机的80号端口发送请求。但是，这个80端口号只是默认的而已，我们完全可以自己改掉，比如在java代码里把服务器端的ServerSocket改成   ServerSocket serverSocket = new ServerSocket(3456);  这时候我们在浏览器中就要输入 127.0.0.1:3456/index.html  了，效果是一样的，可以浅尝辄止一下。</p>
+</li>
+<li><p>5、Q：谁是客户端，谁是服务器？</p>
+</li>
+<li><p>A：咱们只有一台电脑，这台电脑既充当着客户端的角色，又充当着服务器的角色。当浏览器请求网页时，它是客户端；当80端口收到请求报文并应答时，它就是服务器。实在不理解，就想想什么是自恋吧，或者，自交也勉强可以。。</p>
+</li>
+<li><p>6、Q：还有什么问题，欢迎留言~</p>
+</li>
+</ul>
+<p>对于此用java编写的web服务器的一点简单说明：此段代码非常简单，所以肯定不会是真正web服务器所用到的代码，咱们这个只是能够应答最最基本的web请求，不能检测是否跨域访问等等。不过最基本的，用的socket编程是肯定的。另外，对于此段程序，只给出了处理输入输出流的一种方式。对于输入流，除了咱们刚才用到的BufferedReader包装类，还可以直接用InputStream的read()方法等；对于输出流，除了咱们刚才用的OutputStream的write()方法，还可用BufferedWritter，PrintWritter等，这些都是java IO的基本用法，根据网络环境，根据所要读取的文件大小来时时变通，这就是仁者见仁智者见智了。</p>
+<p>文章写到了最后，不知道该怎么收尾了，安安静静做个程序员吧，挺好。</p>
+<p>###个人github: <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></p>
+<p>###代码托管地址:<a href="https://github.com/icodeu/JavaForWebServer" target="_blank" rel="external">https://github.com/icodeu/JavaForWebServer</a></p>
+<p>###CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></p>
+<p>###个人微信号：<code>qqwanghuan</code>  只为技术交流</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/20/2014-10-20-再谈用 Java 实现 SMTP 发送邮件之 Socket 编程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          再谈用 Java 实现 SMTP 发送邮件之 Socket 编程
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014-10-18-浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式" data-title="浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式" data-url="http://icodeyou.com/2014/10/18/2014-10-18-浅谈用 Java 搭建 web 服务器之 Socket 编程——更好的理解 Apache、Tomcat 等软件的工作模式/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>

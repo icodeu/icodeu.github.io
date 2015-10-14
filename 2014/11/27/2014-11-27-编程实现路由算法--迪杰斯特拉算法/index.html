@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>编程实现路由算法--迪杰斯特拉算法 | 把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="路由算法有很多，本篇采用迪杰斯特拉最短路径法实现简单的路由算法。可能很多人一看到这个就会想到数据结构了，想到数据结构中必须要建立图的结构就很头疼，今天这种写法可以先不采用数据结构书上的写法，也可以实现相同的功能，毕竟，咱们的重点是要学习使用迪杰斯特拉算法，而不是构建图结构。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程实现路由算法--迪杰斯特拉算法">
+<meta property="og:url" content="http://icodeyou.com/2014/11/27/2014-11-27-编程实现路由算法--迪杰斯特拉算法/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="路由算法有很多，本篇采用迪杰斯特拉最短路径法实现简单的路由算法。可能很多人一看到这个就会想到数据结构了，想到数据结构中必须要建立图的结构就很头疼，今天这种写法可以先不采用数据结构书上的写法，也可以实现相同的功能，毕竟，咱们的重点是要学习使用迪杰斯特拉算法，而不是构建图结构。">
+<meta property="og:image" content="http://img.blog.csdn.net/20141127161359885">
+<meta property="og:image" content="http://img.blog.csdn.net/20141127161400447">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-08-24T10:26:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编程实现路由算法--迪杰斯特拉算法">
+<meta name="twitter:description" content="路由算法有很多，本篇采用迪杰斯特拉最短路径法实现简单的路由算法。可能很多人一看到这个就会想到数据结构了，想到数据结构中必须要建立图的结构就很头疼，今天这种写法可以先不采用数据结构书上的写法，也可以实现相同的功能，毕竟，咱们的重点是要学习使用迪杰斯特拉算法，而不是构建图结构。">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mac/" style="font-size: 14px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 12px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 16px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 18px;">极客学院</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛逼的学弟</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">程序员而已</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2014-11-27-编程实现路由算法--迪杰斯特拉算法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/27/2014-11-27-编程实现路由算法--迪杰斯特拉算法/" class="article-date">
+  	<time datetime="2014-11-27T07:20:33.000Z" itemprop="datePublished">2014-11-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      编程实现路由算法--迪杰斯特拉算法
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/路由算法/">路由算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/迪杰斯特拉/">迪杰斯特拉</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>路由算法有很多，本篇采用迪杰斯特拉最短路径法实现简单的路由算法。可能很多人一看到这个就会想到数据结构了，想到数据结构中必须要建立图的结构就很头疼，今天这种写法可以先不采用数据结构书上的写法，也可以实现相同的功能，毕竟，咱们的重点是要学习使用迪杰斯特拉算法，而不是构建图结构。</p>
+<a id="more"></a>
+<p>首先先来说一下迪杰斯特拉算法，从大概念上来说，该方法属于一种贪心算法，即当加进一个点后，算其相邻所有点的最短路径。详细过程如下：</p>
+<p>如下图，要计算其中 点1 到其余各点的最短路径</p>
+<p><img src="http://img.blog.csdn.net/20141127161359885" alt="image"></p>
+<p>总的计算过程见下表</p>
+<p><img src="http://img.blog.csdn.net/20141127161400447" alt="image"></p>
+<p>表中红颜色代表当前行未加入到点集中的最小值，蓝颜色代表和上一个新加入点集中的点相邻的点，可能这样说还不是很清楚，就看下面的具体过程了。</p>
+<p>第一步：初始化，把和 点1 相连的所有点的D（i）初始化，从图中可以看出，1和2、4、5相连，所以D（2）=10，D（4）=30，D（5）=100，点1和点3不直接相连，所以D（3）=65535，代表无穷大（在java里，可以用Integer.MAX_VALUE来表示无穷大）。由于现在点集中只有点1，所以找出刚才步骤1那行中D（i）最小的点，为点2（图中红色标明），将其加入到点集中。</p>
+<p>第二步：此时点集中新加入了点2，则以点2为出发点，从图中看到只有点3与其相连，所以这一步中只需要更新D（3）即可，D（3）= min{D（3）， D（2）+ d（2,3）}，即D（3）= min{65535， 10+ 50} = 60，更新D（3）=60，其余点不变。这行更新完毕，发现未加入到点集中的D（4）最小，所以将点4加入到点集中。</p>
+<p>第三步： 此时点集中新加入了点4，则以点4为出发点，从图中看到点3和点5与其相连，所以这一步需要更新D（3）和D（5）的值，D（3）= min{D（3）， D（4）+ d（4,3）} ，即D（3） = min{60, 30+20} = 50；D（5） = min{D（5）， D（4）+ d（4,5）} = min {100， 30 + 60} = 90。此时这一行其他数据不用变，此行更新完毕，找出未加入到点集中的 点3、点5 中的最小值，应该是点3，加入到点集中。</p>
+<p>第四步，此时点集中新加入了点3，则以点3为出发点，发现点5与其相连，只需要更新D（5）即可。D（5） = min{D（5）， D（3）+ d（3,5）} = min {90， 50 + 10} = 60，此时这行更新完毕，只有最后一个 点5 未加入到点集中了，所以将其加入。</p>
+<p>第五步，此时点集中新加入了点5，则以点5为出发点，发现根本没有点与其相连，甚好，此行就不用再更新了。</p>
+<p>第六步，机智的我发现所有点都被包含在了点集中，所以本次迪杰斯特拉算法就到此结束了。</p>
+<p>剩下的就是代码实现了。</p>
+<p>用一个二维数组d[i][j]来存从第i个点到第j个点的路径权重，其中65535为无穷大； 用一个一维数组f[i]才表示从第1个节点到第i个节点的最短路径。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span><br><span class="line">*王欢   12283013 </span><br><span class="line">*实验四 编程实现路由算法 </span><br><span class="line">*/</span> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Dijkstra_Router &#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> throws IOException </span>&#123; </span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in); </span><br><span class="line">        <span class="keyword">int</span> i, j; </span><br><span class="line">        <span class="keyword">int</span> n = scanner.nextInt(); </span><br><span class="line">        <span class="comment">//因为第0个单元我不用，所以就多开了两个空间 </span></span><br><span class="line">        <span class="keyword">int</span>[][] d = <span class="keyword">new</span> <span class="keyword">int</span> [n+<span class="number">2</span>][n+<span class="number">2</span>];  <span class="comment">//二维矩阵存储点之间的距离 </span></span><br><span class="line">        <span class="keyword">int</span> []book = <span class="keyword">new</span> <span class="keyword">int</span> [n+<span class="number">2</span>];    <span class="comment">//标志数组，book[i]=0代表第i个点未在点集中，book[i]=1代表第i个点在点集中 </span></span><br><span class="line">        <span class="keyword">int</span> []f = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">2</span>];  <span class="comment">//f[i]表示从第1个节点到第i个节点的最短路径 </span></span><br><span class="line">        <span class="keyword">int</span> min = <span class="number">65535</span>, min_pos = <span class="number">0</span>;   <span class="comment">//最小值设置为65535，为了比较出最小值， min_pos表示当前步骤中最小路径值的小标 </span></span><br><span class="line">        <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;n+<span class="number">2</span>;i++)   <span class="comment">//初始化标志数组，并把第一个点添加到点集中，即book[1] = 1 </span></span><br><span class="line">            book[i] = <span class="number">0</span>; </span><br><span class="line">        book[<span class="number">1</span>] = <span class="number">1</span>; </span><br><span class="line">        <span class="keyword">for</span> (i=<span class="number">1</span>;i&lt;=n;i++) </span><br><span class="line">            <span class="keyword">for</span> (j=<span class="number">1</span>;j&lt;=n;j++) </span><br><span class="line">                d[i][j] = scanner.nextInt();   <span class="comment">//读入二维矩阵，表示各个点的连接情况 </span></span><br><span class="line">        <span class="keyword">for</span> (i=<span class="number">2</span>;i&lt;=n;i++) </span><br><span class="line">            f[i] = d[<span class="number">1</span>][i];   <span class="comment">//按照上文所说的第一步进行初始化 </span></span><br><span class="line">        System.out.println(<span class="string">"运算过程："</span>); </span><br><span class="line">        <span class="keyword">while</span> (containsAllNodes(book, n))&#123; </span><br><span class="line">            min = <span class="number">65535</span>;  <span class="comment">//每一步都要比较出最小值，所以记得在每一步的开始初始化一下最小值 </span></span><br><span class="line">            <span class="keyword">for</span> (i=<span class="number">2</span>;i&lt;=n;i++) </span><br><span class="line">                <span class="keyword">if</span> (book[i] == <span class="number">0</span> &amp;&amp; f[i] &lt; min)&#123;   <span class="comment">//当第i个点未被加入到点集中 &amp;&amp; f[i]&lt;min </span></span><br><span class="line">                    min = f[i]; </span><br><span class="line">                    min_pos = i; </span><br><span class="line">                &#125; </span><br><span class="line">            book[min_pos] = <span class="number">1</span>;  <span class="comment">//找出当前步骤中最小值的位置为min_pos，即第min_pos个点加入到点集中，book[min_pos] = 1 </span></span><br><span class="line">            <span class="keyword">for</span> (i=<span class="number">1</span>;i&lt;=n;i++) </span><br><span class="line">                <span class="keyword">if</span> (d[min_pos][i] != <span class="number">65535</span>)   <span class="comment">//根据上文讲解，f[i] = min&#123; f[i], f[min_pos] + d[min_pos][i] &#125;  这一步是最重要的，一定要理解。比如上面讲解的第二步中，D（3）= min&#123;D（3）， D（2）+ d（2,3）&#125;，类比一下 </span></span><br><span class="line">                    f[i] = f[i] &lt; (f[min_pos] + d[min_pos][i]) ? f[i] : (f[min_pos] + d[min_pos][i]);  </span><br><span class="line">            <span class="keyword">for</span> (i=<span class="number">1</span>;i&lt;=n;i++)&#123; </span><br><span class="line">                System.out.print(f[i] + <span class="string">" "</span>);  <span class="comment">//打印本次运算结果 </span></span><br><span class="line">            &#125; </span><br><span class="line">            System.out.println(); </span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"最短路径： "</span> + f[n]);  <span class="comment">//整个过程全部结束了，打印出第1个点到第n个点的最短路径 </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//判断是否所有点都被加入到点集中了 </span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> boolean <span class="title">containsAllNodes</span><span class="params">(<span class="keyword">int</span>[] book, <span class="keyword">int</span> n)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123; </span><br><span class="line">            <span class="keyword">if</span> (book[i] == <span class="number">0</span>) </span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结：如果可以熟练的手工算出那张动态表的话，就可以很好的理解迪杰斯特拉算法了。迪杰斯特拉本质上是一种动态规划，每次只能求出一个点到任意一个点的最短距离，而不是任意一个点到任意一个点的最短距离；同时又体现了贪心策略的思想，当一个新的点被加入到点集中时，下一步只需要更新与其直接相连（相邻）的点即可，而不是需要更新所有的点。至于使用什么语言来实现就都无所谓啦。还有如果需要记录最短路径所经过的节点，再增加相应数组编程实现即可。</p>
+<p>###个人github:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></p>
+<p>###本例代码托管地址:<a href="https://github.com/icodeu/DijkstraForRouter" target="_blank" rel="external">https://github.com/icodeu/DijkstraForRouter</a></p>
+<p>###CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></p>
+<p>###个人微信号：<code>qqwanghuan</code>  只为技术交流</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/29/2014-11-29-编程实现可靠数据传输原理 Go-Back-N/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          编程实现可靠数据传输原理Go-Back-N
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/31/2014-10-31-Java 实现 AES 算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java 实现 AES 算法</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014-11-27-编程实现路由算法--迪杰斯特拉算法" data-title="编程实现路由算法--迪杰斯特拉算法" data-url="http://icodeyou.com/2014/11/27/2014-11-27-编程实现路由算法--迪杰斯特拉算法/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>
