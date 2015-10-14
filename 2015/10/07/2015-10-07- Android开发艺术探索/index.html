@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="把编程当做一种爱">
 <meta property="og:description" content="和《Android 群英传》一样，《Android 开发艺术探索》是一本进阶的书，比群英传还要进阶一些，特来拜读。">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-10-14T02:50:40.000Z">
+<meta property="og:updated_time" content="2015-10-14T13:57:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 开发艺术探索读书笔记">
 <meta name="twitter:description" content="和《Android 群英传》一样，《Android 开发艺术探索》是一本进阶的书，比群英传还要进阶一些，特来拜读。">
@@ -349,25 +349,123 @@
 <li><p>View 滑动三种方式对比<br>（1）scrollTo/scrollBy：适合对 View 内容的滑动<br>（2）动画：主要适用于没有交互的 View 和实现复杂的动画效果<br>（3）改变布局参数：适用于有交互的 View</p>
 </li>
 <li><p>Scroller 的使用</p>
+<p>  Scroller mScroller = new Scroller(mContext);</p>
+<p>  // 缓慢滚动到指定位置<br>  private void smoothScrollTo(int destX, int destY) {</p>
+<pre><code><span class="keyword">int</span> scrollX = getScrollX();
+<span class="keyword">int</span> deltaX = destX - scrollX;
+<span class="comment">// 1000ms 横坐标从 scrollX 滑动到 scrollX + deltaX，效果就是慢慢移动</span>
+mScroller.startScroll(scrollX, <span class="number">0</span>, deltaX, <span class="number">0</span>, <span class="number">1000</span>);
+invalidate(); <span class="comment">// 触发 View 的第一次重绘</span>
+</code></pre><p>  }</p>
+<p>  // View 的每次重绘都会调用这个方法<br>  @Override<br>  public void computeScroll() {</p>
+<pre><code><span class="comment">// true 代表动画还没结束</span>
+if (mScroller<span class="class">.computeScrollOffset</span>()) { <span class="comment">// 此方法会根据时间的流逝来计算当前的 scrollX 和 scrollY 的值</span>
+    <span class="function">scrollTo</span>(mScroller<span class="class">.getCurrX</span>(), mScroller<span class="class">.getCurrY</span>());
+    <span class="function">postInvalidate</span>();
+}
+</code></pre><p>  }</p>
 </li>
 </ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Scroller mScroller = <span class="keyword">new</span> Scroller(mContext);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 缓慢滚动到指定位置</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">smoothScrollTo</span><span class="params">(<span class="keyword">int</span> destX, <span class="keyword">int</span> destY)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> scrollX = getScrollX();</span><br><span class="line">       <span class="keyword">int</span> deltaX = destX - scrollX;</span><br><span class="line">       <span class="comment">// 1000ms 横坐标从 scrollX 滑动到 scrollX + deltaX，效果就是慢慢移动</span></span><br><span class="line">       mScroller.startScroll(scrollX, <span class="number">0</span>, deltaX, <span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line">       invalidate(); <span class="comment">// 触发 View 的第一次重绘</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// View 的每次重绘都会调用这个方法</span></span><br><span class="line">   @<span class="function">Override</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="comment">// true 代表动画还没结束</span></span><br><span class="line">       <span class="keyword">if</span> (mScroller.computeScrollOffset()) &#123; <span class="comment">// 此方法会根据时间的流逝来计算当前的 scrollX 和 scrollY 的值</span></span><br><span class="line">           scrollTo(mScroller.getCurrX(), mScroller.getCurrY());</span><br><span class="line">           postInvalidate();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>Scroll 的滑动是指 View 内容的滑动而非 View 本身位置的改变。整个过程中它对 View 没有丝毫的引用，甚至在它内部连计时器都没有。</p>
 <ul>
 <li><p>当 ViewPager 和 Fragment 配合使用所组成的页面滑动效果，ViewPager 内部又有一个 ListView，本来这种情况下是有滑动冲突的，但是 ViewPager 内部处理了这种滑动冲突。但如果采用的是 ScrollView，那就必须手动处理滑动冲突了。</p>
 </li>
 <li><p>dispatchTouchEvent(MotionEvent ev) 处理模型:</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">    public boolean dispatchTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">        boolean consume = false;</span><br><span class="line"></span><br><span class="line">        if ( onInterceptTouchEvent(ev) ) &#123;</span><br><span class="line">            consume = onTouchEvent(ev);</span><br><span class="line">            consume = true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            consume = child.dispatchTouchEvent(ev);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return consume;</span><br><span class="line">    &#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">-<span class="ruby"> <span class="constant">TimeInterpolator</span> 为时间插值器，作用是根据时间流逝的百分比来计算出当前属性值改变的百分比，系统预置的有 <span class="constant">LinearInterpolator</span>、<span class="constant">AccelerateDecelerateInterpolator</span>、<span class="constant">DecelerateInterpolator</span>。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> <span class="constant">TypeEvaluator</span> 为类型估值算法，也叫做估值器，作用是根据当前属性改变的百分比来计算改变后的属性值。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> <span class="constant">Measure</span>：getMeasuredHeight、getMeasuredWidth  <span class="constant">Layout</span>：getHeight、getWidth、四个顶点的坐标</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> measure 是测量的意思，那么 onMeasure() 方法顾名思义就是用于测量视图的大小的。<span class="constant">View</span> 系统的绘制流程会从 <span class="constant">ViewRoot</span> 的 performTraversals() 方法中开始，在其内部调用 <span class="constant">View</span> 的measure() 方法。measure() 方法接收两个参数，widthMeasureSpec 和 heightMeasureSpec，这两个值分别用于确定视图的宽度和高度的规格和大小。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> 对于普通 <span class="constant">View</span>，其 <span class="constant">MeasureSpec</span> 由父容器的 <span class="constant">MeasureSpec</span> 和自身的 <span class="constant">LayoutParams</span> 来共同决定。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> 在 <span class="constant">TextView</span>、<span class="constant">ImageView</span> 等源码中可以发现，针对 wrap_content 情形，它们的 onMeasure 方法均做了特殊处理。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> 在 onCreate、onStart、onResume 中均无法正确得到某个 <span class="constant">View</span> 的宽高信息，这是因为 <span class="constant">View</span> 的 measure 过程和 <span class="constant">Activity</span> 的生命周期方法不是同步执行的，因此无法保证 <span class="constant">Activity</span> 执行了 onCreate、onStart、onResume 时某个 <span class="constant">View</span> 已经测量完毕了，如果 <span class="constant">View</span> 还没有测量完毕，那么获得的宽高就是<span class="number">0</span>。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> 需要注意的是，在 onMeasure()<span class="comment">#setMeasuredDimension()方法调用之后，我们才能使用 getMeasuredWidth() 和 getMeasuredHeight() 来获取视图测量出的宽高，以此之前调用这两个方法得到的值都会是0。</span></span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> 视图大小的控制是由父视图、布局文件、以及视图本身共同完成的，父视图会提供给子视图参考的大小，而开发人员可以在<span class="constant">XML</span>文件中指定视图的大小，然后视图本身会对最终的大小进行拍板。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> <span class="constant">Layout</span> 的作用是 <span class="constant">ViewGroup</span> 用来确定子元素的位置，当 <span class="constant">ViewGroup</span> 的位置被确定后，它在 onLayout 中会遍历所有的子元素并调用其 layout 方法，在 layout 方法中 onLayout 方法又会被调用。<span class="constant">Layout</span> 方法确定 <span class="constant">View</span> 本身的位置，而 onLayout 方法则会确定所有子元素的位置。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> <span class="constant">View</span> 中的 onLayout() 方法就是一个空方法，因为 onLayout() 过程是为了确定视图在布局中所在的位置，而这个操作应该是由布局来完成的，即父视图决定子视图的显示位置。而 <span class="constant">ViewGroup</span> 中 的onLayout() 方法是一个抽象方法，这就意味着所有 <span class="constant">ViewGroup</span> 的子类都必须重写这个方法。没错，像 <span class="constant">LinearLayout</span>、<span class="constant">RelativeLayout</span> 等布局，都是重写了这个方法，然后在内部按照各自的规则对子视图进行布局的。</span><br><span class="line"></span></span><br><span class="line"></span><br><span class="line">-<span class="ruby"> <span class="constant">Draw</span> 过程的作用是将 <span class="constant">View</span> 绘制到屏幕上，过程遵循如下几步：</span><br><span class="line"></span>（1）绘制背景 background.draw(canvas)</span><br><span class="line">（2）绘制自己 onDraw</span><br><span class="line">（3）绘制 children dispatchDraw</span><br><span class="line">（4）绘制装饰 onDrawScrollBars</span><br><span class="line"></span><br><span class="line">-<span class="ruby"> 自定义 <span class="constant">View</span> 需要注意的问题：</span><br><span class="line"></span>（1）对于直接继承自 View 的控件，如果不对 wrap_content 做特殊处理，那么使用 wrap_content 就相当于 match_parent</span><br><span class="line">（2）对于直接继承自 View 和 ViewGroup 的控件，padding 默认是无法生效的，需要自己在 onDraw 中处理</span><br><span class="line"></span><br><span class="line">-<span class="ruby"> 如果一个 <span class="constant">View</span> 不需要绘制任何内容，可以设置 setWillNotDraw(<span class="keyword">true</span>)，系统会进行相应优化。默认情况下，<span class="constant">View</span> 没有启用这个标记位，而 <span class="constant">ViewGroup</span> 会默认启用这个标志位。对应实际开发意义是：当我们的自定义控件继承于 <span class="constant">ViewGroup</span> 并且本身不具备绘制功能时，就可以开启这个标记位从而便于系统进行后续的优化。当然，当明确知道一个 <span class="constant">ViewGroup</span> 需要通过 onDraw 来绘制内容时，我们需要显示地关闭 <span class="constant">WILL_NOT_DRAW</span> 这个标记位。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> <span class="constant">ThreadLocal</span> 可以在不同的线程中互不干扰地存储并提供数据，并通过 <span class="constant">ThreadLocal</span> 可以轻松获取每个线程的 <span class="constant">Looper</span></span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> <span class="constant">ThreadLocal</span> 的效果是因为不同线程访问同一个 <span class="constant">ThreadLocal</span> 的 get() 方法，<span class="constant">ThreadLocal</span> 内部会从各自的线程中取出一个数组(<span class="constant">ThreadLocal</span>.<span class="constant">Value</span>)，然后再从数组中根据当前 <span class="constant">ThreadLocal</span> 的索引去查找出对应的 value 值。很显然，不容线程中的数组是不同的，这就是为什么通过 <span class="constant">ThreadLocal</span> 可以在不同的线程中维护一套数据的副本并且彼此互不干扰。</span><br><span class="line"></span></span><br><span class="line">-<span class="ruby"> 非主线程不能更新 <span class="constant">UI</span> 是因为 <span class="constant">ViewRootImpl</span> 对 <span class="constant">UI</span> 操作进行了验证，由 checkThread() 来完成：</span></span><br></pre></td></tr></table></figure>
-<p>  void checkThread() {</p>
-<pre><code><span class="keyword">if</span> ( mThread != Thread.currentThread ) {
-    <span class="keyword">throw</span> <span class="keyword">new</span> CalledFromWrongThreadException(<span class="string">"Only the original thread that created a view hierarchy can touch its view."</span>);
-}
-</code></pre><p>  }</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 非主线程不能更新 UI 是因为 UI 控件不是线程安全的，多线程中并发访问会导致 UI 控件处于不可预期的状态</span><br><span class="line"></span><br><span class="line">- MessageQueue 内部实现是单链表，而不是队列。在其 <span class="function"><span class="title">next</span><span class="params">()</span></span> 方法中有一变量 nextPollTimeoutMillis 设置没有消息时等待下一次取消息的时延（书中没讲，这是我猜的）</span><br><span class="line"></span><br><span class="line">- pollOnce 和 wake 最终都是通过 Linux 的 epoll 模型来实现的。<span class="function"><span class="title">pollOnce</span><span class="params">()</span></span> 通过等待被激活，然后从消息队列中获取消息；<span class="function"><span class="title">wake</span><span class="params">()</span></span> 则是激活处于等待状态的消息队列，通知它有消息到达了。这是典型的生产者-消费者模型。</span><br><span class="line"></span><br><span class="line">- 由于主线程的 Looper 比较特殊，所以 Looper 提供了一个 <span class="function"><span class="title">getMainLooper</span><span class="params">()</span></span> 方法，通过它可以在任何地方获取到主线程的 Looper。</span><br><span class="line"></span><br><span class="line">- Looper 也是可以退出的，<span class="function"><span class="title">quit</span><span class="params">()</span></span> 会直接退出 Looper，而 <span class="function"><span class="title">quitSafely</span><span class="params">()</span></span> 只是设定一个退出标记，然后把消息队列中的已有消息处理完毕后才安全退出。Looper 退出后，通过 Handler 发送的消息会失败，这个时候 Handler 的 <span class="function"><span class="title">send</span><span class="params">()</span></span> 方法会返回 false。在子线程中，如果手动为其创建了 Looper，那么在所有的事情完成以后应该调用 quit 方法来终止消息循环，否则这个子线程就会一直处于等待的状态，而如果退出 Looper 以后，这个线程就会立刻终止，因此建议不需要的时候终止 Looper。</span><br><span class="line"></span><br><span class="line">- Activity 的主线程就是 ActivityThread。ActivityThread 通过 ApplicationThread 和 AMS 进行进程间通信，AMS 以进程间通信的方式完成 ActivityThread 的请求后回调 ApplicationThread 中的 Binder 方法，然后 ApplicationThread 会向 H 发送消息，H 收到消息后会将 ApplicationThread 中的逻辑切换到 ActivityThread 中去执行，即切换到主线程中去执行，这个过程就是主线程的消息循环模型。（H 是主线程中的 Handler）</span><br><span class="line"></span><br><span class="line">- 对于 AsyncTask 来说，它的底层使用了线程池，对于 IntentService 和 HandlerThread 来说，它的底层则直接使用了线程。</span><br><span class="line"></span><br><span class="line">- AsyncTask 封装了 Thread 和 Handler，但是 AsyncTask 并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议采用线程池。</span><br><span class="line"></span><br><span class="line">- AsyncTask 注意事项：</span><br><span class="line">（<span class="number">1</span>）AsyncTask 的类必须在主线程中加载，这就意味着第一次访问 AsyncTask 必须发生在主线程，当然这个过程在 Android <span class="number">4.1</span> 及以上版本已经被系统自动完成。（static final InternalHandler sHandler 是静态成员由于静态成员会在加载类的时候进行初始化，因此这就变相要求 AsyncTask 的类必须在主线程中加载）</span><br><span class="line">（<span class="number">2</span>）AsyncTask 的对象必须在主线程中创建</span><br><span class="line">（<span class="number">3</span>）<span class="function"><span class="title">execute</span><span class="params">()</span></span> 方法必须在 UI 线程中调用</span><br><span class="line">（<span class="number">4</span>）不要再程序中直接调用 <span class="function"><span class="title">onPreExecute</span><span class="params">()</span></span>、<span class="function"><span class="title">onPostExecute</span><span class="params">()</span></span>、<span class="function"><span class="title">doInBackground</span><span class="params">()</span></span> 和 <span class="function"><span class="title">onProgressUpdate</span><span class="params">()</span></span> 方法</span><br><span class="line">（<span class="number">5</span>）一个 AsyncTask 对象只能执行一次，即只能调用一次 execute 方法，否则会报运行时异常</span><br><span class="line">（<span class="number">6</span>）Android <span class="number">1.6</span> 之前，串行执行；Android <span class="number">3.0</span> 之前，并行执行；<span class="number">3.0</span> 之后，串行执行，但可以通过 AsyncTask 的 <span class="function"><span class="title">executeOnExecutor</span><span class="params">()</span></span> 方法来并行执行任务</span><br><span class="line"></span><br><span class="line">- AsyncTask 中的 InternalHandler 用于将执行环境从线程池切换到主线程</span><br><span class="line"></span><br><span class="line">- IntentService 的优点：子线程中执行，可以自动结束，不容易被系统杀死(普通线程脱离四大组件后优先级非常低)</span><br><span class="line"></span><br><span class="line">- HandlerThread 继承自 Thread，是一种可以使用 Handler 的 Thread，内部创建了消息队列。外界需要通过 Handler 的消息方式来通知 HandlerThread 执行一个具体的任务。具体使用场景是 IntentService。由于 HandlerThread 的 run 方法是一个无限循环，因此当明确不需要再使用 HandlerThread 时，可以通过它的 quit 或 quitSafely 方法来终止线程的执行。</span><br><span class="line"></span><br><span class="line">- IntentService 第一次被启动时，onCreate 方法会被调用，其中会创建一个 HandlerThread，然后使用它的 Looper 来构造一个 Handler 对象 mServiceHandler，这样通过 mServiceHandler 发送的消息最终都会在 HandlerThread 中执行。</span><br><span class="line"></span><br><span class="line">- 另外，由于每执行一个后台任务就必须启动一次 IntentService，而 IntentService 内部则通过消息的方式向 HandlerThread 请求执行任务，Handler 中的 Looper 是顺序处理消息的，这就意味着 IntentService 也是顺序执行后台任务的，当有多个后台任务同时存在时，这些后台任务会按照外界发起的顺序排队执行。</span><br><span class="line"></span><br><span class="line">- ThreadPoolExecutor 是线程池的真正实现，下面是其一个比较常用的构造方法：</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>public ThreadPoolExecutor (<br>    int corePollSize, // 核心线程，默认会一直存活即使闲置。非默认是指将 allowCoreThreadTimeOut = true，则超过 keepAliveTime 后核心线程就会被终止<br>    int maximumPoolSize, // 所能容纳的最大线程数，当活动线程数达到这个数值后，后续的新任务将会被阻塞<br>    long keepAliveTime, // 非核心线程闲置的超时时长<br>    TimeUnit unit, // 枚举常量<br>    BlockingQueue<runnable> workQueue, // 任务队列，通过 execute 方法提交的 Runnable 对象会存储在这个参数中<br>    ThreadFactory threadFactory ) // 为线程池提供创建新线程的机会，ThreadFactory 是一个接口，只有一个方法：Thread newThread(Runnable r)<br>```</runnable></p>
+<pre><code><span class="title">public</span> boolean dispatchTouchEvent(MotionEvent ev) {
+    <span class="title">boolean</span> consume = <span class="built_in">false</span>;
+
+    <span class="title">if</span> ( <span class="built_in">on</span>InterceptTouchEvent(ev) ) {
+        <span class="title">consume</span> = <span class="built_in">on</span>TouchEvent(ev);
+        <span class="title">consume</span> = <span class="built_in">true</span>;
+    } <span class="title">else</span> {
+        <span class="title">consume</span> = child.dispatchTouchEvent(ev);
+    }
+
+    <span class="title">return</span> consume;
+}
+</code></pre><ul>
+<li><p>TimeInterpolator 为时间插值器，作用是根据时间流逝的百分比来计算出当前属性值改变的百分比，系统预置的有 LinearInterpolator、AccelerateDecelerateInterpolator、DecelerateInterpolator。</p>
+</li>
+<li><p>TypeEvaluator 为类型估值算法，也叫做估值器，作用是根据当前属性改变的百分比来计算改变后的属性值。</p>
+</li>
+<li><p>Measure：getMeasuredHeight、getMeasuredWidth  Layout：getHeight、getWidth、四个顶点的坐标</p>
+</li>
+<li><p>measure 是测量的意思，那么 onMeasure() 方法顾名思义就是用于测量视图的大小的。View 系统的绘制流程会从 ViewRoot 的 performTraversals() 方法中开始，在其内部调用 View 的measure() 方法。measure() 方法接收两个参数，widthMeasureSpec 和 heightMeasureSpec，这两个值分别用于确定视图的宽度和高度的规格和大小。</p>
+</li>
+<li><p>对于普通 View，其 MeasureSpec 由父容器的 MeasureSpec 和自身的 LayoutParams 来共同决定。</p>
+</li>
+<li><p>在 TextView、ImageView 等源码中可以发现，针对 wrap_content 情形，它们的 onMeasure 方法均做了特殊处理。</p>
+</li>
+<li><p>在 onCreate、onStart、onResume 中均无法正确得到某个 View 的宽高信息，这是因为 View 的 measure 过程和 Activity 的生命周期方法不是同步执行的，因此无法保证 Activity 执行了 onCreate、onStart、onResume 时某个 View 已经测量完毕了，如果 View 还没有测量完毕，那么获得的宽高就是0。</p>
+</li>
+<li><p>需要注意的是，在 onMeasure()#setMeasuredDimension()方法调用之后，我们才能使用 getMeasuredWidth() 和 getMeasuredHeight() 来获取视图测量出的宽高，以此之前调用这两个方法得到的值都会是0。</p>
+</li>
+<li><p>视图大小的控制是由父视图、布局文件、以及视图本身共同完成的，父视图会提供给子视图参考的大小，而开发人员可以在XML文件中指定视图的大小，然后视图本身会对最终的大小进行拍板。</p>
+</li>
+<li><p>Layout 的作用是 ViewGroup 用来确定子元素的位置，当 ViewGroup 的位置被确定后，它在 onLayout 中会遍历所有的子元素并调用其 layout 方法，在 layout 方法中 onLayout 方法又会被调用。Layout 方法确定 View 本身的位置，而 onLayout 方法则会确定所有子元素的位置。</p>
+</li>
+<li><p>View 中的 onLayout() 方法就是一个空方法，因为 onLayout() 过程是为了确定视图在布局中所在的位置，而这个操作应该是由布局来完成的，即父视图决定子视图的显示位置。而 ViewGroup 中 的onLayout() 方法是一个抽象方法，这就意味着所有 ViewGroup 的子类都必须重写这个方法。没错，像 LinearLayout、RelativeLayout 等布局，都是重写了这个方法，然后在内部按照各自的规则对子视图进行布局的。</p>
+</li>
+</ul>
 <ul>
+<li><p>Draw 过程的作用是将 View 绘制到屏幕上，过程遵循如下几步：<br>（1）绘制背景 background.draw(canvas)<br>（2）绘制自己 onDraw<br>（3）绘制 children dispatchDraw<br>（4）绘制装饰 onDrawScrollBars</p>
+</li>
+<li><p>自定义 View 需要注意的问题：<br>（1）对于直接继承自 View 的控件，如果不对 wrap_content 做特殊处理，那么使用 wrap_content 就相当于 match_parent<br>（2）对于直接继承自 View 和 ViewGroup 的控件，padding 默认是无法生效的，需要自己在 onDraw 中处理</p>
+</li>
+<li><p>如果一个 View 不需要绘制任何内容，可以设置 setWillNotDraw(true)，系统会进行相应优化。默认情况下，View 没有启用这个标记位，而 ViewGroup 会默认启用这个标志位。对应实际开发意义是：当我们的自定义控件继承于 ViewGroup 并且本身不具备绘制功能时，就可以开启这个标记位从而便于系统进行后续的优化。当然，当明确知道一个 ViewGroup 需要通过 onDraw 来绘制内容时，我们需要显示地关闭 WILL_NOT_DRAW 这个标记位。</p>
+</li>
+<li><p>ThreadLocal 可以在不同的线程中互不干扰地存储并提供数据，并通过 ThreadLocal 可以轻松获取每个线程的 Looper</p>
+</li>
+<li><p>ThreadLocal 的效果是因为不同线程访问同一个 ThreadLocal 的 get() 方法，ThreadLocal 内部会从各自的线程中取出一个数组(ThreadLocal.Value)，然后再从数组中根据当前 ThreadLocal 的索引去查找出对应的 value 值。很显然，不容线程中的数组是不同的，这就是为什么通过 ThreadLocal 可以在不同的线程中维护一套数据的副本并且彼此互不干扰。</p>
+</li>
+<li><p>非主线程不能更新 UI 是因为 ViewRootImpl 对 UI 操作进行了验证，由 checkThread() 来完成：</p>
+</li>
+</ul>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">checkThread</span><span class="params">()</span> </span>{
+    <span class="keyword">if</span> ( mThread != Thread.currentThread ) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> CalledFromWrongThreadException(<span class="string">"Only the original thread that created a view hierarchy can touch its view."</span>);
+    }
+}
+</code></pre><ul>
+<li><p>非主线程不能更新 UI 是因为 UI 控件不是线程安全的，多线程中并发访问会导致 UI 控件处于不可预期的状态</p>
+</li>
+<li><p>MessageQueue 内部实现是单链表，而不是队列。在其 next() 方法中有一变量 nextPollTimeoutMillis 设置没有消息时等待下一次取消息的时延（书中没讲，这是我猜的）</p>
+</li>
+<li><p>pollOnce 和 wake 最终都是通过 Linux 的 epoll 模型来实现的。pollOnce() 通过等待被激活，然后从消息队列中获取消息；wake() 则是激活处于等待状态的消息队列，通知它有消息到达了。这是典型的生产者-消费者模型。</p>
+</li>
+<li><p>由于主线程的 Looper 比较特殊，所以 Looper 提供了一个 getMainLooper() 方法，通过它可以在任何地方获取到主线程的 Looper。</p>
+</li>
+<li><p>Looper 也是可以退出的，quit() 会直接退出 Looper，而 quitSafely() 只是设定一个退出标记，然后把消息队列中的已有消息处理完毕后才安全退出。Looper 退出后，通过 Handler 发送的消息会失败，这个时候 Handler 的 send() 方法会返回 false。在子线程中，如果手动为其创建了 Looper，那么在所有的事情完成以后应该调用 quit 方法来终止消息循环，否则这个子线程就会一直处于等待的状态，而如果退出 Looper 以后，这个线程就会立刻终止，因此建议不需要的时候终止 Looper。</p>
+</li>
+<li><p>Activity 的主线程就是 ActivityThread。ActivityThread 通过 ApplicationThread 和 AMS 进行进程间通信，AMS 以进程间通信的方式完成 ActivityThread 的请求后回调 ApplicationThread 中的 Binder 方法，然后 ApplicationThread 会向 H 发送消息，H 收到消息后会将 ApplicationThread 中的逻辑切换到 ActivityThread 中去执行，即切换到主线程中去执行，这个过程就是主线程的消息循环模型。（H 是主线程中的 Handler）</p>
+</li>
+<li><p>对于 AsyncTask 来说，它的底层使用了线程池，对于 IntentService 和 HandlerThread 来说，它的底层则直接使用了线程。</p>
+</li>
+<li><p>AsyncTask 封装了 Thread 和 Handler，但是 AsyncTask 并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议采用线程池。</p>
+</li>
+<li><p>AsyncTask 注意事项：<br>（1）AsyncTask 的类必须在主线程中加载，这就意味着第一次访问 AsyncTask 必须发生在主线程，当然这个过程在 Android 4.1 及以上版本已经被系统自动完成。（static final InternalHandler sHandler 是静态成员由于静态成员会在加载类的时候进行初始化，因此这就变相要求 AsyncTask 的类必须在主线程中加载）<br>（2）AsyncTask 的对象必须在主线程中创建<br>（3）execute() 方法必须在 UI 线程中调用<br>（4）不要再程序中直接调用 onPreExecute()、onPostExecute()、doInBackground() 和 onProgressUpdate() 方法<br>（5）一个 AsyncTask 对象只能执行一次，即只能调用一次 execute 方法，否则会报运行时异常<br>（6）Android 1.6 之前，串行执行；Android 3.0 之前，并行执行；3.0 之后，串行执行，但可以通过 AsyncTask 的 executeOnExecutor() 方法来并行执行任务</p>
+</li>
+<li><p>AsyncTask 中的 InternalHandler 用于将执行环境从线程池切换到主线程</p>
+</li>
+<li><p>IntentService 的优点：子线程中执行，可以自动结束，不容易被系统杀死(普通线程脱离四大组件后优先级非常低)</p>
+</li>
+<li><p>HandlerThread 继承自 Thread，是一种可以使用 Handler 的 Thread，内部创建了消息队列。外界需要通过 Handler 的消息方式来通知 HandlerThread 执行一个具体的任务。具体使用场景是 IntentService。由于 HandlerThread 的 run 方法是一个无限循环，因此当明确不需要再使用 HandlerThread 时，可以通过它的 quit 或 quitSafely 方法来终止线程的执行。</p>
+</li>
+<li><p>IntentService 第一次被启动时，onCreate 方法会被调用，其中会创建一个 HandlerThread，然后使用它的 Looper 来构造一个 Handler 对象 mServiceHandler，这样通过 mServiceHandler 发送的消息最终都会在 HandlerThread 中执行。</p>
+</li>
+<li><p>另外，由于每执行一个后台任务就必须启动一次 IntentService，而 IntentService 内部则通过消息的方式向 HandlerThread 请求执行任务，Handler 中的 Looper 是顺序处理消息的，这就意味着 IntentService 也是顺序执行后台任务的，当有多个后台任务同时存在时，这些后台任务会按照外界发起的顺序排队执行。</p>
+</li>
+<li><p>ThreadPoolExecutor 是线程池的真正实现，下面是其一个比较常用的构造方法：</p>
+<p>  public ThreadPoolExecutor ( </p>
+<pre><code>int corePollSize, // 核心线程，默认会一直存活即使闲置。非默认是指将 allowCoreThreadTimeOut = true，则超过 keepAliveTime 后核心线程就会被终止<span class="instruction">
+int </span>maximumPoolSize, // 所能容纳的最大线程数，当活动线程数达到这个数值后，后续的新任务将会被阻塞<span class="instruction">
+long </span>keepAliveTime, // 非核心线程闲置的超时时长
+TimeUnit unit, // 枚举常量
+BlockingQueue&lt;Runnable&gt; workQueue, // 任务队列，通过<span class="instruction"> execute </span>方法提交的 Runnable 对象会存储在这个参数中
+ThreadFactory threadFactory <span class="function">)</span> // 为线程池提供创建新线程的机会，ThreadFactory 是一个接口，只有一个方法：Thread<span class="function"> newThread(</span>Runnable r<span class="function">)</span>
+</code></pre></li>
 <li><p>ThreadPoolExecutor 执行任务时的规则：<br>（1）如果线程池中的线程数量未达到核心线程数量，那么会直接启动一个核心线程来执行任务<br>（2）如果线程池中的线程数量已经达到或者超过核心线程的数量，那么任务会被插入到 workQueue 中排队等待执行<br>（3）如果在步骤2中无法将任务插入到任务队列中，这往往是由于任务队列已满，这个时候如果线程数量未达到线程池规定的最大值，那么会立刻启动一个非核心线程来执行任务<br>（4）如果步骤3中线程数量已经达到线程池规定的最大值，那么就拒绝执行此任务，ThreadPoolExecutor 会调用 RejectedExecutionHandler 的 rejectExecution 方法来通知调用者</p>
 </li>
 <li><p>四种线程池：<br>（1）newFixedThreadPool 只有核心线程并且这些核心线程没有超时限制，另外任务队列也是没有大小限制的。<br>（2）newCachedThreadPool 只有非核心线程，并且其最大值为 Integer.MAX_VALUE，60秒超时限制，它的 SynchronousQueue 无法插入任务<br>（3）newScheduledThreadPool 核心线程数由参数指定，非核心线程数无限制，非核心闲置时立即被回收<br>（4）newSingleThreadExecutor 只有一个核心线程，确保所有的任务都在同一个线程中按顺序执行，不需要处理线程同步的问题，无超时限制</p>
