@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ConcurrentHashMap 浅层次总结 | 把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConcurrentHashMap 浅层次总结">
+<meta property="og:url" content="http://icodeyou.com/2015/09/14/2015-09-14-ConcurrentHashMap/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。">
+<meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image005.jpg">
+<meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image004.jpg">
+<meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image007.jpg">
+<meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image009.jpg">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-10-14T08:30:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConcurrentHashMap 浅层次总结">
+<meta name="twitter:description" content="学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mac/" style="font-size: 14px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 12px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 16px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 12px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 18px;">极客学院</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛逼的学弟</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">程序员而已</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2015-09-14-ConcurrentHashMap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/14/2015-09-14-ConcurrentHashMap/" class="article-date">
+  	<time datetime="2015-09-14T14:18:44.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ConcurrentHashMap 浅层次总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。</p>
+<a id="more"></a>
+<h1 id="Java_内存模型">Java 内存模型</h1><h2 id="重排序">重排序</h2><ul>
+<li>编译器生成指令的次序，可以不同于源代码所暗示的“显然”版本</li>
+<li>处理器可以乱序或者并行的执行指令</li>
+<li>缓存会改变写入提交到主内存的变量的次序</li>
+</ul>
+<h2 id="内存可见性">内存可见性</h2><ul>
+<li>执行线程 A 的处理器把变量 V 缓存到寄存器中</li>
+<li>执行线程 A 的处理器把变量 V 缓存到自己的缓存中，但还没有同步刷新到主内存中去</li>
+<li>执行线程 B 的处理器的缓存中有变量 V 的旧值</li>
+<li>可以使用 volatile 确保内存可见性</li>
+</ul>
+<h2 id="happens-before_关系">happens-before 关系</h2><p>happens-before 关系保证：如果线程 A 与线程 B 满足 happens-before 关系，则线程 A 执行动作的结果对于线程 B 是可见的。如果两个操作未按 happens-before 排序，JVM 将可以对他们任意重排序。</p>
+<p>几个与 ConcurrentHashMap 有关的 happens-before 关系法则：</p>
+<ul>
+<li>程序次序法则：如果在程序中，所有动作 A 出现在动作 B 之前，则线程中的每动作 A 都 happens-before 于该线程中的每一个动作 B</li>
+<li>监视器锁法则：对一个监视器的解锁 happens-before 于每个后续对同一监视器的加锁</li>
+<li>Volatile 变量法则：对 Volatile 域的写入操作 happens-before 于每个后续对同一 Volatile 的读操作</li>
+<li>传递性：如果 A happens-before 于 B，且 B happens-before C，则 A happens-before C</li>
+</ul>
+<h1 id="结构图">结构图</h1><h2 id="整体结构图">整体结构图</h2><p><img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image005.jpg" alt="ConcurrentHashMap"></p>
+<h2 id="局部_segment_结构图">局部 segment 结构图</h2><p><img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image004.jpg" alt="Segment"></p>
+<h1 id="HashEntry_类">HashEntry 类</h1><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 注意 key、hash、next 都是 <span class="keyword">final</span> 类型， <span class="keyword">value</span> 是 <span class="keyword">volatile</span> 类型</span><br><span class="line">static <span class="keyword">final</span> <span class="keyword">class</span> HashEntry&lt;K,V&gt; &#123; </span><br><span class="line">       <span class="keyword">final</span> K key;                // 声明 key 为 <span class="keyword">final</span> 型</span><br><span class="line">       <span class="keyword">final</span> <span class="built_in">int</span> hash;             // 声明 hash 值为 <span class="keyword">final</span> 型 </span><br><span class="line">       <span class="keyword">volatile</span> V <span class="keyword">value</span>;           // 声明 <span class="keyword">value</span> 为 <span class="keyword">volatile</span> 型</span><br><span class="line">       <span class="keyword">final</span> HashEntry&lt;K,V&gt; next;  // 声明 next 为 <span class="keyword">final</span> 型 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ConcurrentHashMap_类">ConcurrentHashMap 类</h1><p>ConcurrentHashMap 在默认并发级别会创建包含 16 个 Segment 对象的数组。每个 Segment 的成员对象 table 包含若干个散列表的桶。每个桶是由 HashEntry 链接起来的一个链表。如果键能均匀散列，每个 Segment 大约守护整个散列表中桶总数的 1/16。</p>
+<h1 id="用分离锁实现多个线程间的并发写操作">用分离锁实现多个线程间的并发写操作</h1><p>lock() 只针对某一 segment 进行，最后在 unlock()。</p>
+<h1 id="用_HashEntery_对象的不变性来降低读操作对加锁的需求">用 HashEntery 对象的不变性来降低读操作对加锁的需求</h1><p>HashEntry 类的 value 域被声明为 Volatile 型，Java 的内存模型可以保证：某个写线程对 value 域的写入马上可以被后续的某个读线程“看”到。在 ConcurrentHashMap 中，不允许用 unll 作为键和值，当读线程读到某个 HashEntry 的 value 域的值为 null 时，便知道产生了冲突——发生了重排序现象，需要加锁后重新读入这个 value 值。这些特性互相配合，使得读线程即使在不加锁状态下，也能正确访问 ConcurrentHashMap。</p>
+<h2 id="对散列表做非结构性修改">对散列表做非结构性修改</h2><p>因为使用了 volatile 所以可以保证内存可见性，一个线程修改了某个 value 可以随后被另一个线程看到。</p>
+<h2 id="对散列表做结构性修改">对散列表做结构性修改</h2><p>结构性修改操作包括 put，remove，clear。</p>
+<p>（1）clear：将所有的 segment 置空，每个 segment 之前引用的链表还在，只是 segment 不再引用这些链表，所以正在遍历这个链表的读线程依然可以正常执行对该链表的遍历操作。<br>（2）put：头插法，原有链表并没有修改，也不会影响原来读链表的线程。<br>（3）remove：<br>    执行删除之前的原链表<br>    <img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image007.jpg" alt="before-remove"></p>
+<pre><code>执行删除之后的新链表
+![<span class="link_label">after-remove</span>](<span class="link_url">http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image008.jpg</span>)
+</code></pre><h1 id="用_Volatile_变量协调读写线程间的内存可见性">用 Volatile 变量协调读写线程间的内存可见性</h1><p><img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image009.jpg" alt="volatile"></p>
+<p>此处也用到了 happens-before 法则，另外也需要注意 count 这个变量，其被声明为 transient volatile int count; 所有执行写操作的方法（put, remove, clear），在对链表做结构性修改之后，在退出写方法前都会去写这个 count 变量。所有未加锁的读操作（get, contains, containsKey）在读方法中，都会首先去读取这个 count 变量。</p>
+<h1 id="基于通常情形而优化">基于通常情形而优化</h1><p>由于散列表读操作频率远远大于写操作，所以 ConcurrentHashMap 针对读操作做了大量的优化。通过 HashEntry 对象的不变性和用 volatile 型变量协调线程间的内存可见性，使得大多数时候，读操作不需要加锁就可以正确获得值。这个特性使得 ConcurrentHashMap 的并发性能在分离锁的基础上又有了近一步的提高。</p>
+<h1 id="高并发性总结">高并发性总结</h1><p>1、减小锁竞争的方式<br>（1）减小请求同一个锁的频率<br>（2）减小持有锁的时间</p>
+<p>2、ConcurrentHashMap 的高并发性来源于三个方面：<br>（1）用分离锁实现多个线程间的更深层次的共享访问。<br>（2）用 HashEntery 对象的不变性来降低执行读操作的线程在遍历链表期间对加锁的需求。<br>（3）通过对同一个 Volatile 变量的写 / 读访问，协调不同线程间读 / 写操作的内存可见性。</p>
+<p>使用分离锁，减小了请求 同一个锁的频率。<br>通过 HashEntery 对象的不变性及对同一个 Volatile 变量的读 / 写来协调内存可见性，使得 读操作大多数时候不需要加锁就能成功获取到需要的值。由于散列映射表在实际应用中大多数操作都是成功的 读操作，所以 2 和 3 既可以减少请求同一个锁的频率，也可以有效减少持有锁的时间。<br>通过减小请求同一个锁的频率和尽量减少持有锁的时间 ，使得 ConcurrentHashMap 的并发性相对于 HashTable 和用同步包装器包装的 HashMap有了质的提高。</p>
+<p><a href="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/#ibm-pcon" target="_blank" rel="external">参考文章</a></p>
+<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/09/16/2015-09-16- JIT 学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          JIT 学习笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/09/14/2015-09-14- 设计模式-导图/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设计模式 - 知识导图</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015-09-14-ConcurrentHashMap" data-title="ConcurrentHashMap 浅层次总结" data-url="http://icodeyou.com/2015/09/14/2015-09-14-ConcurrentHashMap/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>
