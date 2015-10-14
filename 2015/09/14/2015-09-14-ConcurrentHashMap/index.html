@@ -14,9 +14,10 @@
 <meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image005.jpg">
 <meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image004.jpg">
 <meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image007.jpg">
+<meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image008.jpg">
 <meta property="og:image" content="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image009.jpg">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-10-14T08:30:16.000Z">
+<meta property="og:updated_time" content="2015-10-14T13:23:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ConcurrentHashMap 浅层次总结">
 <meta name="twitter:description" content="学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。">
@@ -258,10 +259,11 @@
 <h1 id="用_HashEntery_对象的不变性来降低读操作对加锁的需求">用 HashEntery 对象的不变性来降低读操作对加锁的需求</h1><p>HashEntry 类的 value 域被声明为 Volatile 型，Java 的内存模型可以保证：某个写线程对 value 域的写入马上可以被后续的某个读线程“看”到。在 ConcurrentHashMap 中，不允许用 unll 作为键和值，当读线程读到某个 HashEntry 的 value 域的值为 null 时，便知道产生了冲突——发生了重排序现象，需要加锁后重新读入这个 value 值。这些特性互相配合，使得读线程即使在不加锁状态下，也能正确访问 ConcurrentHashMap。</p>
 <h2 id="对散列表做非结构性修改">对散列表做非结构性修改</h2><p>因为使用了 volatile 所以可以保证内存可见性，一个线程修改了某个 value 可以随后被另一个线程看到。</p>
 <h2 id="对散列表做结构性修改">对散列表做结构性修改</h2><p>结构性修改操作包括 put，remove，clear。</p>
-<p>（1）clear：将所有的 segment 置空，每个 segment 之前引用的链表还在，只是 segment 不再引用这些链表，所以正在遍历这个链表的读线程依然可以正常执行对该链表的遍历操作。<br>（2）put：头插法，原有链表并没有修改，也不会影响原来读链表的线程。<br>（3）remove：<br>    执行删除之前的原链表<br>    <img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image007.jpg" alt="before-remove"></p>
+<p>（1）clear：将所有的 segment 置空，每个 segment 之前引用的链表还在，只是 segment 不再引用这些链表，所以正在遍历这个链表的读线程依然可以正常执行对该链表的遍历操作。<br>（2）put：头插法，原有链表并没有修改，也不会影响原来读链表的线程。<br>（3）remove：<br>    执行删除之前的原链表</p>
+<p><img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image007.jpg" alt="before-remove"></p>
 <pre><code>执行删除之后的新链表
-![<span class="link_label">after-remove</span>](<span class="link_url">http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image008.jpg</span>)
-</code></pre><h1 id="用_Volatile_变量协调读写线程间的内存可见性">用 Volatile 变量协调读写线程间的内存可见性</h1><p><img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image009.jpg" alt="volatile"></p>
+</code></pre><p><img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image008.jpg" alt="after-remove"></p>
+<h1 id="用_Volatile_变量协调读写线程间的内存可见性">用 Volatile 变量协调读写线程间的内存可见性</h1><p><img src="http://www.ibm.com/developerworks/cn/java/java-lo-concurrenthashmap/image009.jpg" alt="volatile"></p>
 <p>此处也用到了 happens-before 法则，另外也需要注意 count 这个变量，其被声明为 transient volatile int count; 所有执行写操作的方法（put, remove, clear），在对链表做结构性修改之后，在退出写方法前都会去写这个 count 变量。所有未加锁的读操作（get, contains, containsKey）在读方法中，都会首先去读取这个 count 变量。</p>
 <h1 id="基于通常情形而优化">基于通常情形而优化</h1><p>由于散列表读操作频率远远大于写操作，所以 ConcurrentHashMap 针对读操作做了大量的优化。通过 HashEntry 对象的不变性和用 volatile 型变量协调线程间的内存可见性，使得大多数时候，读操作不需要加锁就可以正确获得值。这个特性使得 ConcurrentHashMap 的并发性能在分离锁的基础上又有了近一步的提高。</p>
 <h1 id="高并发性总结">高并发性总结</h1><p>1、减小锁竞争的方式<br>（1）减小请求同一个锁的频率<br>（2）减小持有锁的时间</p>
