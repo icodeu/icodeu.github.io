@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="把编程当做一种爱">
 <meta property="og:description" content="AsyncTask、ThreadPool 中都会用到 BlockingQueue，这是一个接口，它实现的子类有：ArrayBlockingQueue、LinkedBlockingQueue、PriorityBlockingQueue、SynchronousQueue。本文简要分析总结下 ArrayBlockingQueue。">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-10-15T02:25:26.000Z">
+<meta property="og:updated_time" content="2015-10-15T02:44:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BlockingQueue 浅层次总结">
 <meta name="twitter:description" content="AsyncTask、ThreadPool 中都会用到 BlockingQueue，这是一个接口，它实现的子类有：ArrayBlockingQueue、LinkedBlockingQueue、PriorityBlockingQueue、SynchronousQueue。本文简要分析总结下 ArrayBlockingQueue。">
@@ -241,7 +241,7 @@
 <p>2、LinkedBlockingQueue：<br>大小不定的 BlockingQueue，若其构造函数带一个规定大小的参数，生成的 BlockingQueue 有大小限制，若不带大小参数，所生成的 BlockingQueue 的大小由 Integer.MAX_VALUE 来决定。其所含的对象是以 FIFO 顺序排序的。</p>
 <p>3、PriorityBlockingQueue：<br>类似于 LinkedBlockingQueue,但其所含对象的排序不是 FIFO，而是依据对象的自然排序顺序或者是构造函数所带的 Comparator 决定的顺序。</p>
 <p>4、SynchronousQueue：<br>特殊的 BlockingQueue，对其的操作必须是放和取交替完成的。</p>
-<h1 id="总结">总结</h1><p>总的来说，BlockingQueue 内部使用的技术有，ReentrantLock，每次存、取前后都要 lock()、unlock()；Condition</p>
+<h1 id="总结">总结</h1><p>总的来说，BlockingQueue 内部使用的技术有，ReentrantLock，每次存、取前后都要 lock()、unlock()，且默认情况下是 UnfairLock；Condition,具体到 ArrayBlockingQueue 中就是 notEmpty 和 notFull，队列为空或满时无法出队或入队时，就执行 notFull.await() 和 notEmpty.await()；内部的队列是循环队列。</p>
 <h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
       
