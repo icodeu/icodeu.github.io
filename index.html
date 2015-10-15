@@ -246,64 +246,6 @@
 
 
   
-    <article id="post-2015-10-11-HandlerThread源码解析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/11/2015-10-11-HandlerThread源码解析/" class="article-date">
-  	<time datetime="2015-10-11T14:18:44.000Z" itemprop="datePublished">2015-10-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/11/2015-10-11-HandlerThread源码解析/">HandlerThread 源码解析</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Android 为我们提供好了一个类——HandlerThread，在其内部维护了一个 Looper 对象，通过线程的 start 方法启动后即可创建内部的 Looper 对象，并且此 Looper 对象运行在子线程，我们还可以通过 handlerThread.getLooper() 来取到这个 Looper 对象，免得我们自己创建了。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/10/11/2015-10-11-HandlerThread源码解析/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-2015-10-11-IntentService源码解析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -346,6 +288,64 @@
       
         <p class="article-more-link">
           <a  href="/2015/10/11/2015-10-11-IntentService源码解析/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-2015-10-11-HandlerThread源码解析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/11/2015-10-11-HandlerThread源码解析/" class="article-date">
+  	<time datetime="2015-10-11T14:18:44.000Z" itemprop="datePublished">2015-10-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/11/2015-10-11-HandlerThread源码解析/">HandlerThread 源码解析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android 为我们提供好了一个类——HandlerThread，在其内部维护了一个 Looper 对象，通过线程的 start 方法启动后即可创建内部的 Looper 对象，并且此 Looper 对象运行在子线程，我们还可以通过 handlerThread.getLooper() 来取到这个 Looper 对象，免得我们自己创建了。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/10/11/2015-10-11-HandlerThread源码解析/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -710,10 +710,10 @@
 
 
   
-    <article id="post-2015-09-14-ConcurrentHashMap" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-09-14-CopyOnWrite" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/09/14/2015-09-14-ConcurrentHashMap/" class="article-date">
+      <a href="/2015/09/14/2015-09-14-CopyOnWrite/" class="article-date">
   	<time datetime="2015-09-14T14:18:44.000Z" itemprop="datePublished">2015-09-14</time>
 </a>
     </div>
@@ -727,7 +727,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/14/2015-09-14-ConcurrentHashMap/">ConcurrentHashMap 浅层次总结</a>
+      <a class="article-title" href="/2015/09/14/2015-09-14-CopyOnWrite/">CopyOnWrite 浅层次总结</a>
     </h1>
   
 
@@ -736,7 +736,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。</p>
+        <p>同 ConcurrentHashMap 一样，CopyOnWrite 也是一种多线程并发中使用的容器，实现起来要比 ConcurrentHashMap 简单不少。从 JDK1.5 开始 Java 并发包里提供了两个使用 CopyOnWrite 机制实现的并发容器,它们是 CopyOnWriteArrayList 和 CopyOnWriteArraySet。CopyOnWrite 容器非常有用，可以在非常多的并发场景中使用到，下面就来浅层次总结一下。</p>
       
     </div>
     
@@ -751,7 +751,7 @@
 
       
         <p class="article-more-link">
-          <a  href="/2015/09/14/2015-09-14-ConcurrentHashMap/#more">more >></a>
+          <a  href="/2015/09/14/2015-09-14-CopyOnWrite/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
