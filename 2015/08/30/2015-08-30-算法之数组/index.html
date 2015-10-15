@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【视频教程】Base64 编码的编程使用 | 把编程当做一种爱</title>
+  <title>算法之数组 | 把编程当做一种爱</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="课程背景
-Base64 算法最早应用于解决电子邮件传输的问题，在早期，由于“历史问题”，电子邮件只允许 ASCII 码字符，如果要传送一封带有非 ASCII 码字符的电子邮件，当它通过一些网关的时候就可能出现问题。这个网关很可能会对这个非 ASCII 码字符的二进制位做调整，即将这个非 ASCII 码的 8 位二进制码的最高位置为 0，此用户收到的邮件就会是一封纯粹的乱码邮件，基于这个原因产生了">
+  <meta name="description" content="数组的常见算法题，记录一下，以备忘。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【视频教程】Base64 编码的编程使用">
-<meta property="og:url" content="http://icodeyou.com/2015/04/16/2015-04-16-【视频教程】Base64编码的编程使用/index.html">
+<meta property="og:title" content="算法之数组">
+<meta property="og:url" content="http://icodeyou.com/2015/08/30/2015-08-30-算法之数组/index.html">
 <meta property="og:site_name" content="把编程当做一种爱">
-<meta property="og:description" content="课程背景
-Base64 算法最早应用于解决电子邮件传输的问题，在早期，由于“历史问题”，电子邮件只允许 ASCII 码字符，如果要传送一封带有非 ASCII 码字符的电子邮件，当它通过一些网关的时候就可能出现问题。这个网关很可能会对这个非 ASCII 码字符的二进制位做调整，即将这个非 ASCII 码的 8 位二进制码的最高位置为 0，此用户收到的邮件就会是一封纯粹的乱码邮件，基于这个原因产生了">
+<meta property="og:description" content="数组的常见算法题，记录一下，以备忘。">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-08-24T10:27:53.000Z">
+<meta property="og:updated_time" content="2015-10-15T14:29:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【视频教程】Base64 编码的编程使用">
-<meta name="twitter:description" content="课程背景
-Base64 算法最早应用于解决电子邮件传输的问题，在早期，由于“历史问题”，电子邮件只允许 ASCII 码字符，如果要传送一封带有非 ASCII 码字符的电子邮件，当它通过一些网关的时候就可能出现问题。这个网关很可能会对这个非 ASCII 码字符的二进制位做调整，即将这个非 ASCII 码的 8 位二进制码的最高位置为 0，此用户收到的邮件就会是一封纯粹的乱码邮件，基于这个原因产生了">
+<meta name="twitter:title" content="算法之数组">
+<meta name="twitter:description" content="数组的常见算法题，记录一下，以备忘。">
   
     <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
   
@@ -193,11 +190,11 @@ Base64 算法最早应用于解决电子邮件传输的问题，在早期，由�
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-2015-04-16-【视频教程】Base64编码的编程使用" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-2015-08-30-算法之数组" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/04/16/2015-04-16-【视频教程】Base64编码的编程使用/" class="article-date">
-  	<time datetime="2015-04-16T07:20:33.000Z" itemprop="datePublished">2015-04-16</time>
+      <a href="/2015/08/30/2015-08-30-算法之数组/" class="article-date">
+  	<time datetime="2015-08-30T14:18:44.000Z" itemprop="datePublished">2015-08-30</time>
 </a>
     </div>
   
@@ -210,7 +207,7 @@ Base64 算法最早应用于解决电子邮件传输的问题，在早期，由�
         
   
     <h1 class="article-title" itemprop="name">
-      【视频教程】Base64 编码的编程使用
+      算法之数组
     </h1>
   
 
@@ -219,7 +216,7 @@ Base64 算法最早应用于解决电子邮件传输的问题，在早期，由�
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/密码学/">密码学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/极客学院/">极客学院</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
 	</div>
 
         
@@ -230,26 +227,14 @@ Base64 算法最早应用于解决电子邮件传输的问题，在早期，由�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>课程背景</strong></p>
-<p>Base64 算法最早应用于解决电子邮件传输的问题，在早期，由于“历史问题”，电子邮件只允许 ASCII 码字符，如果要传送一封带有非 ASCII 码字符的电子邮件，当它通过一些网关的时候就可能出现问题。这个网关很可能会对这个非 ASCII 码字符的二进制位做调整，即将这个非 ASCII 码的 8 位二进制码的最高位置为 0，此用户收到的邮件就会是一封纯粹的乱码邮件，基于这个原因产生了 Base64 算法。</p>
-<p><strong>核心内容</strong></p>
-<ul>
-<li>综述密码学</li>
-<li>概述密码学中关键概念（尤其区分密钥和口令）</li>
-<li>简介 Base64 的概念、应用</li>
-<li>Base64 的编程使用</li>
-<li>利用 telnet 客户端演示 Base64 在登录邮件系统中的作用</li>
-</ul>
+        <p>数组的常见算法题，记录一下，以备忘。</p>
 <a id="more"></a>
-<p>在此只提供视频第一课，具体课程请至<strong><a href="http://www.jikexueyuan.com/course/738.html?hmsr=teacher_icodeyou_c738" target="_blank" rel="external">极客学院</a></strong>学习~</p>
-<div class="video-container"><br>    <video src="http://7xivx9.com1.z0.glb.clouddn.com/jike_Base64编码的编程使用.mp4" controls="controls"></video><br></div>
-
-
-
-<p>###个人github:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></p>
-<p>###CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></p>
-<p>###个人微信号：<code>qqwanghuan</code>  只为技术交流</p>
-<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+<p>1、整型数组的逆置算法</p>
+<p>2、旋转数组<br>   For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,7,1,2,3,4]。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reverse(<span class="built_in">array</span>, <span class="number">0</span>, n-k-<span class="number">1</span>); <span class="comment">// 反转前一半</span></span><br><span class="line">reverse(<span class="built_in">array</span>, n-k, n-<span class="number">1</span>); <span class="comment">// 反转后一半</span></span><br><span class="line">reverse(<span class="built_in">array</span>, <span class="number">0</span>, n-<span class="number">1</span>);   <span class="comment">// 反转整个数组</span></span><br></pre></td></tr></table></figure></p>
+<p>3、排序数组中和为 s 的两个数字<br>   头尾两个指针相加，根据和的大小前后移动。也可以只用一个指针，在该指针后面的数组用二分查找看有没有满足要求的数『 mid = (low + high) &gt;&gt;&gt; 1 』。</p>
+<p>4、和为 s 的连续正整数序列<br>   两个指针，一个从1开始，一个从2开始，计算 start 指针到 end 指针的 sum，根据 sum 比较并移动指针。</p>
+<p>5、删除排序数组中的重复元素<br>   借助 ArrayList；使用 ArrayCopy；使用临时变量</p>
+<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
       
     </div>
@@ -259,18 +244,18 @@ Base64 算法最早应用于解决电子邮件传输的问题，在早期，由�
     
 <nav id="article-nav">
   
-    <a href="/2015/04/28/2015-04-28-【视频教程】消息摘要的编程使用/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/09/06/2015-09-06- Android开发中的大坑/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          【视频教程】消息摘要的编程使用
+          Android开发中的大坑
         
       </div>
     </a>
   
   
-    <a href="/2015/04/10/2015-04-10- 在 Mac 下安装 mysql for python/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">在 Mac 下安装 mysql for python</div>
+    <a href="/2015/08/30/2015-08-30- mac下抓包工具--Charles/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mac抓包工具--Charles</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -299,7 +284,7 @@ Base64 算法最早应用于解决电子邮件传输的问题，在早期，由�
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2015-04-16-【视频教程】Base64编码的编程使用" data-title="【视频教程】Base64 编码的编程使用" data-url="http://icodeyou.com/2015/04/16/2015-04-16-【视频教程】Base64编码的编程使用/"></div>
+	<div class="ds-thread" data-thread-key="2015-08-30-算法之数组" data-title="算法之数组" data-url="http://icodeyou.com/2015/08/30/2015-08-30-算法之数组/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
