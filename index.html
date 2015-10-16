@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 18.33px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a> <a href="/tags/Mac/" style="font-size: 13.33px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.67px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.67px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.67px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 11.67px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 16.67px;">极客学院</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 18.33px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a> <a href="/tags/Mac/" style="font-size: 13.33px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.67px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.67px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.67px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 13.33px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 16.67px;">极客学院</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
 					</div>
 				</section>
 				
@@ -712,10 +712,10 @@
 
 
   
-    <article id="post-2015-09-14-CopyOnWrite" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-09-14-ConcurrentHashMap" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/09/14/2015-09-14-CopyOnWrite/" class="article-date">
+      <a href="/2015/09/14/2015-09-14-ConcurrentHashMap/" class="article-date">
   	<time datetime="2015-09-14T14:18:44.000Z" itemprop="datePublished">2015-09-14</time>
 </a>
     </div>
@@ -729,7 +729,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/14/2015-09-14-CopyOnWrite/">CopyOnWrite 浅层次总结</a>
+      <a class="article-title" href="/2015/09/14/2015-09-14-ConcurrentHashMap/">ConcurrentHashMap 浅层次总结</a>
     </h1>
   
 
@@ -738,7 +738,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>同 ConcurrentHashMap 一样，CopyOnWrite 也是一种多线程并发中使用的容器，实现起来要比 ConcurrentHashMap 简单不少。从 JDK1.5 开始 Java 并发包里提供了两个使用 CopyOnWrite 机制实现的并发容器,它们是 CopyOnWriteArrayList 和 CopyOnWriteArraySet。CopyOnWrite 容器非常有用，可以在非常多的并发场景中使用到，下面就来浅层次总结一下。</p>
+        <p>学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。</p>
       
     </div>
     
@@ -753,7 +753,7 @@
 
       
         <p class="article-more-link">
-          <a  href="/2015/09/14/2015-09-14-CopyOnWrite/#more">more >></a>
+          <a  href="/2015/09/14/2015-09-14-ConcurrentHashMap/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
