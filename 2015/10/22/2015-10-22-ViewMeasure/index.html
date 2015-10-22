@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>自定义 View 之 onMeasure | 把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="现阶段的目标就是：好好学习自定义 View 如何实现，只知道理论不行，必须实际攻克这个难题了，做出真正有用的自定义 View 出来。先总结一些关于自定义 View 遇到的问题，结合源码分析会更明确。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义 View 之 onMeasure">
+<meta property="og:url" content="http://icodeyou.com/2015/10/22/2015-10-22-ViewMeasure/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="现阶段的目标就是：好好学习自定义 View 如何实现，只知道理论不行，必须实际攻克这个难题了，做出真正有用的自定义 View 出来。先总结一些关于自定义 View 遇到的问题，结合源码分析会更明确。">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/viewonmeasure.png">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-10-22T09:15:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义 View 之 onMeasure">
+<meta name="twitter:description" content="现阶段的目标就是：好好学习自定义 View 如何实现，只知道理论不行，必须实际攻克这个难题了，做出真正有用的自定义 View 出来。先总结一些关于自定义 View 遇到的问题，结合源码分析会更明确。">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 18.57px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.86px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.86px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.43px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.43px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15.71px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 14.29px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 17.14px;">极客学院</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛B的学弟</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://niuzijian.com/">牛牛的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">不断成长的 程序员</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2015-10-22-ViewMeasure" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/22/2015-10-22-ViewMeasure/" class="article-date">
+  	<time datetime="2015-10-22T14:18:44.000Z" itemprop="datePublished">2015-10-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自定义 View 之 onMeasure
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现阶段的目标就是：好好学习自定义 View 如何实现，只知道理论不行，必须实际攻克这个难题了，做出真正有用的自定义 View 出来。先总结一些关于自定义 View 遇到的问题，结合源码分析会更明确。</p>
+<a id="more"></a>
+<p>本节先说测量，即 onMeasure。我们在使用系统提供的控件时，几乎都会使用 layout_width（和 layout_height，下同） 这样的属性来设置控件的宽和高，其实这就是在通过 XML 的方式告诉系统对于该 View 的控件如何去 measure。那么下面就简单自定义一个 View，咱们也给自己的 View 用 layout_width 指定个宽高试试。</p>
+<p>自定义View</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MyView</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">View</span> &#123;</span></span><br><span class="line">    <span class="comment">// 从 xml 中使用控件必须要写的构造方法 </span></span><br><span class="line">    public <span class="type">MyView</span>(<span class="type">Context</span> context, <span class="type">AttributeSet</span> attrs) &#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>布局文件<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    tools:context=<span class="string">".MainActivity"</span>&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com<span class="class">.icodeyou</span><span class="class">.viewmeasure</span><span class="class">.MyView</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="attribute">background</span>=<span class="string">"#abcdef"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我们先后改一下 layout_width 和 layout_height 属性，当其属性为 30dp, match_parent 的时候，发现控件显示的大小确实符合我们的预期。但是，当我们指定其为 wrap_content 的时候，却意外发现和 match_parent 效果是相同的，即铺满了整个父级容器，为什么会这样，我们需要根据源码来看一下了。</p>
+<p>在 View 中，有个方法叫做 onMeasure，也就是本节要讨论的主题，源码如下：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">protected void <span class="function">onMeasure</span>(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        <span class="function">setMeasuredDimension</span>(<span class="function">getDefaultSize</span>(<span class="function">getSuggestedMinimumWidth</span>(), widthMeasureSpec),</span><br><span class="line">                <span class="function">getDefaultSize</span>(<span class="function">getSuggestedMinimumHeight</span>(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要看懂以上代码，需要先知道什么是 MeasureSpec。简单来说，这个类可以帮我们保存控件测量的模式和测量的大小，本质上是一个32位的 int 值，其中高2位为测量的模式，低30位为测量的大小。这么说没意思，直接看源码，它是 View 的一个静态内部类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MeasureSpec</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MODE_SHIFT = <span class="number">30</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MODE_MASK  = <span class="number">0x3</span> &lt;&lt; MODE_SHIFT;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用高2位来保存测量模式</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> UNSPECIFIED = <span class="number">0</span> &lt;&lt; MODE_SHIFT;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> EXACTLY     = <span class="number">1</span> &lt;&lt; MODE_SHIFT;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> AT_MOST     = <span class="number">2</span> &lt;&lt; MODE_SHIFT;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根据传入的测量大小和测量模式返回 MeasureSpec 对象，其实就是一个int</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">makeMeasureSpec</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> mode)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (sUseBrokenMakeMeasureSpec) &#123;</span><br><span class="line">                <span class="keyword">return</span> size + mode;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> (size &amp; ~MODE_MASK) | (mode &amp; MODE_MASK);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从传入的 MeasureSpec 中取得测量模式，取其高2位</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMode</span><span class="params">(<span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (measureSpec &amp; MODE_MASK);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从传入的 MeasureSpec 中取得测量大小，取其低30位</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">(<span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (measureSpec &amp; ~MODE_MASK);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看源代码就很清晰 MeasureSpec 这么短小精悍的类是怎么工作的了，主要就是用到了移位和关系与逻辑运算来操作，下面来具体说说三种 MeasureSpec Mode 的区别是什么。</p>
+<ul>
+<li><p>EXACTLY<br>精确模式，当 layout_width 指定为 100dp 和 match_parent 时，即使用这种模式。</p>
+</li>
+<li><p>AT_MOST<br>最大值模式，当 layout_width 指定为 wrap_content 时，控件大小随着控件子空间或内容的变化而变化，此时控件的尺寸只要不超过父控件允许的最大值即可。</p>
+</li>
+<li><p>UNSPECIFIED<br>想多大就多大，至今没用过。。。</p>
+</li>
+</ul>
+<p>另外，specSize 的单位是 px，而不是 dp，可以自己输出看一下。（我320dpi的模拟器，输出结果为 xml 中指定 dp 数值的2倍）看懂了什么是 MeasureSpec，下面可以再回顾我们刚才贴出来的 View 中 onMeasure 默认的代码了：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">protected void <span class="function">onMeasure</span>(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        <span class="function">setMeasuredDimension</span>(<span class="function">getDefaultSize</span>(<span class="function">getSuggestedMinimumWidth</span>(), widthMeasureSpec),</span><br><span class="line">                <span class="function">getDefaultSize</span>(<span class="function">getSuggestedMinimumHeight</span>(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实就是通过 setMeasureDimension 来设置 View 的大小的，里面传入的分别是宽和高，可以自己重写这个方法然后写个具体的值进去看看效果（其实就是无论在 xml 中怎么指定大小，都会以你自己在这里写的值为准）。那么继续看 getDefaultSize() 这个方法干了些什么：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">static</span> <span class="type">int</span> getDefaultSize(<span class="type">int</span> size, <span class="type">int</span> measureSpec) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="literal">result</span> = size;</span><br><span class="line">        <span class="type">int</span> specMode = <span class="type">MeasureSpec</span>.getMode(measureSpec);</span><br><span class="line">        <span class="type">int</span> specSize = <span class="type">MeasureSpec</span>.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">        switch (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="type">MeasureSpec</span>.<span class="type">UNSPECIFIED</span>:</span><br><span class="line">            <span class="literal">result</span> = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        // 注意 <span class="type">AT_MOST</span> 后面没有 <span class="keyword">break</span> 啊</span><br><span class="line">        <span class="keyword">case</span> <span class="type">MeasureSpec</span>.<span class="type">AT_MOST</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="type">MeasureSpec</span>.<span class="type">EXACTLY</span>:</span><br><span class="line">            <span class="literal">result</span> = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>好好看看这段代码，发现 AT_MOST 和 EXACTLY 两种模式都是返回的 specSize 啊，当指定为 wrap_content 的时候就是 AT_MOST 模式，那最大值就是父容器的大小了，所以会出现我们在文章开始提到的那个问题–指定为 wrap_content 时控件会铺满父级容器。</p>
+<p>跟着源码过了一遍原理，那么下面我们再来提一个需求–当指定为 wrap_content 的时候，将控件大小设置为 200 px，而不是任由它铺满整个父级容器，想一想这个应该怎么来实现呢？</p>
+<p>首先，肯定是要重写 onMeasure() 方法了，在其 setMeasuredDimension() 方法中传入我们设置好的宽和高，就可以实现我们的需求了，那么子 View 的 onMeasure 代码如下：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">	setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们又自己写了两个方法当做 setMeasuredDimension 的参数，下面分析其中的一个即可，比如 measureWidth():</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">private <span class="type">int</span> measureWidth(<span class="type">int</span> widthMeasureSpec) &#123;</span><br><span class="line">	<span class="type">int</span> <span class="literal">result</span> = <span class="number">0</span>;</span><br><span class="line">	// 获取参数中的测量模式和测量大小</span><br><span class="line">    <span class="type">int</span> specMode = <span class="type">MeasureSpec</span>.getMode(widthMeasureSpec);</span><br><span class="line">	<span class="type">int</span> specSize = <span class="type">MeasureSpec</span>.getSize(widthMeasureSpec);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (specMode == <span class="type">MeasureSpec</span>.<span class="type">EXACTLY</span>) &#123;</span><br><span class="line">		// 精确模式，没的说，大小该是多少就是多少</span><br><span class="line">		<span class="literal">result</span> = specSize;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="literal">result</span> = <span class="number">200</span>;</span><br><span class="line">		// wrap_content 的话，根据刚才的需求，大小只能是 <span class="number">200</span> 和 specSize 的最小值</span><br><span class="line">		<span class="keyword">if</span> (specMode == <span class="type">MeasureSpec</span>.<span class="type">AT_MOST</span>) &#123;</span><br><span class="line">			<span class="literal">result</span> = <span class="type">Math</span>.min(<span class="literal">result</span>, specSize);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// 注意返回值单位是 px，不是 dp</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，当我们在 xml 中指定控件大小为 wrap_content 的时候，大小就会是 200 px了，而不是铺满了整个父级容器，效果如图：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/viewonmeasure.png" alt="image"></p>
+<p>此篇文章浅层次分析了 View 的测量，重点是 onMeasure 方法的作用，下篇文章准备继续深度说说 View 的测量流程。</p>
+<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/11/2015-10-11-getMainLooper/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">说说 getMainLooper</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015-10-22-ViewMeasure" data-title="自定义 View 之 onMeasure" data-url="http://icodeyou.com/2015/10/22/2015-10-22-ViewMeasure/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>
