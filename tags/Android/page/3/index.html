@@ -3,19 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>设置 urllib 的访问超时时间 | 把编程当做一种爱</title>
+  <title>Tag: Android | 把编程当做一种爱</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="12import socketsocket.setdefaulttimeout(5.0)">
-<meta property="og:type" content="article">
-<meta property="og:title" content="设置 urllib 的访问超时时间">
-<meta property="og:url" content="http://icodeyou.com/2015/07/25/2015-07-25- python-urllib超时/index.html">
+  <meta name="description" content="icodeyou的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="把编程当做一种爱">
+<meta property="og:url" content="http://icodeyou.com/tags/Android/page/3/index.html">
 <meta property="og:site_name" content="把编程当做一种爱">
-<meta property="og:description" content="12import socketsocket.setdefaulttimeout(5.0)">
-<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-08-24T10:23:54.000Z">
+<meta property="og:description" content="icodeyou的博客">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设置 urllib 的访问超时时间">
-<meta name="twitter:description" content="12import socketsocket.setdefaulttimeout(5.0)">
+<meta name="twitter:title" content="把编程当做一种爱">
+<meta name="twitter:description" content="icodeyou的博客">
   
     <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
   
@@ -190,118 +188,57 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-2015-07-25- python-urllib超时" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap">
   
-    <div class="article-meta">
-      <a href="/2015/07/25/2015-07-25- python-urllib超时/" class="article-date">
-  	<time datetime="2015-07-25T07:25:33.000Z" itemprop="datePublished">2015-07-25</time>
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2014" class="archive-year">2014</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2014/12/19/2014-12-19-【视频教程】Android 扫描二维码实现网页登录/" class="archive-article-date">
+  	<time datetime="2014-12-19T07:20:33.000Z" itemprop="datePublished">Dec 19</time>
 </a>
-    </div>
+        </div>
+    	 
   
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      设置 urllib 的访问超时时间
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2014/12/19/2014-12-19-【视频教程】Android 扫描二维码实现网页登录/">【视频教程】Android 扫描二维码实现网页登录</a>
     </h1>
   
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/极客学院/">极客学院</a></li></ul>
 	</div>
 
-        
+          
 
+        </div>
         <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line">socket.<span class="function"><span class="title">setdefaulttimeout</span><span class="params">(<span class="number">5.0</span>)</span></span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>今天用了 python 的 urllib 库，主要是想编写 sql 基于时间的盲注脚本，要通过网络访问超时来进行异常捕获。<code>urllib2.openurl(url, timeout=1)</code> 可以直接设置超时时间，但是 urllib 并不能这样，解决方法：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line">socket.<span class="function"><span class="title">setdefaulttimeout</span><span class="params">(<span class="number">5.0</span>)</span></span></span><br></pre></td></tr></table></figure>
-<p>因为 urllib 是基于 socket 的，这样就设置了读取网络的超时时间为 5 秒，结合 try 来异常捕获的话，如下：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line">socket.<span class="function"><span class="title">setdefaulttimeout</span><span class="params">(<span class="number">5.0</span>)</span></span></span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">       urllib.<span class="function"><span class="title">urlopen</span><span class="params">(url)</span></span>.<span class="function"><span class="title">read</span><span class="params">()</span></span></span><br><span class="line">   except:</span><br><span class="line">       some operation</span><br><span class="line">       pass</span><br></pre></td></tr></table></figure>
-<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
-
-      
-    </div>
-    
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/08/23/2015-08-15- mac下抓包工具--Debookee/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          mac工具--通过 arp 欺骗抓取局域网内设备数据包
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/06/23/2015-06-23- 网站登录模块开发安全加固/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【视频教程】网站登录模块开发安全加固</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
-
-<div class="share">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">分享到：</span>
-		<a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
-</div>
-
-
-
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2015-07-25- python-urllib超时" data-title="设置 urllib 的访问超时时间" data-url="http://icodeyou.com/2015/07/25/2015-07-25- python-urllib超时/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"icodeyou"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-
-
+    
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/tags/Android/page/2/">&laquo; Prev</a><a class="page-number" href="/tags/Android/">1</a><a class="page-number" href="/tags/Android/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
+  
 
 </div>
       <footer id="footer">
@@ -327,9 +264,9 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false
 	}
