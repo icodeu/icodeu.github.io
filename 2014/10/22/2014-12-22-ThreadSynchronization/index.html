@@ -3,17 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015 | 把编程当做一种爱</title>
+  <title>Android 中线程同步异步方式总结 | 把编程当做一种爱</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="icodeyou的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="把编程当做一种爱">
-<meta property="og:url" content="http://icodeyou.com/archives/2015/page/6/index.html">
+  <meta name="description" content="学了这么多年 Java 和 Android，居然连线程同步还是异步都分不清，还好被人问到了『线程同步和异步的区别』，当时我的回答是：”这两个有区别吗。。？不都是控制线程之间先后的执行顺序吗？比如 Android 里常用的 Handler、接口回调、事件分发、synchronized、wait、Semaphore、CountDownLatch”等等，我还说了一堆能够控制线程先后执行顺序的方式。后来发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 中线程同步异步方式总结">
+<meta property="og:url" content="http://icodeyou.com/2014/10/22/2014-12-22-ThreadSynchronization/index.html">
 <meta property="og:site_name" content="把编程当做一种爱">
-<meta property="og:description" content="icodeyou的博客">
+<meta property="og:description" content="学了这么多年 Java 和 Android，居然连线程同步还是异步都分不清，还好被人问到了『线程同步和异步的区别』，当时我的回答是：”这两个有区别吗。。？不都是控制线程之间先后的执行顺序吗？比如 Android 里常用的 Handler、接口回调、事件分发、synchronized、wait、Semaphore、CountDownLatch”等等，我还说了一堆能够控制线程先后执行顺序的方式。后来发">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-10-31T12:42:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="把编程当做一种爱">
-<meta name="twitter:description" content="icodeyou的博客">
+<meta name="twitter:title" content="Android 中线程同步异步方式总结">
+<meta name="twitter:description" content="学了这么多年 Java 和 Android，居然连线程同步还是异步都分不清，还好被人问到了『线程同步和异步的区别』，当时我的回答是：”这两个有区别吗。。？不都是控制线程之间先后的执行顺序吗？比如 Android 里常用的 Handler、接口回调、事件分发、synchronized、wait、Semaphore、CountDownLatch”等等，我还说了一堆能够控制线程先后执行顺序的方式。后来发">
   
     <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
   
@@ -188,119 +190,135 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-2014-12-22-ThreadSynchronization" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2014/10/22/2014-12-22-ThreadSynchronization/" class="article-date">
+  	<time datetime="2014-10-22T14:18:44.000Z" itemprop="datePublished">2014-10-22</time>
+</a>
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 中线程同步异步方式总结
+    </h1>
+  
+
+      </header>
       
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/03/15/2015-03-15-【视频教程】Fedora 升级 Kernel 至最新版本/" class="archive-article-date">
-  	<time datetime="2015-03-15T07:20:33.000Z" itemprop="datePublished">Mar 15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/15/2015-03-15-【视频教程】Fedora 升级 Kernel 至最新版本/">【视频教程】Fedora 升级 Kernel 至最新版本</a>
-    </h1>
-  
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学了这么多年 Java 和 Android，居然连线程同步还是异步都分不清，还好被人问到了『线程同步和异步的区别』，当时我的回答是：”这两个有区别吗。。？不都是控制线程之间先后的执行顺序吗？比如 Android 里常用的 Handler、接口回调、事件分发、synchronized、wait、Semaphore、CountDownLatch”等等，我还说了一堆能够控制线程先后执行顺序的方式。后来发现，确实同步和异步不一样，所以本篇文章主要就讲讲同步异步的概念区别以及 Android 中同步异步的各种实现方式。</p>
+<p>备注：此篇文章为目录，具体内容后续分篇更新。</p>
+<a id="more"></a>
+<h1 id="同步和异步的区别">同步和异步的区别</h1><p>首先以一个常见的开发场景来区别一下同步和异步的区别，比如我们要获取一张网络图片并完成显示。在这个场景中我们需要开启两个线程，一个是子线程—即下载图片的线程；另外是主 UI 线程—即图片下载完成后进行显示的线程。针对这个场景分别用两幅实现的流程图来区分同步和异步。</p>
+<p>从图中可以看到，二者的区别在于：同步时当前主线程会阻塞，直到子线程通知主线程为止（先不考虑ANR）；而异步的时候主线程可以继续干其它的事情，当子线程完成任务的时候通知一下主线程就可以了，类似于接口回调或消息队列的思想。<code>所以很关键的一点，在于它们是否会阻塞。</code></p>
+<h1 id="Android_中同步的实现方式">Android 中同步的实现方式</h1><ol>
+<li><p>synchronized、wait/notify 等（Java 中的基础知识，不做过多说明了）</p>
+</li>
+<li><p>Semaphore （操作系统中非常重要的概念）</p>
+</li>
+<li><p>CountDownLatch</p>
+</li>
+<li><p>CyclicBarrier</p>
+</li>
+<li><p>。。。</p>
+<p>​</p>
+</li>
+</ol>
+<h1 id="Android_中异步的实现方式">Android 中异步的实现方式</h1><ol>
+<li>Handler</li>
+<li>接口回调</li>
+<li>EventBus 等事件分发</li>
+</ol>
+<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/02/28/2015-02-28-【视频教程】Android 项目开发实战--新闻客户端/" class="archive-article-date">
-  	<time datetime="2015-02-28T07:20:33.000Z" itemprop="datePublished">Feb 28</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/02/28/2015-02-28-【视频教程】Android 项目开发实战--新闻客户端/">【视频教程】Android 项目开发实战--新闻客户端</a>
-    </h1>
+    <a href="/2014/10/25/2014-10-25-使用 Wireshark 抓包分析的思考/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          使用 Wireshark 抓包分析的思考
+        
+      </div>
+    </a>
   
+  
+    <a href="/2014/10/20/2014-10-20-再谈用 Java 实现 SMTP 发送邮件之 Socket 编程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">再谈用 Java 实现 SMTP 发送邮件之 Socket 编程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/极客学院/">极客学院</a></li></ul>
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/01/15/2015-01-15-【视频教程】Android 中 Action Bar 的使用/" class="archive-article-date">
-  	<time datetime="2015-01-15T07:20:33.000Z" itemprop="datePublished">Jan 15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/01/15/2015-01-15-【视频教程】Android 中 Action Bar 的使用/">【视频教程】Android 中 Action Bar 的使用</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/极客学院/">极客学院</a></li></ul>
-	</div>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014-12-22-ThreadSynchronization" data-title="Android 中线程同步异步方式总结" data-url="http://icodeyou.com/2014/10/22/2014-12-22-ThreadSynchronization/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2015/page/5/">&laquo; Prev</a><a class="page-number" href="/archives/2015/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2015/page/4/">4</a><a class="page-number" href="/archives/2015/page/5/">5</a><span class="page-number current">6</span>
-    </nav>
-  
 
 </div>
       <footer id="footer">
@@ -326,8 +344,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false

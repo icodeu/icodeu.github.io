@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title: 蜻蜓FM之 Service 流氓重生
+date: 2015-11-11 22:18:44 
+tags: Android近来蜻蜓FM事件让中国移动互联网变得更好玩了，本人作为一个程序员，也要全心全意向蜻蜓司的神级程序员好好学习，所以本系列文章就来深刻学习一下蜻蜓FM是如何请来普罗米修斯和宙斯的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="把编程当做一种爱">
+<meta property="og:url" content="http://icodeyou.com/2015/11/16/2015-11-11-QTFMService/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="title: 蜻蜓FM之 Service 流氓重生
+date: 2015-11-11 22:18:44 
+tags: Android近来蜻蜓FM事件让中国移动互联网变得更好玩了，本人作为一个程序员，也要全心全意向蜻蜓司的神级程序员好好学习，所以本系列文章就来深刻学习一下蜻蜓FM是如何请来普罗米修斯和宙斯的。">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-initservice.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005SiNxyjw1exvsuo6d8hj30go0pa41w.jpg">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-process.png">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-killservice.gif">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-killservice1.gif">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-killservice2.gif">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-stop.png">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-broadcast.gif">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
+<meta property="og:updated_time" content="2015-11-16T02:54:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="把编程当做一种爱">
+<meta name="twitter:description" content="title: 蜻蜓FM之 Service 流氓重生
+date: 2015-11-11 22:18:44 
+tags: Android近来蜻蜓FM事件让中国移动互联网变得更好玩了，本人作为一个程序员，也要全心全意向蜻蜓司的神级程序员好好学习，所以本系列文章就来深刻学习一下蜻蜓FM是如何请来普罗米修斯和宙斯的。">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.86px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.86px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.43px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.43px;">Wireshark</a> <a href="/tags/icodeyou/" style="font-size: 10px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15.71px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 14.29px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 17.14px;">极客学院</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛B的学弟</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://niuzijian.com/">牛牛的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">不断成长的 程序员</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2015-11-11-QTFMService" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/16/2015-11-11-QTFMService/" class="article-date">
+  	<time datetime="2015-11-16T02:54:26.000Z" itemprop="datePublished">2015-11-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: 蜻蜓FM之 Service 流氓重生</p>
+<p>date: 2015-11-11 22:18:44 </p>
+<h2 id="tags:_Android">tags: Android</h2><p>近来蜻蜓FM事件让中国移动互联网变得更好玩了，本人作为一个程序员，也要全心全意向蜻蜓司的神级程序员好好学习，所以本系列文章就来深刻学习一下蜻蜓FM是如何请来普罗米修斯和宙斯的。</p>
+<a id="more"></a>
+<p>本篇文章主要来看 Android 中如何能在不同的进程中启动多个 Service 并保持 Service “不被杀死”。</p>
+<h2 id="创建多个_Service">创建多个 Service</h2><p>这个应该和简单，就新建多个 Service 类就好了，在此示例建立了三个 Service，每个代码都是如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService1</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyService1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"Not yet implemented"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再简单不过的 Service 了，在 Manifest.xml 文件中也注册好，如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">service</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">".services.MyService1"</span></span><br><span class="line">    <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:exported</span>=<span class="value">"true"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如此新建好三个 Service 就好了，分别为 MyService1、MyService2、MyService3。另外，为了方便对这三个 Service 进行统一管理，所以我们在新建一个工具类 ServiceUtils，提供一静态方法用于启动 Service，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ServiceUtils 工具类用于启动多个Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">startAllService</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        context.startService(<span class="keyword">new</span> Intent(context, MyService1.class));</span><br><span class="line">        context.startService(<span class="keyword">new</span> Intent(context, MyService2.class));</span><br><span class="line">        context.startService(<span class="keyword">new</span> Intent(context, MyService3.class));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们在 MainActivity 中直接调用该工具类的静态方法直接启动这三个 Service，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">		<span class="comment">// 直接启动三个 Service</span></span><br><span class="line">        ServiceUtils.startAllService(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你做过 Android 程序，其实以上代码都很简单，下面来实际运行一下，打开模拟器的 <code>Running app</code>，如下图：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-initservice.png" alt="initservice"></p>
+<p>可以看到，一个 QTFM 的进程以及都在该进程中的三个 Service。可是我们再对比一下实际上蜻蜓FM的进程和服务情况，如下图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/005SiNxyjw1exvsuo6d8hj30go0pa41w.jpg" alt="image"></p>
+<p>从图中也可以看出来，它的 APP 启动了多个进程，几乎把服务都分散到多个进程中了，这样做的好处就是可以彼此”帮助”，相互唤醒，做到杀不死啊哈哈。其实这个就是 Android 中的多进程编程，我记得之前有个流氓软件防卸载就是使用的这种技术，看来多进程编程在某些程度上被玩坏了。回归正题，我们这里关注的是技术，所以就来看看如何把每个 Service 放在单独的进程中，而不是同一个进程中。</p>
+<p>实现多进程编程也不难，打开 Manifest.xml 文件，找到 Service 标签，为 Service 添加 process 属性即可，代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">service</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">".services.MyService1"</span></span><br><span class="line">    <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:exported</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:process</span>=<span class="value">":myservice1"</span>&gt;</span><span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">service</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">".services.MyService2"</span></span><br><span class="line">    <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:exported</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:process</span>=<span class="value">":myservice2"</span>&gt;</span><span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">service</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">".services.MyService3"</span></span><br><span class="line">    <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:exported</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:process</span>=<span class="value">":myservice3"</span>&gt;</span><span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>给 Service 指定特定的 process 属性就可以了，process 的值可以有两种，其一就是如上写的 <code>:remote</code> 以冒号开头的，代表当前程序的私有进程，其二就是不以冒号开头，多以包名开头，代表单独的进程。这里我们先不关心两种方式的具体区别，只先实现启动多个进程。此时我们再运行一下程序，之后切换到设置中的 <code>Running app</code> 中查看，如图：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-process.png" alt="process"></p>
+<p>很明显，目的达到了，每个 Service 都运行在了一个进程中，这个问题我们解决了，继续向下一个问题探索：如何使得 Service 不被杀死？</p>
+<h2 id="如何使得_Service_不被杀死">如何使得 Service 不被杀死</h2><p>此时，我们虽然可以看到确实三个 Service 运行在了三个进程中了，但是如果我们点击某个 Service 中的 “Stop” 按钮，那么该 Service 就被结束掉了，效果如下：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-killservice.gif" alt="killservice"></p>
+<p>那此时我们需要解决的问题就是，如何在点击了 “Stop” 按钮之后该 Service 不被杀死。实现这个也不难，利用 Service 的生命周期，在其 onDestroy() 中做手脚，几行代码搞定，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService1</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyService1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"Not yet implemented"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 在这里再次启动 Service</span></span><br><span class="line">        startService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, MyService1.class));</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们给 MyService1 赋予了这种『小强模式』，另外两个 Service 还是和原来一样，这样我们再来分别 Stop 一下，对比看看效果，如下：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-killservice1.gif" alt="killservice"></p>
+<p>可以看到，每次试图 Stop MyService1 时，它总是又会启动，并且运行时间重新从0开始，而其它两个 Service 都可以轻易被 Stop 掉，形成了明显的对比。所以其实那我们就可以在每个 Service 的 onDestroy() 中调用我们写好的静态工具类的方法来一键启动所有其它 Service 了，不贴代码了，自己尝试下就可以了。</p>
+<p>进行到这里，本来我就不想继续写了，因为要探讨的两个问题：『创建多个 Service、如何使得 Service 不被杀死』都已经解决完了，然而真的是这样嘛，我开始也以为是，但是又发现了新的问题，在于某种情况下我点击 Stop 仍然可以杀死服务，你先可以探索一下是否真的这样以及怎样做，然后继续往下看。</p>
+<p>———分隔线———</p>
+<p>不知道你是否发现了，就是，点击了 Stop 后马上进 Service 再点 Stop，这样就可以杀死该 Service 了，演示如下：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-killservice2.gif" alt="killservice"></p>
+<p>我非常快的点击了两次该 Service 的 Stop 按钮，惊奇发现所有的 Service 都被杀死了有木有。我们看一下在第二次点击 Stop 之前的界面，貌似和之前的不太一样，如下图：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-stop.png" alt="stop"></p>
+<p>所以如果这个时候我们立刻点击了 Stop，就将该 App 的所有进程都非正常终结掉了，所以我怀疑有些内存清理或防自启的软件是不是这么做的（仅仅猜测而已，待证实）。</p>
+<p>所以目前为止，我们还不能很好的实现服务不被杀死，那我们下面就要继续探索还有什么方式可以帮助我们来自动启动 Service。</p>
+<h2 id="利用广播来实现自启">利用广播来实现自启</h2><p>这种方法应该早就有了，思想就是静态注册广播接收器，接收一些特定的广播事件，比如开机、连接\断开电源、网络状态变化等来回调 onReceive()，实现具体的自启操作。</p>
+<p>我们先定义一个 BroadcastReceiver 用于监听飞行模式的状态变化这一广播事件，Manifest.xml 文件如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver</span><br><span class="line">    android:name=".receivers.MyReceiver"</span><br><span class="line">    android:enabled="true"</span><br><span class="line">    android:exported="true" &gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name="android.intent.action.AIRPLANE_MODE"/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<p>添加一 intent-filter 监听飞行模式变化的 action 即可，这个并不需要添加什么额外的权限，如果是监听锁屏开关等则需要相应的权限，据说蜻蜓FM也监听了锁屏。</p>
+<p>看下 MyReceiver 的代码，很简单：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</span><br><span class="line">        ServiceUtils.startAllService(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 onReceive() 中启动需要的 Service 就可以了，这样我们再运行下程序，改变下飞行模式的状态，效果如下图：</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/qtfm-broadcast.gif" alt="broadcast"></p>
+<p>至此，我们就实现了对一个 app 开启多个进程并分别启动相应的 Service，同时使得 Service 不那么容易被杀死以及收到广播事件后自启。下篇文章将继续研究下一个话题：增加 app 日活。哈哈哈，做个程序员真是越来越有意思。</p>
+<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/28/2015-10-28-Messenger/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Messenger 的使用及源码解析</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015-11-11-QTFMService" data-title="" data-url="http://icodeyou.com/2015/11/16/2015-11-11-QTFMService/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>
