@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【视频教程】典型 TCP 攻击实验 | 把编程当做一种爱</title>
+  <title>要做挖掘机而非推土机 | 把编程当做一种爱</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录典型 TCP 攻击实验的原理及操作步骤。">
+  <meta name="description" content="最近科协和团宣同时向我约稿，科协是让我回顾下去年科技之星，写写经验总结，团宣大体也类似，所以就有了下文，正好也有个机会有个时间写写非代码的东西，对这几年的学习经历经验做个简单的马后炮式总结。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【视频教程】典型 TCP 攻击实验">
-<meta property="og:url" content="http://icodeyou.com/2015/06/10/2015-06-10- 典型tcp攻击实验/index.html">
+<meta property="og:title" content="要做挖掘机而非推土机">
+<meta property="og:url" content="http://icodeyou.com/2015/11/29/2015-11-29-manuscript/index.html">
 <meta property="og:site_name" content="把编程当做一种爱">
-<meta property="og:description" content="记录典型 TCP 攻击实验的原理及操作步骤。">
-<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/tcp_01arp.png">
-<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/tcp_03synflooding.png">
-<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/tcp_04tcprst.png">
+<meta property="og:description" content="最近科协和团宣同时向我约稿，科协是让我回顾下去年科技之星，写写经验总结，团宣大体也类似，所以就有了下文，正好也有个机会有个时间写写非代码的东西，对这几年的学习经历经验做个简单的马后炮式总结。">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-08-24T10:29:27.000Z">
+<meta property="og:updated_time" content="2015-11-29T07:13:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【视频教程】典型 TCP 攻击实验">
-<meta name="twitter:description" content="记录典型 TCP 攻击实验的原理及操作步骤。">
+<meta name="twitter:title" content="要做挖掘机而非推土机">
+<meta name="twitter:description" content="最近科协和团宣同时向我约稿，科协是让我回顾下去年科技之星，写写经验总结，团宣大体也类似，所以就有了下文，正好也有个机会有个时间写写非代码的东西，对这几年的学习经历经验做个简单的马后炮式总结。">
   
     <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
   
@@ -193,11 +190,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-2015-06-10- 典型tcp攻击实验" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-2015-11-29-manuscript" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/10/2015-06-10- 典型tcp攻击实验/" class="article-date">
-  	<time datetime="2015-06-10T07:25:33.000Z" itemprop="datePublished">2015-06-10</time>
+      <a href="/2015/11/29/2015-11-29-manuscript/" class="article-date">
+  	<time datetime="2015-11-29T07:04:44.000Z" itemprop="datePublished">2015-11-29</time>
 </a>
     </div>
   
@@ -210,7 +207,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      【视频教程】典型 TCP 攻击实验
+      要做挖掘机而非推土机
     </h1>
   
 
@@ -219,7 +216,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/netwox/">netwox</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/icodeyou/">icodeyou</a></li></ul>
 	</div>
 
         
@@ -230,41 +227,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>记录典型 TCP 攻击实验的原理及操作步骤。</p>
+        <p>最近科协和团宣同时向我约稿，科协是让我回顾下去年科技之星，写写经验总结，团宣大体也类似，所以就有了下文，正好也有个机会有个时间写写非代码的东西，对这几年的学习经历经验做个简单的马后炮式总结。</p>
 <a id="more"></a>
-<p>在本次实验中，启用了三个虚拟机，处于同一子网中。同时使用了 Wireshark 来进行网络抓包分析，使用 netwox 工具箱来进行攻击实验。</p>
-<p>1.ARP缓存中毒（ARP cache poisoning）</p>
-<p>ARP 缓存是 ARP 协议的重要组成部分。ARP 协议运行的目标就是建立 MAC 地址和 IP 地址的映射，然后把这一映射关系保存在 ARP 缓存中，使得不必重复运行 ARP 协议。因为 ARP 缓存中的映射表并不是一直不变的，主机会定期发送 ARP 请求来更新它的 ARP 映射表，利用这个机制，攻击者可以伪造 ARP 应答帧使得主机错误的更新自己的 ARP 映射表，这个过程就是 ARP 缓存中毒。</p>
-<p>这样的后果即使要么使主机发送 MAC 帧到错误的 MAC 地址，导致数据被窃听；要么由于 MAC 地址不存在，导致数据发送不成功。</p>
-<p>关键 netwox 命令:</p>
-<p><code>netwox 80 --eth &quot;00:00:00:00:00:00&quot; --ip &quot;192.168.224.134&quot;</code> 表示 发送 ARP 的响应包，Wireshark 抓包如下：</p>
-<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/tcp_01arp.png" alt="image"></p>
-<p>具体过程演示：</p>
-<div class="video-container"><br>    <video src="http://7xivx9.com1.z0.glb.clouddn.com/tcp_01ARP_cache_poisoning.mp4" controls="controls"></video><br></div>
-
-<p>2.SYN 泛洪攻击</p>
-<p>SYN 攻击是一种 DoS（Denial of Service）攻击，在这种攻击中黑客向被攻击者的 TCP 端口发送很多 SYN 请求，但是黑客并不是想完成三次握手协议，而是使用伪造的 IP 地址或者只进行三次握手协议中的第一次握手。因为 SYN 数据包用来打开一个 TCP 链接，所以受害者的机器会向伪造的地址发送一个 SYN/ACK 数据包作为回应，并等待预期的 ACK 响应。每个处于等待状态，半开的链接队列都讲进入空间有限的待处理队列。由于伪造的源地址实际上并不存在，所以将那些等待队列中的记录删除并完成建立 TCP 连接所需的 ACK 响应用于不会到来，相反每个半开的连接一定会超时，这将花费一段比较长的时间。</p>
-<p>只要攻击者使用伪造的 SYN 数据包继续泛洪受害者的系统，受害者的待处理队列将一直处于满员，这使得真正的 SYN 数据包几乎不可能到达系统并打开有效的 TCP 连接。</p>
-<p>关键 netwox 命令:</p>
-<p><code>netwox 76 -i &quot;192.168.224.134&quot; -p &quot;23&quot;</code> 代表向目标主机的23号端口发送大量 TCP 连接请求，目标主机连接请求如图：</p>
-<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/tcp_03synflooding.png" alt="image"></p>
-<p>具体过程演示：</p>
-<div class="video-container"><br>    <video src="http://7xivx9.com1.z0.glb.clouddn.com/tcp_03SYN_Flooding_Attack.mp4" controls="controls"></video><br></div>
-
-<p>3.对 Telnet 的 TCP RST 攻击</p>
-<p>TCP RST 攻击可以终止两个被攻击主机之间的 TCP 连接。</p>
-<p>A和服务器B之间建立了 TCP 连接，此时C伪造了一个 TCP 包发给B，使B异常的断开了与A之间的 TCP 连接，就是 RST 攻击了。实际上从RST 标志位的功能已经可以看出这种攻击如何达到效果了。</p>
-<p>关键 netwox 命令:</p>
-<p><code>netwox 78 -i &quot;192.168.224.138&quot;</code> 代表向目标主机发送 TCP RST 数据包，使其中断 telnet 连接：</p>
-<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/tcp_04tcprst.png" alt="image"></p>
-<p>具体过程演示：</p>
-<div class="video-container"><br>    <video src="http://7xivx9.com1.z0.glb.clouddn.com/tcp_04TCP_RST.mp4" controls="controls"></video><br></div>
-
-<p>最后，感谢 静姐 提供 <a href="http://blog.knownsec.com/Knownsec_RD_Checklist/v2.2.html" target="_blank" rel="external">知道创宇研发技能表</a>！</p>
-<p>###个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></p>
-<p>###CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></p>
-<p>###个人微信号：<code>qqwanghuan</code>  技术交流</p>
-<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
+<p><code>兴趣仍然很重要。</code>“兴趣是最好的老师”现在有点太俗了，但对于编程来说绝对是真理。我也会承认，如果没有兴趣支撑，有时码代码确实挺无聊的，大多数人最开始学习编程也只是对着一个黑框框（命令行），所以就认为编程也就这样了，短期又看不到实际效果，很容易就放弃了。但越是这个时候，就越要有继续下去的兴趣与动力。我是初中开始接触电脑报刊，高中开始学习编程，我觉得编程很有意思，我认为计算机技术可以改变未来人类生活方式，并且我会为其贡献力量，可能这就是我最初的兴趣与动力的来源，并坚持到了现在。</p>
+<p><code>编程是艺术而不是技术。</code>很多初学者学习了一两年的编程之后，会认为编程不就是代码的堆砌吗，不会的网上一搜复制粘贴能够运行就算ok了，所以也会管码农叫做搬砖工。其实，如果再往深层次去学习，尤其软件工程、设计模式等深入的思想，会发现编程其实是一门艺术。一个好的程序不是靠代码堆砌来组成的，而是有一种全局具备艺术的思想做整体支撑。这么说很抽象，但我们要学会面向抽象编程，而不是面向具体。每当我再回过头看之前所写过的代码，当时觉得还可以，但现在从艺术的角度看，充其量算个残次品。这个时候需要做的就是『代码重构』，将你的残次品再次变为艺术品，你会发现<code>代码简洁之道，设计模式之美。</code></p>
+<p><code>广泛学习并精于一门，横跨和纵深，先做推土机后做挖掘机。</code>我觉得在大学学习编程一种好的学习规划是，前两年广泛学习各种编程语言及相关知识，可以涵盖前后端以及移动端，不怕你学的多，你学的越广泛越好，你慢慢会觉得很多都是相通的，当你有了c++的基础后，你会发现十大谎言之一的“七天学会Java”竟然是真理。如果你真的这么做了两年，你所掌握的知识广度将是很多人都不及的，可能很多人都会崇拜你是什么都会的技术大牛。然而这个时候你并不能自满，如果你立刻出去找个大公司某研发岗的实习，我敢说十有八九都会被挂掉。为什么呢，都学了这么多语言了，面试官凭什么不要我？答案是，你对该岗位使用的语言或相关知识掌握的程度太肤浅，不够深入。也就是说，从大三开始，你要做出选择，选择你最感兴趣的一个方向学会去纵深，深入去学习。那什么是深入，Java课程考了100分就是深入吗？不一定，你再去阅读《Effective Java》 《Java核心思想》等书籍时，你会发现你会的只是冰山一角而已。深入没有一个绝对的标尺可以衡量，还有不会的，就要继续深入。这就是横跨与纵深，也就是推土机和挖掘机的区别，推土机只会推表面的土，希望你能做个挖掘机。</p>
+<p><code>自学。</code>“互联网的东西变化太快，不自学跟不上脚步”，这句话你肯定不是第一次见了。借此说说另外一个现象：公司为什么不爱录用像北大青鸟这样出来的人才？我相信，在北大青鸟学半年之后，实践经历是要大于普通在校生的，而且他们会有拿得出手的作品，放到公司也立马能干活。但是一个最重要的点在于他们已经丧失了自学能力，我之前曾去达内(也是IT教育)偷偷蹭过课，老师就是手把手的教你每一行代码应该怎样写，但为什么这样写却不怎么说，学员也是跟着老师把项目做完了，但是要让他们自己再独立完成一遍却不行了。所以在校招时公司会看重你的自学能力和可塑造性，而不是必须要求你入职后立马能干活。也有很多人想自学，问我应该怎么自学，其实现在有很多的在线IT教育网站，比如极客学院等，上面有各种各样的课程，多花时间去学习，包括我也是这么走过来的。</p>
+<p><code>积累。</code>编程这种东西很杂，比如你做Android，那其他的如数据库、网络等等你都得会才行，平时需要大量相关知识的积累。推荐几个移动端阅读类的APP，『开发者头条』、『掘金』、『简书』，这些我平时没事就会打开看看。另外也推荐搭建一个自己的博客网站，在上面记录总结学到的知识，比如我的是 <a href="http://icodeyou.com">『www.icodeyou.com』</a>，之所以我要建博客网站是有两个原因，一个是分享，另一个是总结积累，搭建自己的博客是一种很好的方式。知识是要一点一点积累的，量变质变的道理。</p>
+<p><code>重视大学里每一门专业课。</code>我可能都没资格这么说，因为我曾经也没有重视过有些课程，但我想以一种过来人的身份跟你们说这件事。之所以没重视也是觉得，这课没用以后又用不着吧啦吧啦的一堆借口吧，直到我大三暑假时去苏州和郑州参加网络安全集训和CTF的时候，那一个月的时间，我觉得不仅用到了大学所学的几乎所有专业课知识，而且我之前越是不重视的科目，越被这种知识上的漏洞疯狂打脸。所以我当时就比较懊悔，现在要对你们说重视每一门专业课。而且私认为计算机专业和其他有些专业不同的是，大学里的专业课对未来工作是真真真的有帮助。</p>
+<p>参加学习小组。我们新成立了一个学习小组，名为“EvalSafe”，既有安全又有开发，每周日晚上7点都会在机械楼D308有主题分享，大家遇到任何难题都可以一起讨论解决，有一个比较好的学习环境和氛围，有兴趣的也可以直接去参加。</p>
+<p>以上有些东西是马后炮式总结，开始我也不懂迷茫，到了大四经历过了之后才懂得，所以我想如果再给我四年时间，我会更知道怎么做，会比现在做的更好。但我是回不去了，而你正在开始。</p>
+<p>最后用一句话总结，以大多数人的努力程度之低，根本轮不到拼天赋。</p>
+<h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
       
     </div>
@@ -274,18 +248,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/06/17/2015-06-17- 【视频教程】安全协议和认证服务/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          【视频教程】安全协议和认证服务
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/06/10/2015-06-10- wireshark找不到interface/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Ubuntu 下安装好 Wireshark 却找不到 Interface 的解决办法</div>
+    <a href="/2015/11/11/2015-11-11-QTFMService/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">蜻蜓FM之 Service 流氓重生</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -314,7 +279,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2015-06-10- 典型tcp攻击实验" data-title="【视频教程】典型 TCP 攻击实验" data-url="http://icodeyou.com/2015/06/10/2015-06-10- 典型tcp攻击实验/"></div>
+	<div class="ds-thread" data-thread-key="2015-11-29-manuscript" data-title="要做挖掘机而非推土机" data-url="http://icodeyou.com/2015/11/29/2015-11-29-manuscript/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
