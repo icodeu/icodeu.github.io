@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20141129165207500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
 <meta property="og:image" content="http://img.blog.csdn.net/20141129165146918?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-08-24T10:26:29.000Z">
+<meta property="og:updated_time" content="2015-12-06T02:15:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编程实现可靠数据传输原理Go-Back-N">
 <meta name="twitter:description" content="有一个计算机网络的实验，需要模拟GBN的过程，即在本地条件下模拟丢包重传机制。刚看到这个实验时有些不知所措，因为不知道怎样能实现丢包，在本地编程，即使是使用不可靠数据传输UDP的DatagramSocket，由于localhost到localhost走的是回环链路，也就是从客户机的应用层–传输层–网络层 到 服务器的网络层–传输层–应用层，这个肯定无法丢包，也用实验进行验证了（比如连续发送1万个D">
@@ -257,6 +257,8 @@
 <p>运行结果如下：每隔3秒执行一次。如果需要取消定时器，使用timerTask.cancel()方法即可。</p>
 <p><img src="http://img.blog.csdn.net/20141129165146918?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaWNvZGV5b3U=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="image"></p>
 <p>有了如上这些东西，再结合GBN的原理和自己控制的逻辑操作，写GBN就应该可以实现了，就不贴完整代码了，自己实现印象更深刻些。</p>
+<p>update——–</p>
+<p>很多人跟我说你的 GBN 程序没源码。。。。虽然这里没贴源码，但我下面给了Github链接了，进去找找就好了，很明显的 GBN 开头的仓库就是了，一定要学会使用Github啊。。。</p>
 <p>###个人github:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></p>
 <p>###CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></p>
 <p>###个人微信号：<code>qqwanghuan</code>  只为技术交流</p>
