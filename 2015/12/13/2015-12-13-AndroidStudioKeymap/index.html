@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>大多数人都不知道的Android Studio快捷键 | 把编程当做一种爱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当然网上也有很多关于 Android Studio 快捷键的文章，但感觉太冗杂，而且不同的平台快捷键又不一样，导致对着 Mac 打 Win#Eclipse 的快捷键不起作用。所以本篇文章整理的目的在于，列出使用频繁的快捷键并告诉你在哪里设置它们，而且文字看不懂的还有动画，这样即使你用的键盘跟我不一样，你也知道应该去哪里设置相应的键位。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大多数人都不知道的Android Studio快捷键">
+<meta property="og:url" content="http://icodeyou.com/2015/12/13/2015-12-13-AndroidStudioKeymap/index.html">
+<meta property="og:site_name" content="把编程当做一种爱">
+<meta property="og:description" content="当然网上也有很多关于 Android Studio 快捷键的文章，但感觉太冗杂，而且不同的平台快捷键又不一样，导致对着 Mac 打 Win#Eclipse 的快捷键不起作用。所以本篇文章整理的目的在于，列出使用频繁的快捷键并告诉你在哪里设置它们，而且文字看不懂的还有动画，这样即使你用的键盘跟我不一样，你也知道应该去哪里设置相应的键位。">
+<meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_androidstudio-keymap.png">
+<meta property="og:updated_time" content="2015-12-13T12:53:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大多数人都不知道的Android Studio快捷键">
+<meta name="twitter:description" content="当然网上也有很多关于 Android Studio 快捷键的文章，但感觉太冗杂，而且不同的平台快捷键又不一样，导致对着 Mac 打 Win#Eclipse 的快捷键不起作用。所以本篇文章整理的目的在于，列出使用频繁的快捷键并告诉你在哪里设置它们，而且文字看不懂的还有动画，这样即使你用的键盘跟我不一样，你也知道应该去哪里设置相应的键位。">
+  
+    <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">icodeyou</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/videos">视频教程</a></li>
+				        
+							<li><a href="/citstar">科技之星</a></li>
+				        
+							<li><a href="/works">作品</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.86px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.86px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.43px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.43px;">Wireshark</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/icodeyou/" style="font-size: 12.86px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15.71px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 14.29px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 17.14px;">极客学院</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.lynahex.com/">我大哥的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zacharyjia.github.io/">牛B的学弟</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://niuzijian.com/">牛牛的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cdxy.me/">cdxy</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">不断成长的 程序员</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">icodeyou</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://avatar.csdn.net/6/1/D/1_icodeyou.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">icodeyou</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">待我代码编成 娶你为妻可好</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/videos">视频教程</a></li>
+		        
+					<li><a href="/citstar">科技之星</a></li>
+		        
+					<li><a href="/works">作品</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/icodeu" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:icodeyou@sina.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-2015-12-13-AndroidStudioKeymap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/13/2015-12-13-AndroidStudioKeymap/" class="article-date">
+  	<time datetime="2015-12-13T07:04:44.000Z" itemprop="datePublished">2015-12-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      大多数人都不知道的Android Studio快捷键
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当然网上也有很多关于 Android Studio 快捷键的文章，但感觉太冗杂，而且不同的平台快捷键又不一样，导致对着 Mac 打 Win#Eclipse 的快捷键不起作用。所以本篇文章整理的目的在于，<code>列出使用频繁的快捷键</code>并<code>告诉你在哪里设置它们</code>，而且<code>文字看不懂的还有动画</code>，这样即使你用的键盘跟我不一样，你也知道应该去哪里设置相应的键位。</p>
+<a id="more"></a>
+<p>全局说明：</p>
+<ul>
+<li><p>我用的是 Mac，键位是 Mac OS X 10.5+，如下图</p>
+</li>
+<li><p>若你要修改对应的快捷键，去 Settings-&gt;Keymap 中修改，如下图</p>
+<p><img src="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_androidstudio-keymap.png" alt="keymap"></p>
+</li>
+</ul>
+<h3 id="0x01_定位目标">0x01 定位目标</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+O.gif" target="_blank" rel="external">搜索类(Enter class name)</a></td>
+<td>Cmd+O</td>
+<td>Main menu-&gt;Navigate-&gt;Class</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Option+O.gif" target="_blank" rel="external">搜索方法或字段(Enter symbol name)</a></td>
+<td>Cmd+Option+O</td>
+<td>Main menu-&gt;Navigate-&gt;Symbol</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+O.gif" target="_blank" rel="external">搜索文件、目录(Enter file name)</a></td>
+<td>Cmd+Shift+O</td>
+<td>Main menu-&gt;Navigate-&gt;File</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Shift+Shift.gif" target="_blank" rel="external">Search Everywhere</a></td>
+<td>Shift+Shift</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Option+F7.gif" target="_blank" rel="external">查看字段、方法、类、文件都在哪些地方被使用了(全局)</a></td>
+<td>Option+F7</td>
+<td>Main menu-&gt;Edit-&gt;Find-&gt;Usages</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+F7.gif" target="_blank" rel="external">查看字段、方法、类、文件都在哪些地方被使用了(当前文件)</a></td>
+<td>Cmd+F7</td>
+<td>Main menu-&gt;Edit-&gt;Find-&gt;Find Usages in File</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+A.gif" target="_blank" rel="external">搜索任意快捷键(Enter action or option name) 很强大！知道快捷操作关键字即可！</a></td>
+<td>Cmd+Shift+A</td>
+<td>Main menu-&gt;Help-&gt;Find Action</td>
+</tr>
+</tbody>
+</table>
+<h3 id="0x02_查看结构">0x02 查看结构</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+B.gif" target="_blank" rel="external">查看定义</a></td>
+<td>Cmd+B</td>
+<td>Main menu-&gt;Navigate-&gt;Declaration</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Option+Up.gif" target="_blank" rel="external">智能选取</a></td>
+<td>Option+Up/Down</td>
+<td>Editor Actions-&gt;Extend Selection/Shrink Selection</td>
+</tr>
+<tr>
+<td>查看本类结构</td>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+F12.gif" target="_blank" rel="external">Cmd+F12</a> <a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+7.gif" target="_blank" rel="external">Cmd+7</a></td>
+<td>Main menu-&gt;Navigate-&gt;File Structure   Other-&gt;Structure</td>
+</tr>
+<tr>
+<td>查找和替换</td>
+<td>Cmd+F Cmd+R Cmd+Shift+F Cmd+Shift+R</td>
+<td>Main menu-&gt;Edit-&gt;Find/Replace</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_F1Ctrl+J.gif" target="_blank" rel="external">查看doc</a></td>
+<td>F1 Ctrl+J</td>
+<td>Main menu-&gt;View-&gt;Quick Documentation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="0x03_视图切换">0x03 视图切换</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+1.gif" target="_blank" rel="external">显示目录窗口</a></td>
+<td>Cmd+1</td>
+<td>Other-&gt;Project/Home Directory</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+2.gif" target="_blank" rel="external">显示收藏窗口</a></td>
+<td>Cmd+2</td>
+<td>Other-&gt;Favorites</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+6.gif" target="_blank" rel="external">显示AndroidMonitor</a></td>
+<td>Cmd+6</td>
+<td>Other-&gt;Android Monitor</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+7.gif" target="_blank" rel="external">显示类结构</a></td>
+<td>Cmd+7</td>
+<td>Other-&gt;Structure</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+E.gif" target="_blank" rel="external">最近查看文件窗口</a></td>
+<td>Cmd+E</td>
+<td>Main menu-&gt;View-&gt;Recent Files</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+E.gif" target="_blank" rel="external">最近修改文件窗口</a></td>
+<td>Cmd+Shift+E</td>
+<td>Main menu-&gt;View-&gt;Recent Changed Files</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+[%3A].gif" target="_blank" rel="external">在当前编辑器切换标签</a></td>
+<td>Cmd+Shift+[/]</td>
+<td>Main menu-&gt;Window-&gt;Editor Tabs-&gt;Select Previous Tab/Select Next Tab</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Up.gif" target="_blank" rel="external">切换到顶部导航栏</a></td>
+<td>Cmd+Up/Down</td>
+<td>Main menu-&gt;Navigate-&gt;Jump to Navigation Bar/Jump to Source</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Ctrl+Tab.gif" target="_blank" rel="external">视图切换Switcher</a></td>
+<td>Ctrl+Tab</td>
+<td>Other-&gt;Switcher</td>
+</tr>
+</tbody>
+</table>
+<h3 id="0x04_编辑代码">0x04 编辑代码</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+J.gif" target="_blank" rel="external">LiveTemplate</a></td>
+<td>Cmd+J</td>
+<td>Main menu-&gt;Code-&gt;Insert Live Template</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+N.gif" target="_blank" rel="external">Generate</a></td>
+<td>Cmd+N</td>
+<td>Main menu-&gt;Code-&gt;Generate</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Option+Enter.gif" target="_blank" rel="external">智能提示</a></td>
+<td>Option+Enter</td>
+<td>Other-&gt;Show Intention Actions</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+W.gif" target="_blank" rel="external">关闭当前活动窗口</a></td>
+<td>Cmd+W</td>
+<td>Main menu-&gt;Window-&gt;Editor Tabs-&gt;Close</td>
+</tr>
+<tr>
+<td>格式化代码</td>
+<td>Cmd+Option+L</td>
+<td>Main menu-&gt;Code-&gt;Reformat Code</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+Up.gif" target="_blank" rel="external">将当前代码段上下移动</a></td>
+<td>Cmd+Shift+Up/Down</td>
+<td>Main menu-&gt;Code-&gt;Move Statement Up/Move Statement Down</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Shift+Option+Up.gif" target="_blank" rel="external">将当前行上下移动</a></td>
+<td>Shift+Option+Up/Down</td>
+<td>Main menu-&gt;Code-&gt;Move Line Up/Move Line Down</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Shift+Option+左键.gif" target="_blank" rel="external">插入多个光标协同编辑</a></td>
+<td>Shift+Option+左键</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Ctrl+K.gif" target="_blank" rel="external">从当前位置剪切到末尾</a></td>
+<td>Ctrl+K</td>
+<td>Editor Actions-&gt;Cut up to Line End</td>
+</tr>
+</tbody>
+</table>
+<h3 id="0x05_重构">0x05 重构</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_F6.gif" target="_blank" rel="external">移动文件</a></td>
+<td>F6</td>
+<td>Main menu-&gt;Refactor-&gt;Move</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_F5.gif" target="_blank" rel="external">拷贝文件</a></td>
+<td>F5</td>
+<td>Main menu-&gt;Refactor-&gt;Copy</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Shift+F6.gif" target="_blank" rel="external">重命名</a></td>
+<td>Shift+F6</td>
+<td>Main menu-&gt;Refactor-&gt;Rename</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+F6.gif" target="_blank" rel="external">修改方法签名</a></td>
+<td>Cmd+F6</td>
+<td>Main menu-&gt;Refactor-&gt;Change Signature</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+F6.gif" target="_blank" rel="external">修改参数类型</a></td>
+<td>Cmd+Shift+F6</td>
+<td>Main menu-&gt;Refactor-&gt;Type Migration</td>
+</tr>
+<tr>
+<td>引入一个局部变量</td>
+<td>Cmd+Shift+V</td>
+<td></td>
+</tr>
+<tr>
+<td>引入一个参数</td>
+<td>Cmd+Shift+P</td>
+<td></td>
+</tr>
+<tr>
+<td>引入一个类变量</td>
+<td>Cmd+Shift+F</td>
+<td></td>
+</tr>
+<tr>
+<td>引入一个方法</td>
+<td>Cmd+Shift+M</td>
+<td></td>
+</tr>
+<tr>
+<td>引入一个常量</td>
+<td>Cmd+Shift+C</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Ctrl+T.gif" target="_blank" rel="external">显示重构菜单</a></td>
+<td>Ctrl+T</td>
+<td>Main menu-&gt;Refactor-&gt;Refactor This</td>
+</tr>
+</tbody>
+</table>
+<h3 id="0x06_查看代码">0x06 查看代码</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+P.gif" target="_blank" rel="external">查询某方法参数信息</a></td>
+<td>Cmd+P</td>
+<td>Main menu-&gt;View-&gt;Parameter Info</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+B.gif" target="_blank" rel="external">跳到方法定义</a></td>
+<td>Cmd+B</td>
+<td>Main menu-&gt;Navigate-&gt;Declaration</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+B.gif" target="_blank" rel="external">跳到变量的定义类</a></td>
+<td>Cmd+Shift+B</td>
+<td>Main menu-&gt;Navigate-&gt;Type Declaration</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+U.gif" target="_blank" rel="external">跳到方法在父类或接口的定义处</a></td>
+<td>Cmd+U</td>
+<td>Main menu-&gt;Navigate-&gt;Super Method</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Ctrl+Up.gif" target="_blank" rel="external">跳到上/下一方法</a></td>
+<td>Ctrl+Up/Down</td>
+<td>Main menu-&gt;Navigate-&gt;Previous Method/Next Method</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Option+Left.gif" target="_blank" rel="external">跳到上/下一次光标查看处(阅读源代码时非常有用)</a></td>
+<td>Cmd+Option+Left/Right</td>
+<td>Main menu-&gt;Navigate-&gt;Back/Forward</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+L.gif" target="_blank" rel="external">跳到指定行</a></td>
+<td>Cmd+L</td>
+<td>Main menu-&gt;Navigate-&gt;Line</td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Cmd+Shift+H.gif" target="_blank" rel="external">显示方法层级结构</a></td>
+<td>Cmd+Shift+H</td>
+<td>Main menu-&gt;Navigate-&gt;Method Hierarchy</td>
+</tr>
+<tr>
+<td>调用层级结构</td>
+<td>Cmd+Option+H</td>
+<td>Main menu-&gt;Navigate-&gt;Imports Hierarchy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="0x07_Run_&amp;_Debug">0x07 Run &amp; Debug</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>快捷键</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Ctrl+R.gif" target="_blank" rel="external">Run</a></td>
+<td>Ctrl+R</td>
+<td>Main menu-&gt;Run-&gt;Run</td>
+</tr>
+<tr>
+<td>build</td>
+<td>Cmd+F9</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_Ctrl+D.gif" target="_blank" rel="external">Debug</a></td>
+<td>Ctrl+D</td>
+<td>Main menu-&gt;Run-&gt;Debug</td>
+</tr>
+<tr>
+<td>单步进入</td>
+<td>F7</td>
+<td>Main menu-&gt;Run-&gt;Step Into</td>
+</tr>
+<tr>
+<td>单步跳过</td>
+<td>F8</td>
+<td>Main menu-&gt;Run-&gt;Step Over</td>
+</tr>
+<tr>
+<td>跳过本次debug</td>
+<td>F9</td>
+<td>有待商榷</td>
+</tr>
+<tr>
+<td>debug时执行选中的语句</td>
+<td>Option+F8</td>
+<td>有待商榷</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/11/29/2015-11-29-manuscript/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">要做挖掘机而非推土机</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2015-12-13-AndroidStudioKeymap" data-title="大多数人都不知道的Android Studio快捷键" data-url="http://icodeyou.com/2015/12/13/2015-12-13-AndroidStudioKeymap/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"icodeyou"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 icodeyou
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://icodeyou.com/" target="_blank">以大多数人的努力程度之低，根本轮不到拼天赋</a>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254722126'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1254722126%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+  </div>
+</body>
+</html>
