@@ -14,7 +14,7 @@
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_serialVersionUID1.jpg">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_serialVersionUID2.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-12-15T13:23:42.000Z">
+<meta property="og:updated_time" content="2015-12-16T01:31:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AndroidStudio 自动生成 SerialVersionUID">
 <meta name="twitter:description" content="关于 SerialVersionUID 的概念和作用就不多说了，自行搜索即可，本篇简单说一下如何在 Android Studio 中自动帮助我们生成(不重复的) SerialVersionUID。">
@@ -234,6 +234,7 @@
         <p>关于 SerialVersionUID 的概念和作用就不多说了，自行搜索即可，本篇简单说一下如何在 Android Studio 中自动帮助我们生成(不重复的) SerialVersionUID。</p>
 <a id="more"></a>
 <p>打开 Settings，切换到 Editor-&gt;Inspections-&gt;Java-&gt;Serialization issues，找到 Serializationzable class without ‘serialVersionUID’，将其勾选即可，如图：<br><img src="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_serialVersionUID1.jpg" alt="img"></p>
+<p>其实这个意思就是在代码检查时看是否有 serialVersionUID 这个字段，没有就提示你。</p>
 <p>之后在实现了 Serializable 接口的类名上打开 Android Studio 的智能提示(智能检查)，就会多出了 Add ‘serialVersionUID’ field，如图：<br><img src="http://7xivx9.com1.z0.glb.clouddn.com/androidstudio_serialVersionUID2.png" alt="img"></p>
 <h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
