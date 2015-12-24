@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack18.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack19.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-12-24T02:01:30.000Z">
+<meta property="og:updated_time" content="2015-12-24T02:04:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="写自己的开源库，发布到 JitPack.io">
 <meta name="twitter:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能">
@@ -271,7 +271,7 @@
 <p>下面检查你的Project目录是否存在 gradle/wrapper/gradle-wrapper.jar、gradle-wrapper.properties 这两个文件，如果存在可跳过下面这步，如果不存在，请按下面的进行操作。打开当前项目的 Terminal，先后执行 <code>gradle wrapper</code> 和 <code>./gradlew install</code> 两个命令，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack11.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack20.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack21.png" alt="img"></p>
 <p>从 JitPack 首页也能看出来，其实我们是要粘贴一个 GitHub 项目地址进去，所以我们接下来就要把 library 先上传到 GitHub 上面。</p>
-<p>在GitHub上新建一个仓库，这里命名为 Hellolibrary，之后 clone 到本地，再把 Project 目录所有的文件复制进去，比如在我这里，仓库 clone 到了桌面的 Hellolibrary 文件夹，如下图：</p>
+<p>在 GitHub 上新建一个仓库，这里命名为 HelloLibrary，之后 clone 到本地，再把 Project 目录所有的文件复制进去，比如在我这里，仓库 clone 到了桌面的 HelloLibrary 文件夹，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack12.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack13.png" alt="img"></p>
 <p>把这些文件 push 到 GitHub 上，push 成功之后，点击项目的 releases-&gt;Create a new release，填写好版本号等内容，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack15.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack16.png" alt="img"></p>
