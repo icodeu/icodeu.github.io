@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack18.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack19.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-12-24T02:04:00.000Z">
+<meta property="og:updated_time" content="2015-12-24T02:04:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="写自己的开源库，发布到 JitPack.io">
 <meta name="twitter:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能">
@@ -275,7 +275,7 @@
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack12.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack13.png" alt="img"></p>
 <p>把这些文件 push 到 GitHub 上，push 成功之后，点击项目的 releases-&gt;Create a new release，填写好版本号等内容，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack15.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack16.png" alt="img"></p>
-<p>填写好后点击 Publish release 即可，然后我们复制下图红框中的项目地址，粘贴到 JitPack.io 上面，Look up-&gt;Get it，在下面就能看到使用方法了，</p>
+<p>填写好后点击 Publish release 即可，然后我们复制下图红框中的项目地址，粘贴到 JitPack.io 上面，Look up-&gt;Get it，在下面就能看到使用方法了。</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack17.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack18.png" alt="img"></p>
 <p>首先打开 Project root 的 build.gradle，在 repositories 节点添加上 <code>maven { url &quot;https://jitpack.io&quot; }</code>，之后打开想依赖这个 library 的模块，比如这里我们是 app 这个 module，在 dependencies 节点添加上 <code>compile &#39;com.github.icodeu:Hellolibrary:v1.0&#39;</code>，Sync 一下 Gradle，这样就可以了。如果 Sync 成功了，那我们在 app 中就成功依赖了 GitHub 上的 library，此时可以打开 app 的 Module Settings，看一下它的 Dependencies，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack19.png" alt="img"></p>
