@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack18.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack19.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-12-24T01:49:30.000Z">
+<meta property="og:updated_time" content="2015-12-24T01:57:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="写自己的开源库，发布到 JitPack.io">
 <meta name="twitter:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 Library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 Library，然后能">
@@ -255,7 +255,7 @@
 <p>我也试图在网上找一些关于使用 JitPack.io 的教程，但是搜出来的基本是<a href="http://www.tuicool.com/articles/Vv6jEb" target="_blank" rel="external">这篇</a>的复制品，根本没讲什么实质性的东西，所以一切只好自己来了。</p>
 <h2 id="如何写_Library">如何写 Library</h2><p>在本节，我们一起来新建个 Library，打开 Android Studio，New Project，在此工程名为 HelloLibrary，此后一直点击 next 直至 finish 即可。此时应该是只有一个 module 名为 app，一会我们会把它当做依赖 library 的示例模块来使用，暂时先不管，我们先来创建一个 Library，File-&gt;New-&gt;Module，选择 Android Library，之后起个名字，在此叫做 Library，finish 即可，此时工程目录如下所示，其中 app 用来依赖使用 library。</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack00.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack01.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack02.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack03.png" alt="img"></p>
-<p>Library And Application？</p>
+<p>怎么指定一个 module 到底是普通的 application 还是 library 呢？打开 module 对应的 build.gradle 文件，看第一行 <code>apply plugin: xxx</code>，如果是 application 的话，plugin 就是 ‘com.android.application’，library 的话就是 ‘com.android.library’，就这么简单，如下图：</p>
 <p>接下来在 Library 中 New-&gt;Java Class，在此就是演示，所以我们就尽可能把不重要的东西简单化，名字就叫做 CustomUtil，只有一个静态方法，如下图所示</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack04.png" alt="img"></p>
 <p>其实到此最简单的 Library 就写好了，下面就在 app 中来依赖刚才的这个 Library 看看效果。打开 app 的 build.gradle，在最后的 dependencies 节点添加一行，<code>compile project(&#39;:library&#39;)</code>，再 Sync 一下 Gradle即可，这样 app 就完成了对 library 的依赖。另外还有一种方法去依赖 library，右键 app 这个 module，选择 Open Module Settings，切换到最后一个Tab:Dependencies，点击左下角的加号-&gt;Module dependency-&gt;选择 library，这样也能完成 app 对 library 的依赖。</p>
