@@ -5,12 +5,12 @@
   
   <title>写自己的开源库，发布到 JitPack.io | 把编程当做一种爱</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 Library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 Library，然后能">
+  <meta name="description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能">
 <meta property="og:type" content="article">
 <meta property="og:title" content="写自己的开源库，发布到 JitPack.io">
 <meta property="og:url" content="http://icodeyou.com/2015/12/23/2015-12-23-AndroidLibraryJitPack/index.html">
 <meta property="og:site_name" content="把编程当做一种爱">
-<meta property="og:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 Library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 Library，然后能">
+<meta property="og:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack00.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack01.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack02.png">
@@ -33,10 +33,10 @@
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack18.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack19.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-12-24T01:57:07.000Z">
+<meta property="og:updated_time" content="2015-12-24T01:59:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="写自己的开源库，发布到 JitPack.io">
-<meta name="twitter:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 Library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 Library，然后能">
+<meta name="twitter:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能">
   
     <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
   
@@ -250,15 +250,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 <code>compile &#39;com.github.icodeu:CommonAdapter:v1.0&#39;</code> 的就好了，剩下的就可以交给 Gradle 帮助我们完成 Library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 Library，然后能够提供给别人使用的话，可跟着本篇博客学习一下。本篇分为两个部分，首先讲解如何单纯的写个 Library 并在本地自己依赖着(玩)，然后进入主题讲解怎么使用 JitPack.io 来发布我们自己的 Library，所以如果你已经知道了怎么写 Library，可以直接跳到第二部分。</p>
+        <p>之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 <code>compile &#39;com.github.icodeu:CommonAdapter:v1.0&#39;</code> 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能够提供给别人使用的话，可跟着本篇博客学习一下。本篇分为两个部分，首先讲解如何单纯的写个 library 并在本地自己依赖着(玩)，然后进入主题讲解怎么使用 JitPack.io 来发布我们自己的 library，所以如果你已经知道了怎么写 library，可以直接跳到第二部分。</p>
 <a id="more"></a>
 <p>我也试图在网上找一些关于使用 JitPack.io 的教程，但是搜出来的基本是<a href="http://www.tuicool.com/articles/Vv6jEb" target="_blank" rel="external">这篇</a>的复制品，根本没讲什么实质性的东西，所以一切只好自己来了。</p>
-<h2 id="如何写_Library">如何写 Library</h2><p>在本节，我们一起来新建个 Library，打开 Android Studio，New Project，在此工程名为 HelloLibrary，此后一直点击 next 直至 finish 即可。此时应该是只有一个 module 名为 app，一会我们会把它当做依赖 library 的示例模块来使用，暂时先不管，我们先来创建一个 Library，File-&gt;New-&gt;Module，选择 Android Library，之后起个名字，在此叫做 Library，finish 即可，此时工程目录如下所示，其中 app 用来依赖使用 library。</p>
+<h2 id="如何写_library">如何写 library</h2><p>在本节，我们一起来新建个 library，打开 Android Studio，New Project，在此工程名为 Hellolibrary，此后一直点击 next 直至 finish 即可。此时应该是只有一个 module 名为 app，一会我们会把它当做依赖 library 的示例模块来使用，暂时先不管，我们先来创建一个 library，File-&gt;New-&gt;Module，选择 Android library，之后起个名字，在此叫做 library，finish 即可，此时工程目录如下所示，其中 app 用来依赖使用 library。</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack00.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack01.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack02.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack03.png" alt="img"></p>
 <p>怎么指定一个 module 到底是普通的 application 还是 library 呢？打开 module 对应的 build.gradle 文件，看第一行 <code>apply plugin: xxx</code>，如果是 application 的话，plugin 就是 ‘com.android.application’，library 的话就是 ‘com.android.library’，就这么简单，如下图：</p>
-<p>接下来在 Library 中 New-&gt;Java Class，在此就是演示，所以我们就尽可能把不重要的东西简单化，名字就叫做 CustomUtil，只有一个静态方法，如下图所示</p>
+<p>接下来在 library 中 New-&gt;Java Class，在此就是演示，所以我们就尽可能把不重要的东西简单化，名字就叫做 CustomUtil，只有一个静态方法，如下图所示：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack04.png" alt="img"></p>
-<p>其实到此最简单的 Library 就写好了，下面就在 app 中来依赖刚才的这个 Library 看看效果。打开 app 的 build.gradle，在最后的 dependencies 节点添加一行，<code>compile project(&#39;:library&#39;)</code>，再 Sync 一下 Gradle即可，这样 app 就完成了对 library 的依赖。另外还有一种方法去依赖 library，右键 app 这个 module，选择 Open Module Settings，切换到最后一个Tab:Dependencies，点击左下角的加号-&gt;Module dependency-&gt;选择 library，这样也能完成 app 对 library 的依赖。</p>
+<p>其实到此最简单的 library 就写好了，下面就在 app 中来依赖刚才的这个 library 看看效果。打开 app 的 build.gradle，在最后的 dependencies 节点添加一行，<code>compile project(&#39;:library&#39;)</code>，再 Sync 一下 Gradle即可，这样 app 就完成了对 library 的依赖。另外还有一种方法去依赖 library，右键 app 这个 module，选择 Open Module Settings，切换到最后一个Tab:Dependencies，点击左下角的加号-&gt;Module dependency-&gt;选择 library，这样也能完成 app 对 library 的依赖。</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack05.png" alt="img"></p>
 <p>那怎么能在代码上看出来 app 确实成功依赖了 library 呢？我们打开 app 中的 MainActivity，输入 CustomUtil 试一下，如果发现像下图那样给你智能提示了，那就OK了，从下图还能看到 CustomUtil 类所在的包是 com.icodeyou.library。我们调用一下它吧，如下图也很简单，不解释了。</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack06.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack07.png" alt="img"></p>
@@ -271,13 +271,13 @@
 <p>下面检查你的Project目录是否存在 gradle/wrapper/gradle-wrapper.jar、gradle-wrapper.properties 这两个文件，如果存在可跳过下面这步，如果不存在，请按下面的进行操作。打开当前项目的 Terminal，先后执行 <code>gradle wrapper</code> 和 <code>./gradlew install</code> 两个命令，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack11.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack20.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack21.png" alt="img"></p>
 <p>从 JitPack 首页也能看出来，其实我们是要粘贴一个 GitHub 项目地址进去，所以我们接下来就要把 library 先上传到 GitHub 上面。</p>
-<p>在GitHub上新建一个仓库，这里命名为 HelloLibrary，之后 clone 到本地，再把 Project 目录所有的文件复制进去，比如在我这里，仓库 clone 到了桌面的 HelloLibrary 文件夹，如下图：</p>
+<p>在GitHub上新建一个仓库，这里命名为 Hellolibrary，之后 clone 到本地，再把 Project 目录所有的文件复制进去，比如在我这里，仓库 clone 到了桌面的 Hellolibrary 文件夹，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack12.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack13.png" alt="img"></p>
 <p>把这些文件 push 到 GitHub 上，push 成功之后，点击项目的 releases-&gt;Create a new release，填写好版本号等内容，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack15.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack16.png" alt="img"></p>
 <p>填写好后点击 Publish release 即可，然后我们复制下图红框中的项目地址，粘贴到 JitPack.io 上面，Look up-&gt;Get it，在下面就能看到使用方法了，</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack17.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack18.png" alt="img"></p>
-<p>首先打开 Project root 的 build.gradle，在 repositories 节点添加上 <code>maven { url &quot;https://jitpack.io&quot; }</code>，之后打开想依赖这个 library 的模块，比如这里我们是 app 这个 module，在 dependencies 节点添加上 <code>compile &#39;com.github.icodeu:HelloLibrary:v1.0&#39;</code>，Sync 一下 Gradle，这样就可以了。如果 Sync 成功了，那我们在 app 中就成功依赖了 GitHub 上的 library，此时可以打开 app 的 Module Settings，看一下它的 Dependencies，如下图：</p>
+<p>首先打开 Project root 的 build.gradle，在 repositories 节点添加上 <code>maven { url &quot;https://jitpack.io&quot; }</code>，之后打开想依赖这个 library 的模块，比如这里我们是 app 这个 module，在 dependencies 节点添加上 <code>compile &#39;com.github.icodeu:Hellolibrary:v1.0&#39;</code>，Sync 一下 Gradle，这样就可以了。如果 Sync 成功了，那我们在 app 中就成功依赖了 GitHub 上的 library，此时可以打开 app 的 Module Settings，看一下它的 Dependencies，如下图：</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack19.png" alt="img"></p>
 <h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
