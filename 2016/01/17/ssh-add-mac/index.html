@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Mac 上 ssh-add 永久将私钥添加到 KeyChain | 把编程当做一种爱</title>
+  <title>Mac 上 ssh-add 永久将私钥添加到 Keychain | 把编程当做一种爱</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 ssh-keygen -t rsa -C “me@icodeyou.com” 来生成 SSH 的公钥和私钥，之后执行 ssh-add privateKey 将 SSH 的私有添加进去，但是发现了一个问题就是每次重启电脑后都需要重新 ssh-add，显然每次重启后都需要重新添加让我等程序员肯定受不了">
+  <meta name="description" content="两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 ssh-keygen -t rsa -C “me@icodeyou.com” 来生成 SSH 的公钥和私钥，之后执行 ssh-add privateKey 将 SSH 的私钥添加进去，但是发现了一个问题就是每次重启电脑后都需要重新 ssh-add，显然每次重启后都需要重新添加让我等程序员肯定受不了">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac 上 ssh-add 永久将私钥添加到 KeyChain">
+<meta property="og:title" content="Mac 上 ssh-add 永久将私钥添加到 Keychain">
 <meta property="og:url" content="http://icodeyou.com/2016/01/17/ssh-add-mac/index.html">
 <meta property="og:site_name" content="把编程当做一种爱">
-<meta property="og:description" content="两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 ssh-keygen -t rsa -C “me@icodeyou.com” 来生成 SSH 的公钥和私钥，之后执行 ssh-add privateKey 将 SSH 的私有添加进去，但是发现了一个问题就是每次重启电脑后都需要重新 ssh-add，显然每次重启后都需要重新添加让我等程序员肯定受不了">
+<meta property="og:description" content="两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 ssh-keygen -t rsa -C “me@icodeyou.com” 来生成 SSH 的公钥和私钥，之后执行 ssh-add privateKey 将 SSH 的私钥添加进去，但是发现了一个问题就是每次重启电脑后都需要重新 ssh-add，显然每次重启后都需要重新添加让我等程序员肯定受不了">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/ssh-add-K.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2016-01-17T10:50:05.000Z">
+<meta property="og:updated_time" content="2016-01-17T10:57:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac 上 ssh-add 永久将私钥添加到 KeyChain">
-<meta name="twitter:description" content="两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 ssh-keygen -t rsa -C “me@icodeyou.com” 来生成 SSH 的公钥和私钥，之后执行 ssh-add privateKey 将 SSH 的私有添加进去，但是发现了一个问题就是每次重启电脑后都需要重新 ssh-add，显然每次重启后都需要重新添加让我等程序员肯定受不了">
+<meta name="twitter:title" content="Mac 上 ssh-add 永久将私钥添加到 Keychain">
+<meta name="twitter:description" content="两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 ssh-keygen -t rsa -C “me@icodeyou.com” 来生成 SSH 的公钥和私钥，之后执行 ssh-add privateKey 将 SSH 的私钥添加进去，但是发现了一个问题就是每次重启电脑后都需要重新 ssh-add，显然每次重启后都需要重新添加让我等程序员肯定受不了">
   
     <link rel="alternative" href="/atom.xml" title="把编程当做一种爱" type="application/atom+xml">
   
@@ -210,7 +210,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Mac 上 ssh-add 永久将私钥添加到 KeyChain
+      Mac 上 ssh-add 永久将私钥添加到 Keychain
     </h1>
   
 
@@ -230,12 +230,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 <code>ssh-keygen -t rsa -C “me@icodeyou.com”</code> 来生成 SSH 的公钥和私钥，之后执行 <code>ssh-add privateKey</code> 将 SSH 的私有添加进去，但是发现了一个问题就是<code>每次重启电脑后都需要重新 ssh-add</code>，显然每次重启后都需要重新添加让我等程序员肯定受不了，解决办法就是在添加 ssh 私钥的时候使用如下命令： <code>ssh-add -K privateKey</code>，即可一劳永逸将私钥添加进 Mac 本身的钥匙串中，即 Keychain。下面简单解释下原理。</p>
+        <p>两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 <code>ssh-keygen -t rsa -C “me@icodeyou.com”</code> 来生成 SSH 的公钥和私钥，之后执行 <code>ssh-add privateKey</code> 将 SSH 的私钥添加进去，但是发现了一个问题就是<code>每次重启电脑后都需要重新 ssh-add</code>，显然每次重启后都需要重新添加让我等程序员肯定受不了，解决办法就是在添加 ssh 私钥的时候使用如下命令： <code>ssh-add -K privateKey</code>，即可一劳永逸将私钥添加进 Mac 本身的钥匙串中，即 Keychain。下面简单解释下原理。</p>
 <a id="more"></a>
 <p>首先得了解一件事：ssh-add 这个命令不是用来永久性的记住你所使用的私钥的。实际上，它的作用只是把你指定的私钥添加到 ssh-agent 所管理的一个 session 当中。而 ssh-agent 是一个用于存储私钥的临时性的 session 服务，也就是说当你重启之后，ssh-agent 服务也就重置了，session 会话也就失效了。</p>
-<p>既然 ssh-agent 是个临时的，那么对于 Mac 来说，哪里可以永久存储的，显然就是 Keychain 了，在执行 <code>ssh-add -K privateKey</code> 后可以打开偏好设置中的 Keychain<br>来观察一下前后的变化，是不是多出了 SSH 的条目，见下图。</p>
+<p>既然 ssh-agent 是个临时的，那么对于 Mac 来说，哪里可以永久存储的，显然就是 Keychain 了，在执行 <code>ssh-add -K privateKey</code> 后可以打开偏好设置中的 Keychain来观察一下前后的变化，是不是多出了 SSH 的条目，见下图。</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/ssh-add-K.png" alt="ssh-add-K"></p>
-<p>其实我最开始以为是 zsh 的问题，看来我是冤枉我的好兄弟了。。。</p>
+<p>后记：其实我最开始以为是 zsh 的问题，看来我是冤枉我的好兄弟了。。。</p>
 <h3 id="个人GitHub:_http://github-com/icodeu">个人GitHub:  <a href="http://github.com/icodeu" target="_blank" rel="external">http://github.com/icodeu</a></h3><h3 id="CSDN博客：http://blog-csdn-net/icodeyou">CSDN博客：<a href="http://blog.csdn.net/icodeyou" target="_blank" rel="external">http://blog.csdn.net/icodeyou</a></h3><h3 id="个人微信号：qqwanghuan_技术交流">个人微信号：<code>qqwanghuan</code>  技术交流</h3><p><img src="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png" alt="image"></p>
 
       
@@ -277,7 +277,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="ssh-add-mac" data-title="Mac 上 ssh-add 永久将私钥添加到 KeyChain" data-url="http://icodeyou.com/2016/01/17/ssh-add-mac/"></div>
+	<div class="ds-thread" data-thread-key="ssh-add-mac" data-title="Mac 上 ssh-add 永久将私钥添加到 Keychain" data-url="http://icodeyou.com/2016/01/17/ssh-add-mac/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

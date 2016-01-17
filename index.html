@@ -209,7 +209,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/17/ssh-add-mac/">Mac 上 ssh-add 永久将私钥添加到 KeyChain</a>
+      <a class="article-title" href="/2016/01/17/ssh-add-mac/">Mac 上 ssh-add 永久将私钥添加到 Keychain</a>
     </h1>
   
 
@@ -218,7 +218,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 <code>ssh-keygen -t rsa -C “me@icodeyou.com”</code> 来生成 SSH 的公钥和私钥，之后执行 <code>ssh-add privateKey</code> 将 SSH 的私有添加进去，但是发现了一个问题就是<code>每次重启电脑后都需要重新 ssh-add</code>，显然每次重启后都需要重新添加让我等程序员肯定受不了，解决办法就是在添加 ssh 私钥的时候使用如下命令： <code>ssh-add -K privateKey</code>，即可一劳永逸将私钥添加进 Mac 本身的钥匙串中，即 Keychain。下面简单解释下原理。</p>
+        <p>两种连接 Git 服务器的方式，分别为 HTTPS 和 SSH，显然更推荐后者，所以我们经常使用命令 <code>ssh-keygen -t rsa -C “me@icodeyou.com”</code> 来生成 SSH 的公钥和私钥，之后执行 <code>ssh-add privateKey</code> 将 SSH 的私钥添加进去，但是发现了一个问题就是<code>每次重启电脑后都需要重新 ssh-add</code>，显然每次重启后都需要重新添加让我等程序员肯定受不了，解决办法就是在添加 ssh 私钥的时候使用如下命令： <code>ssh-add -K privateKey</code>，即可一劳永逸将私钥添加进 Mac 本身的钥匙串中，即 Keychain。下面简单解释下原理。</p>
       
     </div>
     
