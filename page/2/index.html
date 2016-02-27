@@ -192,6 +192,64 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-2015-10-28-AIDL" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/28/2015-10-28-AIDL/" class="article-date">
+  	<time datetime="2015-10-28T14:18:44.000Z" itemprop="datePublished">2015-10-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/28/2015-10-28-AIDL/">AIDL 使用及原理探索</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>AIDL 是 Android IPC 通信的一种方式，底层实现是 Binder。本文主要介绍 AIDL 的使用以及分析根据 .aidl 自动生成的 .java 文件。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/10/28/2015-10-28-AIDL/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-2015-10-22-ViewMeasure" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -234,64 +292,6 @@
       
         <p class="article-more-link">
           <a  href="/2015/10/22/2015-10-22-ViewMeasure/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-2015-10-11-HandlerThread源码解析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/11/2015-10-11-HandlerThread源码解析/" class="article-date">
-  	<time datetime="2015-10-11T14:18:44.000Z" itemprop="datePublished">2015-10-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/11/2015-10-11-HandlerThread源码解析/">HandlerThread 源码解析</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Android 为我们提供好了一个类——HandlerThread，在其内部维护了一个 Looper 对象，通过线程的 start 方法启动后即可创建内部的 Looper 对象，并且此 Looper 对象运行在子线程，我们还可以通过 handlerThread.getLooper() 来取到这个 Looper 对象，免得我们自己创建了。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/10/11/2015-10-11-HandlerThread源码解析/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -408,6 +408,64 @@
       
         <p class="article-more-link">
           <a  href="/2015/10/11/2015-10-11-IntentService源码解析/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-2015-10-11-HandlerThread源码解析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/11/2015-10-11-HandlerThread源码解析/" class="article-date">
+  	<time datetime="2015-10-11T14:18:44.000Z" itemprop="datePublished">2015-10-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/11/2015-10-11-HandlerThread源码解析/">HandlerThread 源码解析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android 为我们提供好了一个类——HandlerThread，在其内部维护了一个 Looper 对象，通过线程的 start 方法启动后即可创建内部的 Looper 对象，并且此 Looper 对象运行在子线程，我们还可以通过 handlerThread.getLooper() 来取到这个 Looper 对象，免得我们自己创建了。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/10/11/2015-10-11-HandlerThread源码解析/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -714,67 +772,9 @@
 
 
   
-    <article id="post-2015-09-16-BlockingQueue" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/09/15/2015-09-16-BlockingQueue/" class="article-date">
-  	<time datetime="2015-09-15T14:18:44.000Z" itemprop="datePublished">2015-09-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/15/2015-09-16-BlockingQueue/">BlockingQueue 浅层次总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>AsyncTask、ThreadPool 中都会用到 BlockingQueue，这是一个接口，它实现的子类有：ArrayBlockingQueue、LinkedBlockingQueue、PriorityBlockingQueue、SynchronousQueue。本文简要分析总结下 ArrayBlockingQueue。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/09/15/2015-09-16-BlockingQueue/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>
