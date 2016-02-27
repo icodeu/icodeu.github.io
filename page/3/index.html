@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.86px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.86px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.43px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.43px;">Wireshark</a> <a href="/tags/android/" style="font-size: 12.86px;">android</a> <a href="/tags/icodeyou/" style="font-size: 12.86px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15.71px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 14.29px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 17.14px;">极客学院</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
+						<a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/GBN/" style="font-size: 10px;">GBN</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Java/" style="font-size: 18.57px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.86px;">Linux</a> <a href="/tags/Mac/" style="font-size: 14.29px;">Mac</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/SMTP/" style="font-size: 10px;">SMTP</a> <a href="/tags/Socket/" style="font-size: 11.43px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/Wireshark/" style="font-size: 11.43px;">Wireshark</a> <a href="/tags/android/" style="font-size: 12.86px;">android</a> <a href="/tags/icodeyou/" style="font-size: 12.86px;">icodeyou</a> <a href="/tags/netwox/" style="font-size: 10px;">netwox</a> <a href="/tags/密码学/" style="font-size: 15.71px;">密码学</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/数据结构与算法/" style="font-size: 14.29px;">数据结构与算法</a> <a href="/tags/极客学院/" style="font-size: 17.14px;">极客学院</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/路由算法/" style="font-size: 10px;">路由算法</a> <a href="/tags/迪杰斯特拉/" style="font-size: 10px;">迪杰斯特拉</a>
 					</div>
 				</section>
 				
@@ -191,6 +191,122 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-2015-09-14-ConcurrentHashMap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/14/2015-09-14-ConcurrentHashMap/" class="article-date">
+  	<time datetime="2015-09-14T14:18:44.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/14/2015-09-14-ConcurrentHashMap/">ConcurrentHashMap 浅层次总结</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/09/14/2015-09-14-ConcurrentHashMap/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-2015-09-14-CopyOnWrite" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/14/2015-09-14-CopyOnWrite/" class="article-date">
+  	<time datetime="2015-09-14T14:18:44.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/14/2015-09-14-CopyOnWrite/">CopyOnWrite 浅层次总结</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>同 ConcurrentHashMap 一样，CopyOnWrite 也是一种多线程并发中使用的容器，实现起来要比 ConcurrentHashMap 简单不少。从 JDK1.5 开始 Java 并发包里提供了两个使用 CopyOnWrite 机制实现的并发容器,它们是 CopyOnWriteArrayList 和 CopyOnWriteArraySet。CopyOnWrite 容器非常有用，可以在非常多的并发场景中使用到，下面就来浅层次总结一下。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/09/14/2015-09-14-CopyOnWrite/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-2015-09-14- 第一行代码-导图" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -482,10 +598,10 @@
 
 
   
-    <article id="post-2015-09-14-ConcurrentHashMap" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-09-14- 设计模式-导图" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/09/14/2015-09-14-ConcurrentHashMap/" class="article-date">
+      <a href="/2015/09/14/2015-09-14- 设计模式-导图/" class="article-date">
   	<time datetime="2015-09-14T14:18:44.000Z" itemprop="datePublished">2015-09-14</time>
 </a>
     </div>
@@ -499,7 +615,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/14/2015-09-14-ConcurrentHashMap/">ConcurrentHashMap 浅层次总结</a>
+      <a class="article-title" href="/2015/09/14/2015-09-14- 设计模式-导图/">设计模式 - 知识导图</a>
     </h1>
   
 
@@ -508,7 +624,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>学习了 ConcurrentHashMap 的源码，不由地为设计者的思想点赞，现在时间有限，先总结一些我觉得比较有用的知识点，先占个坑，等有时间再详细分析源码。</p>
+        <p>设计模式知识导图</p>
       
     </div>
     
@@ -516,14 +632,14 @@
       
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
 	</div>
 
       
 
       
         <p class="article-more-link">
-          <a  href="/2015/09/14/2015-09-14-ConcurrentHashMap/#more">more >></a>
+          <a  href="/2015/09/14/2015-09-14- 设计模式-导图/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -640,122 +756,6 @@
       
         <p class="article-more-link">
           <a  href="/2015/09/06/2015-09-06- Android开发中的大坑/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-2015-08-30- mac下抓包工具--Charles" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/30/2015-08-30- mac下抓包工具--Charles/" class="article-date">
-  	<time datetime="2015-08-30T14:18:44.000Z" itemprop="datePublished">2015-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/30/2015-08-30- mac下抓包工具--Charles/">mac抓包工具--Charles</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上篇文章介绍了 Mac 中 <a href="http://icodeyou.com/2015/08/23/2015-08-15-%20mac%E4%B8%8B%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7--Debookee/">Debookee</a> 抓局域网数据包的使用方法，主要是基于 ARP 欺骗。这次将要介绍的 Charles 的原理是<code>设置中间代理</code>来完成抓包的工作。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mac/">Mac</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/30/2015-08-30- mac下抓包工具--Charles/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-2015-08-28- 每日学习炸鸡" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/28/2015-08-28- 每日学习炸鸡/" class="article-date">
-  	<time datetime="2015-08-28T14:18:44.000Z" itemprop="datePublished">2015-08-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/28/2015-08-28- 每日学习炸鸡/">每日学习炸鸡</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>每天都会看些文章视频等学习资料，看的多了有时候当时记住了，但是过后也许就忘了，所以要记录一下，以巩固知识。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/28/2015-08-28- 每日学习炸鸡/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
