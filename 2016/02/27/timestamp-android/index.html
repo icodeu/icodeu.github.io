@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="把编程当做一种爱">
 <meta property="og:description" content="问下你自己，真的知道时间戳是什么吗？如果你知道的话，那知道怎么在程序中(如Java)获取时间戳吗，你获取到的是真的『时间戳』吗？">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2016-02-27T15:53:34.000Z">
+<meta property="og:updated_time" content="2016-02-28T13:46:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊貌似谁都懂的时间戳">
 <meta name="twitter:description" content="问下你自己，真的知道时间戳是什么吗？如果你知道的话，那知道怎么在程序中(如Java)获取时间戳吗，你获取到的是真的『时间戳』吗？">
@@ -232,14 +232,14 @@
         <p>问下你自己，真的知道时间戳是什么吗？如果你知道的话，那知道怎么在程序中(如Java)获取时间戳吗，你获取到的是真的『时间戳』吗？</p>
 <a id="more"></a>
 <p>其实我本身开始对时间戳的概念也很模糊，我就知道是从1970年1月1号到现在经历的时间，我以为这就够了，直到有个需求是关于事件统计的，所以必须要有时间的记录，我一看这个简单啊，不就是时间戳吗，所以在Java里获取时间戳很容易，一行代码搞定，如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> curTime = System.currentTimemills();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> curTime = System.currentTimeMillis();</span><br></pre></td></tr></table></figure>
 <p>我就把这个当成”时间戳”给后台了，然后PM直接提了个Bug给我，说我给的时间戳格式不对，原因是我获取的是13位的，他要的是10位的时间戳，然后我就上网查了一下关于时间戳的真正定义，如下</p>
 <blockquote>
 <p>时间戳是指格林威治时间1970年01月01日00时00分00秒起至现在的总秒数。</p>
 </blockquote>
-<p>注意最后是”秒数”，而我用 System.currentTimemillis() 获取到的是”毫秒数”，所以是13位，然后我就 /1000 就变成了10位的”时间戳”。</p>
-<p>好像这样时间戳的问题就解决了，不过注意上面一行最后我把”时间戳”三个字用引号引起来了，就是说 System.currentMili() /1000 获取到的还不是真正的时间戳！为什么呢，继续往下看。</p>
-<p>测试找到我说，他看到的我传的时间戳用换算工具计算后并不是当时北京的真正时间，而是比当时北京的时间慢了整整四个小时，我当时第一反应这肯定是时区问题，然后查了一下他手机的时区和北京的确实是相差了整整四个小时，后来就给他解释是时区问题，如果时区设置无误那就没问题了。</p>
+<p>注意最后是”秒数”，而我用 System.currentTimeMillis() 获取到的是”毫秒数”，所以是13位，然后我就 /1000 就变成了10位的”时间戳”。</p>
+<p>好像这样时间戳的问题就解决了，不过注意上面一行最后我把”时间戳”三个字用引号引起来了，就是说 System.currentTimeMillis() /1000 获取到的还不是真正的时间戳！为什么呢，继续往下看。</p>
+<p>测试找到我说，他看到的我传的时间戳用换算工具计算后并不是当时北京的真正时间，而是比当时北京的时间快了整整四个小时，我当时第一反应这肯定是时区问题，然后查了一下他手机的时区和北京的确实是相差了整整四个小时，后来就给他解释是时区问题，如果时区设置无误那就没问题了。</p>
 <p>然后故事结束了吗，并没有，后来我就在想，时间戳真的和时区有关系吗？我又仔细读了一下关于时间戳的定义，要不你也来仔细品读一下：</p>
 <blockquote>
 <p> 时间戳是指格林威治时间1970年01月01日00时00分00秒起至现在的总秒数。</p>
