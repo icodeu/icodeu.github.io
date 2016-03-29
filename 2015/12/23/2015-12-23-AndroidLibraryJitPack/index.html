@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack25.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/jitpack19.png">
 <meta property="og:image" content="http://7xivx9.com1.z0.glb.clouddn.com/wxqrcode_260.png">
-<meta property="og:updated_time" content="2015-12-24T02:15:29.000Z">
+<meta property="og:updated_time" content="2016-03-29T08:49:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="写自己的开源库，发布到 JitPack.io">
 <meta name="twitter:description" content="之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 compile &amp;#39;com.github.icodeu:CommonAdapter:v1.0&amp;#39; 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能">
@@ -257,6 +257,7 @@
         <p>之前一直在用别人的开源库，尤其有了 Gradle 后，依赖别人的开源库就更简单了，只需要在项目的 build.gradle 文件中添加上类似 <code>compile &#39;com.github.icodeu:CommonAdapter:v1.0&#39;</code> 的就好了，剩下的就可以交给 Gradle 帮助我们完成 library 依赖了。但这个是怎么做的，如果你也想学习怎么写自己的 library，然后能够提供给别人使用的话，可跟着本篇博客学习一下。本篇分为两个部分，首先讲解如何单纯的写个 library 并在本地自己依赖着(玩)，然后进入主题讲解怎么使用 JitPack.io 来发布我们自己的 library，所以如果你已经知道了怎么写 library，可以直接跳到第二部分。</p>
 <a id="more"></a>
 <p>我也试图在网上找一些关于使用 JitPack.io 的教程，但是搜出来的基本是<a href="http://www.tuicool.com/articles/Vv6jEb" target="_blank" rel="external">这篇</a>的复制品，根本没讲什么实质性的东西，所以一切只好自己来了。</p>
+<p>本项目源码地址: <a href="https://github.com/icodeu/HelloLibrary" target="_blank" rel="external">GitHub/icodeu/HelloLibrary</a></p>
 <h2 id="如何写_library">如何写 library</h2><p>在本节，我们一起来新建个 library，打开 Android Studio，New Project，在此工程名为 Hellolibrary，此后一直点击 next 直至 finish 即可。此时应该是只有一个 module 名为 app，一会我们会把它当做依赖 library 的示例模块来使用，暂时先不管，我们先来创建一个 library，File-&gt;New-&gt;Module，选择 Android library，之后起个名字，在此叫做 library，finish 即可，此时工程目录如下所示，其中 app 用来依赖使用 library。</p>
 <p><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack00.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack01.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack02.png" alt="img"><br><img src="http://7xivx9.com1.z0.glb.clouddn.com/jitpack03.png" alt="img"></p>
 <p>怎么指定一个 module 到底是普通的 application 还是 library 呢？打开 module 对应的 build.gradle 文件，看第一行 <code>apply plugin: xxx</code>，如果是 application 的话，plugin 就是 ‘com.android.application’，library 的话就是 ‘com.android.library’，就这么简单，如下图：</p>
